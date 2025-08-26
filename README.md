@@ -11,7 +11,8 @@ Microbiome data analysis tools for R/the Rest of us
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/MICRO4R)](https://CRAN.R-project.org/)
-<!-- badges: end --> \# MICRO4R
+<!-- badges: end -->
+
 <a href="https://extrasmallwinnie.github.io/MICRO4R/"><img src="man/figures/logo.png" align="right" height="120" alt="MICRO4R website" /></a>
 
 The goal of `MICRO4R` was to create an R package for essentially a past
