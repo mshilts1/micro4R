@@ -13,45 +13,48 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/MICRO4R)](https://CRAN.R-project.org/)
 <!-- badges: end -->
 
-Microbiome data analysis tools for R/the Rest of us
+The goal of `MICRO4R` was to create an R package for essentially a past
+version of myself. I started my career in microbiome research at the
+bench and had to
+[ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif)
+to myself how to process and analyze “big data”. I’ve spent a ton of
+time poring over and experimenting with \[others’ code\]UPDATE URL.
+Likely, the ideal candidate to benefit from `MICRO4R` would be another
+bench scientist without much formal statistics or bioinformatics
+training. Fair warning, if you already have a strong stats/informatics
+background, this may not be of much use for you!
+
+This package does not create any brand new functionality and was built
+on the great work of \[others\]UPDATE URL. Much of what it does can be
+accomplished with other packages. For example,
+[phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html)
+provides many similar tools, and is very well-documented and commonly
+used (I use it myself!) and so may be better for your purposes.
+
+Other R packages heavily used here include:  
+1. [tidyverse](https://tidyverse.tidyverse.org) ecosystem  
+2. [vegan](https://cran.r-project.org/web/packages/vegan/index.html)  
+3. [dada2](https://benjjneb.github.io/dada2/)  
+4. [maaslin3](https://huttenhower.sph.harvard.edu/maaslin3/)
+
+add MMUPHin?
 
 ## Installation
 
 You can install the development version of MICRO4R like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages("pak")
+pak::pak("extrasmallwinnie/MICRO4R")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+I’ll run through the smallest and simplest possible use case below. For
+more detailed help and documentation, please explore the vignettes (link
+TBA)
 
 ``` r
 library(MICRO4R)
 ## basic example code
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.

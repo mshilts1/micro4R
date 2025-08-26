@@ -22,20 +22,19 @@ Microbiome data analysis tools for R/the Rest of us
 [![CRAN status](https://www.r-pkg.org/badges/version/MICRO4R)](https://CRAN.R-project.org/)
 <!-- badges: end -->
 
-Microbiome data analysis tools for R/the Rest of us
 
-The goal of `MICRO4R` is to guide you through *my* typical microbiome 16S pipeline, and to document and share convenience functions I've created for data analysis and processing.    
+The goal of `MICRO4R` was to create an R package for essentially a past version of myself. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code]UPDATE URL. Likely, the ideal candidate to benefit from `MICRO4R` would be another bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!        
 
-This package does not create any brand new functionality and was built on the great work of [others]. Much of what it does can be accomplished with other packages. For example, [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html) provides many similar tools, and is very well-documented and commonly used (I use it myself!) and so may be better for your purposes.    
+This package does not create any brand new functionality and was built on the great work of [others]UPDATE URL. Much of what it does can be accomplished with other packages. For example, [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html) provides many similar tools, and is very well-documented and commonly used (I use it myself!) and so may be better for your purposes.    
     
 Other R packages heavily used here include:    
 1. [tidyverse](https://tidyverse.tidyverse.org) ecosystem   
 2. [vegan](https://cran.r-project.org/web/packages/vegan/index.html)   
 3. [dada2](https://benjjneb.github.io/dada2/)   
-4. [maaslin3](https://huttenhower.sph.harvard.edu/maaslin3/)        
+4. [maaslin3](https://huttenhower.sph.harvard.edu/maaslin3/)
 
+add MMUPHin?
 
-I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code](https://github.com/extrasmallwinnie/micromeg/?tab=readme-ov-file#acknowledgements). Likely, the ideal candidate to benefit from `MICRO4R` would be another bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!    
 
 ## Installation
 
@@ -48,25 +47,11 @@ pak::pak("extrasmallwinnie/MICRO4R")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+I'll run through the smallest and simplest possible use case below. For more detailed help and documentation, please explore the vignettes (link TBA)
 
 ```{r example}
 library(MICRO4R)
 ## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
