@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# MICRO4R
+# micro4R
 
 Microbiome data analysis tools for R/the Rest of us
 
@@ -10,18 +10,18 @@ Microbiome data analysis tools for R/the Rest of us
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/MICRO4R)](https://CRAN.R-project.org/)
+status](https://www.r-pkg.org/badges/version/micro4R)](https://CRAN.R-project.org/)
 <!-- badges: end -->
 
-<a href="https://extrasmallwinnie.github.io/MICRO4R/"><img src="man/figures/logo.png" align="right" height="120" alt="MICRO4R website" /></a>
+<a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="120" alt="micro4R website" /></a>
 
-The goal of `MICRO4R` was to create an R package for essentially a past
+The goal of `micro4R` was to create an R package for essentially a past
 version of myself. I started my career in microbiome research at the
 bench and had to
 [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif)
 to myself how to process and analyze “big data”. I’ve spent a ton of
 time poring over and experimenting with \[others’ code\]UPDATE URL.
-Likely, the ideal candidate to benefit from `MICRO4R` would be another
+Likely, the ideal candidate to benefit from `micro4R` would be another
 bench scientist without much formal statistics or bioinformatics
 training. Fair warning, if you already have a strong stats/informatics
 background, this may not be of much use for you!
@@ -43,11 +43,11 @@ add MMUPHin?
 
 ## Installation
 
-You can install the development version of MICRO4R like so:
+You can install the development version of micro4R like so:
 
 ``` r
 # install.packages("pak")
-pak::pak("extrasmallwinnie/MICRO4R")
+pak::pak("extrasmallwinnie/micro4R")
 ```
 
 ## Example
@@ -57,6 +57,6 @@ more detailed help and documentation, please explore the vignettes (link
 TBA)
 
 ``` r
-library(MICRO4R)
+library(micro4R)
 ## basic example code
 ```

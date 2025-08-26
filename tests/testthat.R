@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(MICRO4R)
+library(micro4R)
 
-test_check("MICRO4R")
+test_check("micro4R")
