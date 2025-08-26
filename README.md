@@ -10,7 +10,7 @@ Microbiome data analysis tools for R/the Rest of us
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/MICRO4R)](https://CRAN.R-project.org/package=MICRO4R)
+status](https://www.r-pkg.org/badges/version/MICRO4R)](https://CRAN.R-project.org/)
 <!-- badges: end -->
 
 Microbiome data analysis tools for R/the Rest of us
