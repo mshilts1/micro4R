@@ -24,7 +24,7 @@ Microbiome data analysis tools for R
 
 
 
-The goal of `micro4R` was to create an R package for essentially a past version of myself. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code]UPDATE URL. # micro4R <a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a> Likely, the ideal candidate to benefit from `micro4R` would be another bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!        
+The goal of `micro4R` was to create an R package for essentially a past version of myself. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code]UPDATE URL. # micro4R <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a> Likely, the ideal candidate to benefit from `micro4R` would be another bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!        
 
 
 This package does not create any brand new functionality and was built on the great work of [others]UPDATE URL. Much of what it does can be accomplished with other packages. For example, [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html) provides many similar tools, and is very well-documented and commonly used (I use it myself!) and so may be better for your purposes.    
@@ -56,4 +56,6 @@ library(micro4R)
 ## basic example code
 ```
 
-* logo made by me using a combination of Canva and hexSticker()
+* logo made by me using a combination of Canva and `hexSticker`
+
+s <- sticker(image_path, package="micro4R", p_size=15, p_family = "Comfortaa", p_fontface = "bold", p_y = 1.5, s_x=1, s_y=.75, s_width=.5, s_height = .5, p_color = "black", h_fill = "#6ed5f5", h_color= "#16bc93", h_size = 2, filename="inst/figures/imgfile.png")

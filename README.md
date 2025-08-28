@@ -20,7 +20,7 @@ bench and had to
 to myself how to process and analyze “big data”. I’ve spent a ton of
 time poring over and experimenting with \[others’ code\]UPDATE URL. \#
 micro4R
-<a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
+<a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
 Likely, the ideal candidate to benefit from `micro4R` would be another
 bench scientist without much formal statistics or bioinformatics
 training. Fair warning, if you already have a strong stats/informatics
@@ -61,4 +61,9 @@ library(micro4R)
 ## basic example code
 ```
 
-- logo made by me using a combination of Canva and hexSticker()
+- logo made by me using a combination of Canva and `hexSticker`
+
+s \<- sticker(image_path, package=“micro4R”, p_size=15, p_family =
+“Comfortaa”, p_fontface = “bold”, p_y = 1.5, s_x=1, s_y=.75, s_width=.5,
+s_height = .5, p_color = “black”, h_fill = “\#6ed5f5”, h_color=
+“\#16bc93”, h_size = 2, filename=“inst/figures/imgfile.png”)
