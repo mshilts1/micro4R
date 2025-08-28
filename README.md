@@ -19,13 +19,13 @@ version of myself. I started my career in microbiome research at the
 bench and had to
 [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif)
 to myself how to process and analyze “big data”. I’ve spent a ton of
-time poring over and experimenting with \[others’ code\]UPDATE URL.
+time poring over and experimenting with \[others’ code\]UPDATE URL. \#
+micro4R
+<a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
 Likely, the ideal candidate to benefit from `micro4R` would be another
 bench scientist without much formal statistics or bioinformatics
 training. Fair warning, if you already have a strong stats/informatics
-background, this may not be of much use for you!  
-\# micro4R
-<a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
+background, this may not be of much use for you!
 
 This package does not create any brand new functionality and was built
 on the great work of \[others\]UPDATE URL. Much of what it does can be
