@@ -11,9 +11,10 @@ Microbiome data analysis tools for R
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/micro4R)](https://CRAN.R-project.org/)
+[![R-CMD-check](https://github.com/extrasmallwinnie/micro4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/extrasmallwinnie/micro4R/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-<a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="120" alt="micro4R website" /></a>
+# micro4R <a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
 
 The goal of `micro4R` was to create an R package for essentially a past
 version of myself. I started my career in microbiome research at the
@@ -60,3 +61,5 @@ TBA)
 library(micro4R)
 ## basic example code
 ```
+
+testing
