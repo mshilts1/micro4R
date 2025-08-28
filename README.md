@@ -14,8 +14,6 @@ status](https://www.r-pkg.org/badges/version/micro4R)](https://CRAN.R-project.or
 [![R-CMD-check](https://github.com/extrasmallwinnie/micro4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/extrasmallwinnie/micro4R/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-# micro4R <a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
-
 The goal of `micro4R` was to create an R package for essentially a past
 version of myself. I started my career in microbiome research at the
 bench and had to
@@ -25,7 +23,9 @@ time poring over and experimenting with \[others’ code\]UPDATE URL.
 Likely, the ideal candidate to benefit from `micro4R` would be another
 bench scientist without much formal statistics or bioinformatics
 training. Fair warning, if you already have a strong stats/informatics
-background, this may not be of much use for you!
+background, this may not be of much use for you!  
+\# micro4R
+<a href="https://extrasmallwinnie.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
 
 This package does not create any brand new functionality and was built
 on the great work of \[others\]UPDATE URL. Much of what it does can be
@@ -61,5 +61,3 @@ TBA)
 library(micro4R)
 ## basic example code
 ```
-
-testing
