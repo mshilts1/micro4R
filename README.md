@@ -11,7 +11,6 @@ Microbiome data analysis tools for R
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/micro4R)](https://CRAN.R-project.org/)
-[![R-CMD-check](https://github.com/extrasmallwinnie/micro4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/extrasmallwinnie/micro4R/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `micro4R` was to create an R package for essentially a past
@@ -61,3 +60,5 @@ TBA)
 library(micro4R)
 ## basic example code
 ```
+
+- logo made by me using a combination of Canva and hexSticker()
