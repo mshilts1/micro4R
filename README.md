@@ -47,7 +47,7 @@ You can install the development version of micro4R like so:
 
 ``` r
 # install.packages("pak")
-pak::pak("extrasmallwinnie/micro4R")
+pak::pak("mshilts1/micro4R")
 ```
 
 ## Example
