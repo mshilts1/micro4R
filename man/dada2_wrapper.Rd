@@ -7,7 +7,8 @@
 dada2_wrapper(
   where = NULL,
   patternF = "_R1_001.fastq.gz",
-  patternR = "_R2_001.fastq.gz"
+  patternR = "_R2_001.fastq.gz",
+  ...
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ dada2_wrapper(
 \item{patternF}{Pattern of the forward/R1 reads}
 
 \item{patternR}{Pattern of the reverse/R2 reads}
+
+\item{...}{Can alter defaults of dada2 functions if needed}
 }
 \value{
 dada2 ASV table and taxonomy table

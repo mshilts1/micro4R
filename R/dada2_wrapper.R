@@ -18,8 +18,8 @@ dada2_wrapper <- function(where = NULL, patternF ="_R1_001.fastq.gz", patternR =
   }
 
   if(where == "example"){
-    fnFs <- system.file("extdata", package = "micro4R") %>% list.files("*_R1_001.fastq.gz")
-    fnRs <- system.file("extdata", package = "micro4R") %>% list.files("*_R2_001.fastq.gz")
+    fnFs <- system.file("extdata/example_fastq_files", package = "micro4R", mustWork = TRUE) %>% list.files("*_R1_001.fastq.gz")
+    fnRs <- system.file("extdata/example_fastq_files", package = "micro4R", mustWork = TRUE) %>% list.files("*_R2_001.fastq.gz")
   }
 
   if(where != "example") {
@@ -33,7 +33,22 @@ dada2_wrapper <- function(where = NULL, patternF ="_R1_001.fastq.gz", patternR =
     }
   }
 
-  print(fnFs)
+  sample.names <- gsub(patternF, "", basename(fnFs)) # create simplified sample names by stripped out the forward read pattern specified by user
+  #print(sample.names)
+
+  if(where != "example") {
+  filtFs <- file.path(where, "filtered", paste0(sample.names, "_F_filt.fastq.gz"))
+  filtRs <- file.path(where, "filtered", paste0(sample.names, "_R_filt.fastq.gz"))
+  out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=c(240,200), maxN=0, maxEE=c(2,2), truncQ=2, rm.phix=TRUE, compress=TRUE, multithread=TRUE)
+
+  head(out)
+  }
+
+  if(where == "example") {
+    #don't run filterAndTrim so that we don't try to write anything to user's computer
+  }
+
+  #print(filtFs)
 
 }
 
