@@ -61,7 +61,7 @@
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Can alter defaults of dada2 functions if needed</p></dd>
+<dd><p>Can alter parameters of dada2 functions if needed</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -71,12 +71,40 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">dada2_wrapper</span><span class="op">(</span>where <span class="op">=</span> <span class="st">"example"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">dada2_wrapper</span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Please note that, because the main goal of dada2::filterAndTrim is to *write* filtered fastq files to the user's computer, and you chose to use the 'example' data, this function was NOT run. The filtered fastq reads already exist as example data for this package, so this package won't try to write the any data to your computer. With your own data, dada2::filterAndTrim will actually run, and make take some time, depending on the size of your input data!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 11 unique sequences from 11 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 25 unique sequences from 26 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 37 unique sequences from 46 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 36 unique sequences from 41 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 30 unique sequences from 37 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 33 unique sequences from 44 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 36 unique sequences from 43 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 11 unique sequences from 11 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 23 unique sequences from 26 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 35 unique sequences from 46 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 35 unique sequences from 41 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 31 unique sequences from 37 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 32 unique sequences from 44 total sequences read.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R_filt.fastq.gz</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 37 unique sequences from 43 total sequences read.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
