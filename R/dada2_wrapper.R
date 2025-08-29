@@ -20,8 +20,11 @@ dada2_wrapper <- function(where = NULL, patternF ="_R1_001.fastq.gz", patternR =
   }
 
   if(where == "example"){
-    fnFs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R1_001.fastq.gz")
-    fnRs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R2_001.fastq.gz")
+    fnFs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R1_001.fastq.gz", full.names = TRUE)
+    fnRs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R2_001.fastq.gz", full.names = TRUE)
+
+    filtFs <- system.file("extdata/f/filtered", package = "micro4R", mustWork = TRUE) %>% list.files("*_F_filt.fastq.gz", full.names = TRUE)
+    filtRs <- system.file("extdata/f/filtered", package = "micro4R", mustWork = TRUE) %>% list.files("*_R_filt.fastq.gz", full.names = TRUE)
   }
 
   if(where != "example") {
@@ -43,14 +46,22 @@ dada2_wrapper <- function(where = NULL, patternF ="_R1_001.fastq.gz", patternR =
   filtRs <- file.path(where, "filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   out <- dada2::filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=c(240,200), maxN=0, maxEE=c(2,2), truncQ=2, rm.phix=TRUE, compress=TRUE, multithread=TRUE)
 
-  utils::head(out)
+  # why add the next three lines in? all reads negative controls and samples that amplified poorly with very few reads to start with may get entirely filtered out and cause a fatal error during the error rate learning step. so we need to make sure files still exist first.
+  exists <- file.exists(filtFs) & file.exists(filtRs)
+  filtFs <- filtFs[exists]
+  filtRs <- filtRs[exists]
+  #print(exists)
+  #return(filtFs)
   }
 
   if(where == "example") {
-    #don't run filterAndTrim so that we don't try to write anything to user's computer
+    cat("\nPlease note that, because the main goal of dada2::filterAndTrim is to *write* filtered fastq files to the user's computer, and you chose to use the 'example' data, this function was NOT run. The filtered fastq reads already exist as example data for this package, so this package won't try to write the any data to your computer. With your own data, dada2::filterAndTrim will actually run, and make take some time, depending on the size of your input data!\n\n")
   }
 
   #print(filtFs)
+
+  errF <- dada2::learnErrors(filtFs, multithread=TRUE)
+  errR <- dada2::learnErrors(filtRs, multithread=TRUE)
 
 }
 
