@@ -92,4 +92,3 @@ makeExampleTaxa <- function() {
     Species = c(NA, "melaninogenica", NA, NA, NA, "rava", NA, NA, NA)
   )
 }
-
