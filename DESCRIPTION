@@ -15,3 +15,6 @@ URL: https://mshilts1.github.io/micro4R/
 Imports: 
     dplyr,
     tibble
+Depends: 
+    R (>= 3.5)
+LazyData: true

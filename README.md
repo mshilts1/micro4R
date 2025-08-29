@@ -29,11 +29,14 @@ background, this may not be of much use for you!
 This package does not create any brand new functionality and was built
 on the great work of \[others\]UPDATE URL. Much of what it does can be
 accomplished with other packages. For example,
-[phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html)
-provides many similar tools, and is very well-documented and commonly
-used (I use it myself!) and so may be better for your purposes.
+[phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html),
+[QIIME 2](https://qiime2.org), and
+[MicrobiomeAnalyst](https://www.microbiomeanalyst.ca) are a few very
+well-known, well-documented, and heavily used tools for microbiome
+analysis. One or these may be better for your purposes, and I’d
+encourage anyone new to the field to explore multiple tools.
 
-Other R packages heavily used here include:  
+R packages heavily used here include:  
 1. [tidyverse](https://tidyverse.tidyverse.org) ecosystem  
 2. [vegan](https://cran.r-project.org/web/packages/vegan/index.html)  
 3. [dada2](https://benjjneb.github.io/dada2/)  
@@ -60,6 +63,9 @@ TBA)
 library(micro4R)
 ## basic example code
 ```
+
+<https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/>
+<https://www.ncbi.nlm.nih.gov/Traces/study/?query_key=5&WebEnv=MCID_68b19a608c055dc0c7e00681&o=bytes_l%3Aa>
 
 - logo made by me using a combination of Canva and `hexSticker`
 
