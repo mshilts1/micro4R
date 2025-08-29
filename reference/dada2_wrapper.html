@@ -72,9 +72,6 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">dada2_wrapper</span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Please note that, because the main goal of dada2::filterAndTrim is to *write* filtered fastq files to the user's computer, and you chose to use the 'example' data, this function was NOT run. The filtered fastq reads already exist as example data for this package, so this package won't try to write the any data to your computer. With your own data, dada2::filterAndTrim will actually run, and make take some time, depending on the size of your input data!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz</span>
@@ -105,6 +102,42 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 32 unique sequences from 44 total sequences read.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Dereplicating sequence entries in Fastq file: /home/runner/work/_temp/Library/micro4R/extdata/f/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R_filt.fastq.gz</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Encountered 37 unique sequences from 43 total sequences read.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 1 - 11 reads in 11 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 2 - 26 reads in 25 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 3 - 46 reads in 37 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 4 - 41 reads in 36 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 5 - 37 reads in 30 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 6 - 44 reads in 33 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 7 - 43 reads in 36 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 1 - 11 reads in 11 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 2 - 26 reads in 23 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 3 - 46 reads in 35 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 4 - 41 reads in 35 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 5 - 37 reads in 31 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 6 - 44 reads in 32 unique sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample 7 - 43 reads in 37 unique sequences.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0 paired-reads (in 0 unique pairings) successfully merged out of 1 (in 1 pairings) input.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0 paired-reads (in 0 unique pairings) successfully merged out of 10 (in 1 pairings) input.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 44 paired-reads (in 1 unique pairings) successfully merged out of 44 (in 1 pairings) input.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 37 paired-reads (in 2 unique pairings) successfully merged out of 37 (in 2 pairings) input.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 28 paired-reads (in 3 unique pairings) successfully merged out of 28 (in 3 pairings) input.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 41 paired-reads (in 2 unique pairings) successfully merged out of 41 (in 2 pairings) input.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0 paired-reads (in 0 unique pairings) successfully merged out of 31 (in 3 pairings) input.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Identified 0 bimeras out of 6 input sequences.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                   input filtered denoisedF</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001    50       11         1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001    50       26        10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001    50       46        44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001    50       41        37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001    50       37        28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001    50       44        41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                   denoisedR merged nonchim</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001         1      0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001        15      0       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001        44     44      44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001        38     37      37</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001        29     28      28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001        44     41      41</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
