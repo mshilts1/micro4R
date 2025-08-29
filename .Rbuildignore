@@ -5,6 +5,7 @@
 ^pkgdown$
 ^\.github$
 ^README.Rmd
- ^cran-comments\.md$
+^cran-comments\\.md$
+cran-comments.md
 ^LICENSE\.md$
 ^data-raw$

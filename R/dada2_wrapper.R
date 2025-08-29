@@ -45,7 +45,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   if (where != "example") {
     filtFs <- file.path(where, "filtered", paste0(sample.names, "_F_filt.fastq.gz"))
     filtRs <- file.path(where, "filtered", paste0(sample.names, "_R_filt.fastq.gz"))
-    out <- dada2::filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen = c(240, 200), maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, compress = TRUE, multithread = TRUE)
+    out <- dada2::filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen = c(240, 200), maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, compress = TRUE, multithread = FALSE)
 
     # why add the next three lines in? all reads negative controls and samples that amplified poorly with very few reads to start with may get entirely filtered out and cause a fatal error during the error rate learning step. so we need to make sure files still exist first.
     exists <- file.exists(filtFs) & file.exists(filtRs)
@@ -58,13 +58,13 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   if (where == "example") {
     #cat("\nPlease note that, because the main goal of dada2::filterAndTrim is to *write* filtered fastq files to the user's computer, and you chose to use the 'example' data, this function was NOT run. The filtered fastq reads already exist as example data for this package, so this package won't try to write the any data to your computer. With your own data, dada2::filterAndTrim will actually run, and make take some time, depending on the size of your input data!\n\n")
 
-    out <- dada2::filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen = c(240, 200), maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, compress = TRUE, multithread = TRUE)
+    out <- dada2::filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen = c(240, 200), maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, compress = TRUE, multithread = FALSE)
 
   }
 
 
-  errF <- dada2::learnErrors(filtFs, multithread = TRUE)
-  errR <- dada2::learnErrors(filtRs, multithread = TRUE)
+  errF <- dada2::learnErrors(filtFs, multithread = FALSE)
+  errR <- dada2::learnErrors(filtRs, multithread = FALSE)
 
   if (where != "example") { # create some dada2 figs
 
@@ -103,8 +103,8 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   names(derepRs) <- sample.names[exists]
   }
 
-  dadaFs <- dada2::dada(derepFs, err=errF, multithread=TRUE)
-  dadaRs <- dada2::dada(derepRs, err=errR, multithread=TRUE)
+  dadaFs <- dada2::dada(derepFs, err=errF, multithread=FALSE)
+  dadaRs <- dada2::dada(derepRs, err=errR, multithread=FALSE)
 
   mergers <- dada2::mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE)
 
@@ -117,7 +117,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   filtseqs/sum(sizedist[,3])
   seqtab2 <- seqtab[,nchar(colnames(seqtab)) %in% seq(240,260)]
   table(nchar(getSequences(seqtab2)))
-  seqtab.nochim <- dada2::removeBimeraDenovo(seqtab2, method="consensus", multithread=TRUE, verbose=TRUE)
+  seqtab.nochim <- dada2::removeBimeraDenovo(seqtab2, method="consensus", multithread=FALSE, verbose=TRUE)
   dim(seqtab.nochim)
   sum(seqtab.nochim)/sum(seqtab)
   getN <- function(x) sum(getUniques(x))
