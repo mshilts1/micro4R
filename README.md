@@ -72,7 +72,13 @@ library(micro4R)
   [hexSticker](https://github.com/GuangchuangYu/hexSticker) to get it
   into the typical hex logo format.
 
+Not going to keep this on the readme, but want to hold onto the logo
+code until I put it somewhere else.  
 s \<- sticker(image_path, package=“micro4R”, p_size=15, p_family =
 “Comfortaa”, p_fontface = “bold”, p_y = 1.5, s_x=1, s_y=.75, s_width=.5,
 s_height = .5, p_color = “black”, h_fill = “\#6ed5f5”, h_color=
-“\#16bc93”, h_size = 2, filename=“inst/figures/imgfile.png”)
+“\#16bc93”, h_size = 2, filename=“inst/figures/imgfile.png”).
+
+built R 4.5.1  
+RStudio Version 2025.05.1+513 (2025.05.1+513) macOS Sequoia Version
+15.6.1
