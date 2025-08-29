@@ -65,7 +65,11 @@ library(micro4R)
 ```
 
 <https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/>
-<https://www.ncbi.nlm.nih.gov/Traces/study/?query_key=5&WebEnv=MCID_68b19a608c055dc0c7e00681&o=bytes_l%3Aa>
+
+<https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992>
+
+Link to dada2-ified reference databases
+<https://benjjneb.github.io/dada2/training.html>
 
 - logo made by me using artwork from [Canva](https://www.canva.com/)
   (©[iconbunny11](https://www.canva.com/p/id/BAClqvm1MBE/)) followed by

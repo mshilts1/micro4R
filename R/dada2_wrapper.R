@@ -56,7 +56,10 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   }
 
   if (where == "example") {
-    cat("\nPlease note that, because the main goal of dada2::filterAndTrim is to *write* filtered fastq files to the user's computer, and you chose to use the 'example' data, this function was NOT run. The filtered fastq reads already exist as example data for this package, so this package won't try to write the any data to your computer. With your own data, dada2::filterAndTrim will actually run, and make take some time, depending on the size of your input data!\n\n")
+    #cat("\nPlease note that, because the main goal of dada2::filterAndTrim is to *write* filtered fastq files to the user's computer, and you chose to use the 'example' data, this function was NOT run. The filtered fastq reads already exist as example data for this package, so this package won't try to write the any data to your computer. With your own data, dada2::filterAndTrim will actually run, and make take some time, depending on the size of your input data!\n\n")
+
+    out <- dada2::filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen = c(240, 200), maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, compress = TRUE, multithread = TRUE)
+
   }
 
 
@@ -92,6 +95,35 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
     grDevices::dev.off()
   }
 
-  derepFs <- derepFastq(filtFs, verbose = TRUE)
-  derepRs <- derepFastq(filtRs, verbose = TRUE)
+  derepFs <- dada2::derepFastq(filtFs, verbose = TRUE)
+  derepRs <- dada2::derepFastq(filtRs, verbose = TRUE)
+
+  if (where != "example"){
+  names(derepFs) <- sample.names[exists]
+  names(derepRs) <- sample.names[exists]
+  }
+
+  dadaFs <- dada2::dada(derepFs, err=errF, multithread=TRUE)
+  dadaRs <- dada2::dada(derepRs, err=errR, multithread=TRUE)
+
+  mergers <- dada2::mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE)
+
+  seqtab <- dada2::makeSequenceTable(mergers)
+
+  # V4 region is ~250 bp, so sequences over this length are probably something else; we will get rid of anything > 260 bp
+  sizedist<-data.frame(t(table(nchar(dada2::getSequences(seqtab)))))
+  filtseqs<-sum(sizedist[,3]
+                [which(as.numeric(as.character(sizedist[,2]))>260)])
+  filtseqs/sum(sizedist[,3])
+  seqtab2 <- seqtab[,nchar(colnames(seqtab)) %in% seq(240,260)]
+  table(nchar(getSequences(seqtab2)))
+  seqtab.nochim <- dada2::removeBimeraDenovo(seqtab2, method="consensus", multithread=TRUE, verbose=TRUE)
+  dim(seqtab.nochim)
+  sum(seqtab.nochim)/sum(seqtab)
+  getN <- function(x) sum(getUniques(x))
+  track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
+  colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
+  rownames(track) <- sample.names
+  head(track)
+
 }
