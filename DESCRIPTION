@@ -15,6 +15,7 @@ URL: https://mshilts1.github.io/micro4R/
 Imports: 
     dada2,
     dplyr,
+    magrittr,
     tibble
 Depends: 
     R (>= 3.5)

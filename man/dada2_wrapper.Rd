@@ -4,10 +4,10 @@
 \alias{dada2_wrapper}
 \title{Dada2 Wrapper}
 \usage{
-dada2_wrapper(path = ".")
+dada2_wrapper(where = NULL)
 }
 \arguments{
-\item{path}{Path to your fastq files. Run \code{dada2_wrapper(path = "example")} if you want to run the example data.}
+\item{where}{Path to your fastq files. Run \code{dada2_wrapper(path = "example")} if you want to run the example data.}
 }
 \value{
 dada2 ASV table and taxonomy table
