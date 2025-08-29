@@ -6,6 +6,10 @@
 #' @examples
 #' findUserCD()
 findUserCD <- function(){
-  cur_dir <- getwd()
-  return(cur_dir)
+  #cur_dir <- getwd()
+  return(getwd())
+}
+
+fastq_files <- function(){
+  findUserCD()
 }

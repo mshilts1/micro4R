@@ -16,6 +16,7 @@ Imports:
     dada2,
     dplyr,
     magrittr,
+    rlang,
     tibble
 Depends: 
     R (>= 3.5)

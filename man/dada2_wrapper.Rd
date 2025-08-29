@@ -4,10 +4,18 @@
 \alias{dada2_wrapper}
 \title{Dada2 Wrapper}
 \usage{
-dada2_wrapper(where = NULL)
+dada2_wrapper(
+  where = NULL,
+  patternF = "_R1_001.fastq.gz",
+  patternR = "_R2_001.fastq.gz"
+)
 }
 \arguments{
 \item{where}{Path to your fastq files. Run \code{dada2_wrapper(path = "example")} if you want to run the example data.}
+
+\item{patternF}{Pattern of the forward/R1 reads}
+
+\item{patternR}{Pattern of the reverse/R2 reads}
 }
 \value{
 dada2 ASV table and taxonomy table
@@ -16,5 +24,5 @@ dada2 ASV table and taxonomy table
 Dada2 Wrapper
 }
 \examples{
-dada2_wrapper()
+dada2_wrapper(where = "example")
 }
