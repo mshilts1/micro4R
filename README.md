@@ -67,8 +67,10 @@ library(micro4R)
 <https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/>
 <https://www.ncbi.nlm.nih.gov/Traces/study/?query_key=5&WebEnv=MCID_68b19a608c055dc0c7e00681&o=bytes_l%3Aa>
 
-- logo made by me using a combination of Canva and
-  [hexSticker](https://github.com/GuangchuangYu/hexSticker)
+- logo made by me using artwork from [Canva](https://www.canva.com/)
+  (©[iconbunny11](https://www.canva.com/p/id/BAClqvm1MBE/)) followed by
+  [hexSticker](https://github.com/GuangchuangYu/hexSticker) to get it
+  into the typical hex logo format.
 
 s \<- sticker(image_path, package=“micro4R”, p_size=15, p_family =
 “Comfortaa”, p_fontface = “bold”, p_y = 1.5, s_x=1, s_y=.75, s_width=.5,
