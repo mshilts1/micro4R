@@ -2,15 +2,18 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{known_dada2_dbs}
 \alias{known_dada2_dbs}
-\title{Simple tibble key pair of known patterns of maintained dada2-formatted taxonomy reference databases}
+\title{A simple tibble of the names of maintained dada2-formatted taxonomy reference databases}
 \usage{
-known_dada2_dbs()
+known_dada2_dbs(what = "list")
+}
+\arguments{
+\item{what}{A keypair listing the expected pattern name or a vector of the known names.}
 }
 \value{
 A tibble
 }
 \description{
-Simple tibble key pair of known patterns of maintained dada2-formatted taxonomy reference databases
+A simple tibble of the names of maintained dada2-formatted taxonomy reference databases
 }
 \examples{
 known_dada2_dbs()

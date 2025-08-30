@@ -18,7 +18,7 @@ dada2_wrapper(
 
 \item{patternR}{Pattern of the reverse/R2 reads}
 
-\item{...}{Can alter parameters of dada2 functions if needed}
+\item{...}{Allows passing of arguments to nested functions}
 }
 \value{
 dada2 ASV table and taxonomy table
@@ -27,5 +27,5 @@ dada2 ASV table and taxonomy table
 Dada2 Wrapper
 }
 \examples{
-dada2_wrapper("example")
+dada2_wrapper("example", db = "x")
 }

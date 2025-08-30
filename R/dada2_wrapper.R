@@ -3,7 +3,7 @@
 #' @param where Path to your fastq files. Run `dada2_wrapper(path = "example")` if you want to run the example data.
 #' @param patternF Pattern of the forward/R1 reads
 #' @param patternR Pattern of the reverse/R2 reads
-#' @param ... Can alter parameters of dada2 functions if needed
+#' @param ... Allows passing of arguments to nested functions
 #'
 #' @returns dada2 ASV table and taxonomy table
 #' @export
@@ -13,8 +13,16 @@
 #' @import grDevices
 #'
 #' @examples
-#' dada2_wrapper("example")
+#' dada2_wrapper("example", db = "x")
 dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", ...) {
+
+  passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions
+
+  if(is.null(passed_args$db)){
+    db <- readline(sprintf("What is the full file path to the reference taxonomic database you'll be using? Don't use quotes."))
+    tax_db <- ref_db(db)
+  }
+
   if (is.null(where)) {
     where <- findUserCD()
     print(sprintf("As no argument was provided for the 'path' of your fastq files, this wrapper will assume you want to work in your current directory, %s", where))
