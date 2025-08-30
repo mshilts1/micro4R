@@ -18,22 +18,22 @@ findUserCD <- function() {
 #'
 #' @examples
 #' known_dada2_dbs()
-known_dada2_dbs <- function(what = "list"){
-
-  if(what != "keypair" & what != "list" & !is.null(what)){
+known_dada2_dbs <- function(what = "list") {
+  if (what != "keypair" & what != "list" & !is.null(what)) {
     stop("You did not provide a valid value. Valid options are 'list' or 'keypair'.")
   }
 
-  if(what == "keypair"){ #i wasn't smart enough to get this to work properly, but saving in case i ever do figure it out
-  return_value <- tibble::tribble(
-          ~db, ~pattern,
-          "silva",   "^silva_.*fa.gz$",
-          "rdp",   "^rdp_.*trainset.fa.gz$",
-          "greengenes",   "^gg2_trainset.fa.gz$",
-          "unite",  "sh_general_release_all_.*tgz")
+  if (what == "keypair") { # i wasn't smart enough to get this to work properly, but saving in case i ever do figure it out
+    return_value <- tibble::tribble(
+      ~db, ~pattern,
+      "silva", "^silva_.*fa.gz$",
+      "rdp", "^rdp_.*trainset.fa.gz$",
+      "greengenes", "^gg2_trainset.fa.gz$",
+      "unite", "sh_general_release_all_.*tgz"
+    )
   }
 
-  if(what == "list"){
+  if (what == "list") {
     return_value <- tibble::tribble(
       ~database, ~database_file_name,
       "GreenGenes", "gg2_2024_09_toGenus_trainset.fa.gz",
@@ -45,8 +45,6 @@ known_dada2_dbs <- function(what = "list"){
       "SILVA", "silva_nr99_v138.2_toSpecies_trainset.fa.gz",
       "SILVA", "silva_v138.2_assignSpecies.fa.gz",
     )
-
-
   }
   return(return_value)
 }
@@ -70,7 +68,7 @@ ref_db <- function(db) {
 
   filename <- basename(db)
 
-# Check if the file name matches *known* patterns:
+  # Check if the file name matches *known* patterns:
   if (grepl("^silva_.*fa.gz$", filename)) {
     print("Your reference taxonomic database is suspected to be one of the SILVA databases. If that does not seem correct to you, please check!")
   }
@@ -83,11 +81,10 @@ ref_db <- function(db) {
   if (grepl("^sh_general_release_all_.*tgz", filename)) {
     print("Your reference taxonomic database is suspected to be one of the UNITE all eukaryotes databases. If that does not seem correct to you, please check!")
   }
-  if (!grepl("^silva_.*fa.gz$", filename) & !grepl("^rdp_.*trainset.fa.gz$", filename) & !grepl("^gg2_.*trainset.fa.gz$", filename) & !grepl("^sh_general_release_all_.*tgz", filename)){
+  if (!grepl("^silva_.*fa.gz$", filename) & !grepl("^rdp_.*trainset.fa.gz$", filename) & !grepl("^gg2_.*trainset.fa.gz$", filename) & !grepl("^sh_general_release_all_.*tgz", filename)) {
     print("The file name of your reference database did not match any of the known maintained dada2-formatted taxonomic databases. This does not mean your database is wrong! Just that it's not on my known list. Check below to see the names of all known databases:")
     print(known_dada2_dbs("list"))
   }
 
   return(db)
 }
-
