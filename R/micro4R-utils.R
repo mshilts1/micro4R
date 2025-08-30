@@ -88,3 +88,8 @@ ref_db <- function(db) {
 
   return(db)
 }
+dada2_settings <- function(train, species){
+  train <- ref_db()
+  species <- ref_db()
+
+}

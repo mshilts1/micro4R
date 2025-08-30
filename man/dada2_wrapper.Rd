@@ -8,6 +8,7 @@ dada2_wrapper(
   where = NULL,
   patternF = "_R1_001.fastq.gz",
   patternR = "_R2_001.fastq.gz",
+  multi = FALSE,
   ...
 )
 }
@@ -17,6 +18,8 @@ dada2_wrapper(
 \item{patternF}{Pattern of the forward/R1 reads}
 
 \item{patternR}{Pattern of the reverse/R2 reads}
+
+\item{multi}{Should multithreading be done? Can use this to set to TRUE or FALSE for entire wrapper.}
 
 \item{...}{Allows passing of arguments to nested functions}
 }
