@@ -18,6 +18,7 @@ Imports:
     grDevices,
     magrittr,
     rlang,
+    stringr,
     tibble,
     utils
 Depends: 

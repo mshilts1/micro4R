@@ -2,7 +2,7 @@
 % Please edit documentation in R/dada2_wrapper.R
 \name{dada2_wrapper}
 \alias{dada2_wrapper}
-\title{Dada2 Wrapper}
+\title{dada2 Wrapper}
 \usage{
 dada2_wrapper(
   where = NULL,
@@ -27,7 +27,7 @@ dada2_wrapper(
 dada2 ASV table and taxonomy table
 }
 \description{
-Dada2 Wrapper
+dada2 Wrapper
 }
 \examples{
 dada2_wrapper("example", db = "x")

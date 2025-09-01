@@ -9,6 +9,69 @@ findUserCD <- function() {
   # cur_dir <- getwd()
   return(getwd())
 }
+#' Title
+#'
+#' @param path Path to folder containing fastq files
+#'
+#' @returns file path to a folder
+#' @export
+#' @import stringr
+#'
+#' @examples
+#' whereFastqs(".")
+whereFastqs <- function(path = NULL){
+  # Check if the folder exists first
+  if (!file.exists(path)) {
+    stop("Error: The folder you provided does not exist at the provided path.")
+  }
+
+  # Check if the file is a directory (not a file)
+  if (!file_test("-d", path)) {
+    stop("Error: You provided a path to a file; provide path to the directory where your fastq files are located.")
+  }
+
+  files <- tibble::as_tibble(list.files(path,pattern="\\."))
+  print(files)
+
+  fastq_filename_patterns <- tibble::tribble(
+    ~pattern,
+    "fastq",
+    "fq",
+    "R1",
+    "R2")
+
+  files <- files %>%
+    dplyr::mutate(
+      fastq = stringr::str_count(.data$value, regex("fastq", ignore_case = TRUE)),
+      fq = stringr::str_count(.data$value, regex("fq", ignore_case = TRUE)),
+      R1 = stringr::str_count(.data$value, regex("R1", ignore_case = TRUE)),
+      R2 = stringr::str_count(.data$value, regex("R2", ignore_case = TRUE)),
+    )  %>% rowwise() %>%
+    dplyr::mutate(any_fq = sum(c_across(c(.data$fastq, .data$fq)))) %>%
+    ungroup()
+
+  fastq_sum <- files %>% summarise(total_value = sum(.data$any_fq)) %>% as.numeric()
+  r1_sum <- files %>% summarise(total_value = sum(.data$R1)) %>% as.numeric()
+  r2_sum <- files %>% summarise(total_value = sum(.data$R2)) %>% as.numeric()
+
+  #fastq_sum <- sum(files[[any_fq]])
+  #r1_sum <- sum(files[[R1]])
+  #r2_sum <- sum(files[[R2]])
+
+  if(r1_sum == r2_sum & r1_sum*2 == fastq_sum) {
+    print(sprintf("The total number of potential FASTQ files detected in the directory was %s, and the number of potential forward reads and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum))
+  }
+
+  if(r1_sum != r2_sum) {
+    print(sprintf("CAUTION: the number of forward reads and reverse reads does not appear to match! The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you! If you're sure everything is OK, then carry on.", fastq_sum, r1_sum, r2_sum))
+ }
+
+  if(r1_sum*2 != fastq_sum | r2_sum*2 != fastq_sum) {
+    print(sprintf("CAUTION: the number of total reads detected is not double the number of either forward or reverse reads. The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s, and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum, r2_sum))
+  }
+
+  return(path)
+}
 #' A simple tibble of the names of maintained dada2-formatted taxonomy reference databases
 #'
 #' @param what A keypair listing the expected pattern name or a vector of the known names.
@@ -58,7 +121,7 @@ known_dada2_dbs <- function(what = "list") {
 ref_db <- function(db) {
   # Check if the file exists first
   if (!file.exists(db)) {
-    stop("Error: The file name your provided does not exist at the provided path.")
+    stop("Error: The file name you provided does not exist at the provided path.")
   }
 
   # Check if the file is a file (not a directory)

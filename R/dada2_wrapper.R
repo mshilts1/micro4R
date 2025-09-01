@@ -1,4 +1,4 @@
-#' Dada2 Wrapper
+#' dada2 Wrapper
 #'
 #' @param where Path to your fastq files. Run `dada2_wrapper(path = "example")` if you want to run the example data.
 #' @param patternF Pattern of the forward/R1 reads
@@ -16,7 +16,8 @@
 #' @examples
 #' dada2_wrapper("example", db = "x")
 dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, ...) {
-  passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions
+
+  passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
   if (is.null(where)) {
     where <- findUserCD()
@@ -70,29 +71,29 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
 
   if (where != "example") { # create some dada2 figs
 
-    if (!dir.exists(sprintf("%s/dada2_figs", where))) {
+    if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
       # If it doesn't exist, create it
-      dir.create(sprintf("%s/dada2_figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
+      dir.create(sprintf("%s/dada2_out/figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
     }
 
-    grDevices::pdf(sprintf("%s/dada2_figs/plotQualityProfileForwardReads_first10_samples.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileForwardReads_first10_samples.pdf", where))
     print(dada2::plotQualityProfile(fnFs[1:10]))
     grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_figs/plotQualityProfileReverseReads_first10_samples.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileReverseReads_first10_samples.pdf", where))
     print(dada2::plotQualityProfile(fnRs[1:10]))
     grDevices::dev.off()
 
-    grDevices::pdf(sprintf("%s/dada2_figs/plotQualityProfileForwardReads_aggregate_all.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileForwardReads_aggregate_all.pdf", where))
     print(dada2::plotQualityProfile(fnFs, aggregate = TRUE))
     grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_figs/plotQualityProfileReverseReads_aggregate_all.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileReverseReads_aggregate_all.pdf", where))
     print(dada2::plotQualityProfile(fnRs, aggregate = TRUE))
     grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_figs/plotErrorsForward.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotErrorsForward.pdf", where))
     suppressWarnings(print(dada2::plotErrors(errF, nominalQ = TRUE)))
     grDevices::dev.off()
 
-    grDevices::pdf(sprintf("%s/dada2_figs/plotErrorsReverse.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotErrorsReverse.pdf", where))
     suppressWarnings(print(dada2::plotErrors(errR, nominalQ = TRUE)))
     grDevices::dev.off()
   }
@@ -127,6 +128,17 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
   rownames(track) <- sample.names
   head(track)
+
+
+  seqtab.nochim.tibble <- as_tibble(seqtab, rownames = "SampleID")
+
+  if (!dir.exists(sprintf("%s/dada2_out", where))) {
+    # If it doesn't exist, create it
+    dir.create(sprintf("%s/dada2_out", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
+    write.csv(track, file=sprintf("%s/dada2_out/track.csv", where), row.names=FALSE)
+    write.csv(seqtab.nochim.tibble, file=sprintf("%s/dada2_out/seqtab.nochim.csv", where), row.names=FALSE)
+  }
+
 
   return(seqtab.nochim)
 }
