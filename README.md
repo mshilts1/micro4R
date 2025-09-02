@@ -36,14 +36,6 @@ well-known, well-documented, and heavily used tools for microbiome
 analysis. One or these may be better for your purposes, and I’d
 encourage anyone new to the field to explore multiple tools.
 
-R packages heavily used here include:  
-1. [tidyverse](https://tidyverse.tidyverse.org) ecosystem  
-2. [vegan](https://cran.r-project.org/web/packages/vegan/index.html)  
-3. [dada2](https://benjjneb.github.io/dada2/)  
-4. [maaslin3](https://huttenhower.sph.harvard.edu/maaslin3/)
-
-add MMUPHin?
-
 ## Installation
 
 You can install the development version of micro4R like so:
@@ -56,17 +48,25 @@ pak::pak("mshilts1/micro4R")
 ## Example
 
 I’ll run through the smallest and simplest possible use case below. For
-more detailed help and documentation, please explore the vignettes (link
-TBA)
+more detailed help and documentation, please explore the vignettes
+(link(s) TBA).
+
+Included with the package is an extremely tiny toy example to
+demonstrate its major functionality.
+
+Included are subsampled FASTQ files from [a manuscript I co-authored
+with my colleagues](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/),
+for which the raw data is publicly available on the NCBI’s [Sequence
+Read Archive (SRA)](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992)
+under project ID PRJNA726992. From seven samples from this study, using
+[seqtk](https://github.com/lh3/seqtk), I randomly sampled **only 50
+reads** from each FASTQ file so that the files would take up minimal
+space and the example would run quickly.
 
 ``` r
 library(micro4R)
 ## basic example code
 ```
-
-<https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/>
-
-<https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992>
 
 Link to dada2-ified reference databases
 <https://benjjneb.github.io/dada2/training.html>
