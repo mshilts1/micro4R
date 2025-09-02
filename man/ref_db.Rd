@@ -4,10 +4,12 @@
 \alias{ref_db}
 \title{Set a reference database for taxonomy assignment}
 \usage{
-ref_db(db)
+ref_db(db, chatty = TRUE)
 }
 \arguments{
 \item{db}{File path to the reference database to use}
+
+\item{chatty}{Set to FALSE for less text printed to console}
 }
 \value{
 The file path of the database

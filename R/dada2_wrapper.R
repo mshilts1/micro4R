@@ -158,6 +158,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
     on.exit(unlink(outdir), add = TRUE)
   }
 
+  tibblefy(seqtab.nochim)
 
   if (chatty == TRUE) {
     return(seqtab.nochim)

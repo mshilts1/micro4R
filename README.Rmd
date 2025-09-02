@@ -24,9 +24,9 @@ Microbiome data analysis tools for R
 
 
 
-The goal of `micro4R` was to create an R package with a low barrier to entry. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code]UPDATE URL, and want to pass it on. # micro4R <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>     
+The goal of `micro4R` was to create an R package with a low barrier to entry. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code]UPDATE URL, and want to pass it on.     # micro4R <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>         
 
-Likely, the ideal candidate to benefit from `micro4R` would be a bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!        
+Likely, the ideal candidate to benefit from `micro4R` would be a bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!            
 
 This package does not create any brand new functionality and was built on the great work of [others]UPDATE URL. Much of what it does can be accomplished with other packages, such as [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html), [QIIME 2](https://qiime2.org), and [MicrobiomeAnalyst](https://www.microbiomeanalyst.ca). One of these may be better for your purposes, and I'd encourage anyone new to the field to explore multiple tools.    
 
@@ -54,6 +54,7 @@ The first thing we'll do on these files is run 'dada2_wrapper'. This wrapper can
 library(micro4R)
 
 dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
+
 ```
 
 You can see the full path of where these are:
@@ -65,7 +66,16 @@ normalizePath("inst/extdata/f")
 
 ```
 
-If you're running this with your own data, set 'where' to the path where your fastq files are stored. If you leave it empty (e.g., run `dada2_wrapper()`, it will default to your current working directory.)
+If you're running this with your own data, set 'where' to the path where your fastq files are stored. If you leave it empty (e.g., run `dada2_wrapper()`, it will default to your current working directory.) 'chatty' was set to FALSE because tons of information gets printed to the console otherwise; I'd recommend setting it to TRUE (the default) when you're processing data for real, as the information is useful, just too much here.    
+
+Next, we want to assign taxonomy to the reads.
+
+```{r example3}
+
+
+```
+
+
 
 Move information to the bottom for anyone who wants more details
 

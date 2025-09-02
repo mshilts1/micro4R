@@ -2,7 +2,7 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{full_example_data}
 \alias{full_example_data}
-\title{Title}
+\title{Option to use googledrive package to download example data}
 \usage{
 full_example_data(path = NULL)
 }
@@ -13,7 +13,7 @@ full_example_data(path = NULL)
 Downloads zipped folder of full fastq files used in example
 }
 \description{
-Title
+Option to use googledrive package to download example data
 }
 \examples{
 full_example_data("example")

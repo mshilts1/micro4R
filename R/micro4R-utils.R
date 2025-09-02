@@ -128,11 +128,12 @@ known_dada2_dbs <- function(what = "list") {
 #' Set a reference database for taxonomy assignment
 #'
 #' @param db File path to the reference database to use
+#' @param chatty Set to FALSE for less text printed to console
 #'
 #' @returns The file path of the database
 #' @export
 #'
-ref_db <- function(db) {
+ref_db <- function(db, chatty = TRUE) {
   # Check if the file exists first
   if (!file.exists(db)) {
     stop("Error: The file name you provided does not exist at the provided path.")
@@ -146,16 +147,16 @@ ref_db <- function(db) {
   filename <- basename(db)
 
   # Check if the file name matches *known* patterns:
-  if (grepl("^silva_.*fa.gz$", filename)) {
+  if (grepl("^silva_.*fa.gz$", filename) & chatty == TRUE) {
     print("Your reference taxonomic database is suspected to be one of the SILVA databases. If that does not seem correct to you, please check!")
   }
-  if (grepl("^rdp_.*trainset.fa.gz$", filename)) {
+  if (grepl("^rdp_.*trainset.fa.gz$", filename) & chatty == TRUE) {
     print("Your reference taxonomic database is suspected to be one of the RDP databases. If that does not seem correct to you, please check!")
   }
-  if (grepl("^gg2_.*trainset.fa.gz$", filename)) {
+  if (grepl("^gg2_.*trainset.fa.gz$", filename) & chatty == TRUE) {
     print("Your reference taxonomic database is suspected to be one of the greengenes databases. If that does not seem correct to you, please check!")
   }
-  if (grepl("^sh_general_release_all_.*tgz", filename)) {
+  if (grepl("^sh_general_release_all_.*tgz", filename) & chatty == TRUE) {
     print("Your reference taxonomic database is suspected to be one of the UNITE all eukaryotes databases. If that does not seem correct to you, please check!")
   }
   if (!grepl("^silva_.*fa.gz$", filename) & !grepl("^rdp_.*trainset.fa.gz$", filename) & !grepl("^gg2_.*trainset.fa.gz$", filename) & !grepl("^sh_general_release_all_.*tgz", filename)) {
@@ -163,9 +164,15 @@ ref_db <- function(db) {
     print(known_dada2_dbs("list"))
   }
 
-  return(db)
+  if (chatty == TRUE) {
+    return(db)
+  }
+
+  if (chatty == FALSE) {
+    return(invisible(db))
+  }
 }
-#' Title
+#' Option to use googledrive package to download example data
 #'
 #' @param path Path to directory where you want to download file to.
 #'
@@ -188,4 +195,7 @@ full_example_data <- function(path = NULL) {
   if (rlang::is_installed("googledrive") == FALSE) {
     print("To use this function, package 'googledrive' must be installed first. Visit https://googledrive.tidyverse.org/index.html for more information.")
   }
+}
+tibblefy <- function(x){
+  as_tibble(x, rownames = "SampleID")
 }

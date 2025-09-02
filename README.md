@@ -66,7 +66,7 @@ library(micro4R)
 
 dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
 #> [1] "The total number of potential FASTQ files detected in the directory was 14, and the number of potential forward reads and reverse reads was 7. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!"
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpuWibrc/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpXymNGe/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -82,6 +82,12 @@ normalizePath("inst/extdata/f")
 If you’re running this with your own data, set ‘where’ to the path where
 your fastq files are stored. If you leave it empty (e.g., run
 `dada2_wrapper()`, it will default to your current working directory.)
+‘chatty’ was set to FALSE because tons of information gets printed to
+the console otherwise; I’d recommend setting it to TRUE (the default)
+when you’re processing data for real, as the information is useful, just
+too much here.
+
+Next, we want to assign taxonomy to the reads.
 
 Move information to the bottom for anyone who wants more details
 
