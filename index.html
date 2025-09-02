@@ -77,39 +77,10 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mshilts1.github.io/micro4R/">micro4R</a></span><span class="op">)</span></span>
 <span><span class="co">## basic example code</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/dada2_wrapper.html">dada2_wrapper</a></span><span class="op">(</span><span class="st">"example"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Because you're running the example, any output files will go to a temporary directory, /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session."</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered</span></span>
+<span><span class="fu"><a href="reference/dada2_wrapper.html">dada2_wrapper</a></span><span class="op">(</span><span class="st">"example"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpeBqnY8/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 11 unique sequences from 11 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 25 unique sequences from 26 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 37 unique sequences from 46 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 36 unique sequences from 41 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 30 unique sequences from 37 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 33 unique sequences from 44 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 36 unique sequences from 43 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 11 unique sequences from 11 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 23 unique sequences from 26 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 35 unique sequences from 46 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 35 unique sequences from 41 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 31 unique sequences from 37 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 32 unique sequences from 44 total sequences read.</span></span>
-<span><span class="co">#&gt; Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R_filt.fastq.gz</span></span>
-<span><span class="co">#&gt; Encountered 37 unique sequences from 43 total sequences read.</span></span>
 <span><span class="co">#&gt; Sample 1 - 11 reads in 11 unique sequences.</span></span>
 <span><span class="co">#&gt; Sample 2 - 26 reads in 25 unique sequences.</span></span>
 <span><span class="co">#&gt; Sample 3 - 46 reads in 37 unique sequences.</span></span>
@@ -124,14 +95,6 @@
 <span><span class="co">#&gt; Sample 5 - 37 reads in 31 unique sequences.</span></span>
 <span><span class="co">#&gt; Sample 6 - 44 reads in 32 unique sequences.</span></span>
 <span><span class="co">#&gt; Sample 7 - 43 reads in 37 unique sequences.</span></span>
-<span><span class="co">#&gt; 0 paired-reads (in 0 unique pairings) successfully merged out of 1 (in 1 pairings) input.</span></span>
-<span><span class="co">#&gt; 0 paired-reads (in 0 unique pairings) successfully merged out of 10 (in 1 pairings) input.</span></span>
-<span><span class="co">#&gt; 44 paired-reads (in 1 unique pairings) successfully merged out of 44 (in 1 pairings) input.</span></span>
-<span><span class="co">#&gt; 37 paired-reads (in 2 unique pairings) successfully merged out of 37 (in 2 pairings) input.</span></span>
-<span><span class="co">#&gt; 28 paired-reads (in 3 unique pairings) successfully merged out of 28 (in 3 pairings) input.</span></span>
-<span><span class="co">#&gt; 41 paired-reads (in 2 unique pairings) successfully merged out of 41 (in 2 pairings) input.</span></span>
-<span><span class="co">#&gt; 0 paired-reads (in 0 unique pairings) successfully merged out of 31 (in 3 pairings) input.</span></span>
-<span><span class="co">#&gt; Identified 0 bimeras out of 6 input sequences.</span></span>
 <span><span class="co">#&gt;                                                                   TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG</span></span>
 <span><span class="co">#&gt; SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0</span></span>
 <span><span class="co">#&gt; SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0</span></span>
