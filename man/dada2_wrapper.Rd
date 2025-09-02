@@ -15,9 +15,9 @@ dada2_wrapper(
 \arguments{
 \item{where}{Path to your fastq files. Run \code{dada2_wrapper(path = "example")} if you want to run the example data.}
 
-\item{patternF}{Pattern of the forward/R1 reads}
+\item{patternF}{Pattern of the forward/R1 reads. Default is Illumina standard.}
 
-\item{patternR}{Pattern of the reverse/R2 reads}
+\item{patternR}{Pattern of the reverse/R2 reads. Default is Illumina standard}
 
 \item{multi}{Should multithreading be done? Can use this to set to TRUE or FALSE for entire wrapper.}
 
@@ -30,5 +30,5 @@ dada2 ASV table and taxonomy table
 dada2 Wrapper
 }
 \examples{
-dada2_wrapper("example", db = "x")
+dada2_wrapper("example")
 }
