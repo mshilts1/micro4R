@@ -150,7 +150,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   if (where == "example") {
     write.csv(track, file=sprintf("%s/dada2_out/track.csv", outdir), row.names=FALSE)
     write.csv(seqtab.nochim.tibble, file=sprintf("%s/dada2_out/seqtab.nochim.csv", outdir), row.names=FALSE)
-    unlink(outdir)
+    on.exit(unlink(outdir), add = TRUE)
   }
 
 
