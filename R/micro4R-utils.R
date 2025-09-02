@@ -12,6 +12,7 @@ findUserCD <- function() {
 #' Title
 #'
 #' @param path Path to folder containing fastq files
+#' @param chatty If set to FALSE, don't print as much to console.
 #'
 #' @returns file path to a folder
 #' @export
@@ -19,7 +20,7 @@ findUserCD <- function() {
 #'
 #' @examples
 #' whereFastqs(".")
-whereFastqs <- function(path = NULL) {
+whereFastqs <- function(path = NULL, chatty = TRUE) {
   # Check if the folder exists first
   if (!file.exists(path)) {
     stop("Error: The folder you provided does not exist at the provided path.")
@@ -31,7 +32,8 @@ whereFastqs <- function(path = NULL) {
   }
 
   files <- tibble::as_tibble(list.files(path, pattern = "\\."))
-  print(files)
+  if(chatty == TRUE){
+    print(files)}
 
   fastq_filename_patterns <- tibble::tribble(
     ~pattern,
@@ -78,7 +80,15 @@ whereFastqs <- function(path = NULL) {
     print(sprintf("CAUTION: the number of total reads detected is not double the number of either forward or reverse reads. The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s, and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum, r2_sum))
   }
 
-  return(path)
+
+  if (chatty == TRUE) {
+    return(path)
+  }
+
+  if (chatty == FALSE) {
+    return(invisible(path))
+  }
+
 }
 #' A simple tibble of the names of maintained dada2-formatted taxonomy reference databases
 #'

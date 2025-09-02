@@ -66,8 +66,26 @@ space and the example would run quickly.
 library(micro4R)
 ## basic example code
 
-dada2_wrapper(where = "example", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpgxHTTd/dada2_out/filtered
+dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
+#> # A tibble: 14 × 1
+#>    value                                                            
+#>    <chr>                                                            
+#>  1 SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R1_001.fastq.gz
+#>  2 SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R2_001.fastq.gz
+#>  3 SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R1_001.fastq.gz
+#>  4 SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R2_001.fastq.gz
+#>  5 SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R1_001.fastq.gz
+#>  6 SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R2_001.fastq.gz
+#>  7 SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R1_001.fastq.gz
+#>  8 SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R2_001.fastq.gz
+#>  9 SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R1_001.fastq.gz
+#> 10 SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R2_001.fastq.gz
+#> 11 SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R1_001.fastq.gz
+#> 12 SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R2_001.fastq.gz
+#> 13 SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R1_001.fastq.gz
+#> 14 SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R2_001.fastq.gz
+#> [1] "The total number of potential FASTQ files detected in the directory was 14, and the number of potential forward reads and reverse reads was 7. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!"
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpH0RVkG/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```

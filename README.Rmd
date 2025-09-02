@@ -51,7 +51,7 @@ Included with the package is an extremely tiny toy example to demonstrate its ma
 library(micro4R)
 ## basic example code
 
-dada2_wrapper(where = "example", chatty = FALSE)
+dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
 ```
 
 If you were running this with your own data, set 'where' to the path where your fastq files are stored.

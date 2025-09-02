@@ -26,25 +26,30 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
     }
   }
 
-  if (where == "example") {
+  if(where != "example"){
+    whereFastqs(where)
+  }
+
+  if (where == "example" | where == "inst/extdata/f") {
     outdir <- tempdir()
     if (chatty == TRUE) {
       print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
     }
   }
-  if (where != "example") {
+
+  if (where != "example" & where != "inst/extdata/f") {
     if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
       # If it doesn't exist, create it
       dir.create(sprintf("%s/dada2_out/figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
     }
   }
 
-  if (where == "example") {
+  if (where == "example" | where == "inst/extdata/f") {
     fnFs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R1_001.fastq.gz", full.names = TRUE)
     fnRs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R2_001.fastq.gz", full.names = TRUE)
   }
 
-  if (where != "example") {
+  if (where != "example" & where != "inst/extdata/f") {
     fnFs <- sort(list.files(where, pattern = patternF, full.names = TRUE))
     fnRs <- sort(list.files(where, pattern = patternR, full.names = TRUE))
     if (rlang::is_empty(fnFs)) {
@@ -57,12 +62,12 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
 
   sample.names <- gsub(patternF, "", basename(fnFs)) # create simplified sample names by stripping out the forward read pattern specified by user. *should* match reverse reads, unless something really weird going on with file names.
 
-  if (where != "example") {
+  if (where != "example" & where != "inst/extdata/f") {
     filtFs <- file.path(where, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
     filtRs <- file.path(where, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
 
-  if (where == "example") {
+  if (where == "example" | where == "inst/extdata/f") {
     filtFs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
     filtRs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
@@ -77,7 +82,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   errF <- dada2::learnErrors(filtFs, multithread = multi, verbose = chatty)
   errR <- dada2::learnErrors(filtRs, multithread = multi, verbose = chatty)
 
-  if (where != "example") { # create some dada2 figs
+  if (where != "example" & where != "inst/extdata/f") { # create some dada2 figs
 
     if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
       # If it doesn't exist, create it
@@ -109,7 +114,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   derepFs <- dada2::derepFastq(filtFs, verbose = chatty)
   derepRs <- dada2::derepFastq(filtRs, verbose = chatty)
 
-  if (where != "example") {
+  if (where != "example" & where != "inst/extdata/f") {
     names(derepFs) <- sample.names[exists]
     names(derepRs) <- sample.names[exists]
   }
@@ -142,12 +147,12 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   seqtab.nochim.tibble <- as_tibble(seqtab, rownames = "SampleID")
   track.tibble <- as_tibble(track, rownames = "SampleID")
 
-  if (where != "example") {
+  if (where != "example" & where != "inst/extdata/f") {
     write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", where), row.names = FALSE)
     write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/seqtab.nochim.csv", where), row.names = FALSE)
   }
 
-  if (where == "example") {
+  if (where == "example" | where == "inst/extdata/f") {
     write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
     write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/seqtab.nochim.csv", outdir), row.names = FALSE)
     on.exit(unlink(outdir), add = TRUE)

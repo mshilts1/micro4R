@@ -2,7 +2,7 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{findUserCD}
 \alias{findUserCD}
-\title{Collection of helper/utility functions not intended to be used by end user}
+\title{Collection of helper/utility functions not intended to be directly used by end user}
 \usage{
 findUserCD()
 }
@@ -10,7 +10,7 @@ findUserCD()
 Path of user's current working directory
 }
 \description{
-Collection of helper/utility functions not intended to be used by end user
+Collection of helper/utility functions not intended to be directly used by end user
 }
 \examples{
 findUserCD()

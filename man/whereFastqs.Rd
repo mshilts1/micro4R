@@ -4,10 +4,12 @@
 \alias{whereFastqs}
 \title{Title}
 \usage{
-whereFastqs(path = NULL)
+whereFastqs(path = NULL, chatty = TRUE)
 }
 \arguments{
 \item{path}{Path to folder containing fastq files}
+
+\item{chatty}{If set to FALSE, don't print as much to console.}
 }
 \value{
 file path to a folder
