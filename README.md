@@ -54,11 +54,12 @@ more detailed help and documentation, please explore the vignettes
 Included with the package is an extremely tiny toy example to
 demonstrate its major functionality.
 
-Included are subsampled FASTQ files from [a manuscript I co-authored
-with my colleagues](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/),
-for which the raw data is publicly available on the NCBI’s [Sequence
-Read Archive (SRA)](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992)
-under project ID PRJNA726992. From seven samples from this study, using
+Included are subsampled FASTQ files from a
+[manuscript](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/) I
+co-authored with my colleagues, for which the raw data is publicly
+available on the NCBI’s Sequence Read Archive (SRA) under bioproject ID
+[PRJNA726992](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992). From
+seven samples from this study, using
 [seqtk](https://github.com/lh3/seqtk), I randomly sampled **only 50
 reads** from each FASTQ file so that the files would take up minimal
 space and the example would run quickly.
