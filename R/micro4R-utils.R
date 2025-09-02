@@ -1,4 +1,4 @@
-#' Collection of helper/utility functions not intended to be used by end user
+#' Collection of helper/utility functions not intended to be directly used by end user
 #'
 #' @returns Path of user's current working directory
 #' @export
