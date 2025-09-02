@@ -52,12 +52,10 @@ more detailed help and documentation, please explore the vignettes
 (link(s) TBA).
 
 Included with the package is an extremely tiny toy example to
-demonstrate its major functionality.
-
-Included are subsampled FASTQ files from a
+demonstrate its major functionality: subsampled FASTQ files from a
 [manuscript](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/) I
 co-authored with my colleagues, for which the raw data is publicly
-available on the NCBI’s Sequence Read Archive (SRA) under bioproject ID
+available under bioproject ID
 [PRJNA726992](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992). From
 seven samples from this study, using
 [seqtk](https://github.com/lh3/seqtk), I randomly sampled **only 50
@@ -67,7 +65,114 @@ space and the example would run quickly.
 ``` r
 library(micro4R)
 ## basic example code
+
+dada2_wrapper("example")
+#> [1] "Because you're running the example, any output files will go to a temporary directory, /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session."
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered
+#> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
+#> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz
+#> Encountered 11 unique sequences from 11 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz
+#> Encountered 25 unique sequences from 26 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz
+#> Encountered 37 unique sequences from 46 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz
+#> Encountered 36 unique sequences from 41 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz
+#> Encountered 30 unique sequences from 37 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz
+#> Encountered 33 unique sequences from 44 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz
+#> Encountered 36 unique sequences from 43 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R_filt.fastq.gz
+#> Encountered 11 unique sequences from 11 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R_filt.fastq.gz
+#> Encountered 23 unique sequences from 26 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R_filt.fastq.gz
+#> Encountered 35 unique sequences from 46 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R_filt.fastq.gz
+#> Encountered 35 unique sequences from 41 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R_filt.fastq.gz
+#> Encountered 31 unique sequences from 37 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R_filt.fastq.gz
+#> Encountered 32 unique sequences from 44 total sequences read.
+#> Dereplicating sequence entries in Fastq file: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmphunl8w/dada2_out/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R_filt.fastq.gz
+#> Encountered 37 unique sequences from 43 total sequences read.
+#> Sample 1 - 11 reads in 11 unique sequences.
+#> Sample 2 - 26 reads in 25 unique sequences.
+#> Sample 3 - 46 reads in 37 unique sequences.
+#> Sample 4 - 41 reads in 36 unique sequences.
+#> Sample 5 - 37 reads in 30 unique sequences.
+#> Sample 6 - 44 reads in 33 unique sequences.
+#> Sample 7 - 43 reads in 36 unique sequences.
+#> Sample 1 - 11 reads in 11 unique sequences.
+#> Sample 2 - 26 reads in 23 unique sequences.
+#> Sample 3 - 46 reads in 35 unique sequences.
+#> Sample 4 - 41 reads in 35 unique sequences.
+#> Sample 5 - 37 reads in 31 unique sequences.
+#> Sample 6 - 44 reads in 32 unique sequences.
+#> Sample 7 - 43 reads in 37 unique sequences.
+#> 0 paired-reads (in 0 unique pairings) successfully merged out of 1 (in 1 pairings) input.
+#> 0 paired-reads (in 0 unique pairings) successfully merged out of 10 (in 1 pairings) input.
+#> 44 paired-reads (in 1 unique pairings) successfully merged out of 44 (in 1 pairings) input.
+#> 37 paired-reads (in 2 unique pairings) successfully merged out of 37 (in 2 pairings) input.
+#> 28 paired-reads (in 3 unique pairings) successfully merged out of 28 (in 3 pairings) input.
+#> 41 paired-reads (in 2 unique pairings) successfully merged out of 41 (in 2 pairings) input.
+#> 0 paired-reads (in 0 unique pairings) successfully merged out of 31 (in 3 pairings) input.
+#> Identified 0 bimeras out of 6 input sequences.
+#>                                                                   TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            44
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            24
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#>                                                                   TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            35
+#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#>                                                                   TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                              0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                              0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                              0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                              0
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             12
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                              6
+#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                              0
+#>                                                                   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            13
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#>                                                                   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            13
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                             0
+#>                                                                   TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            0
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            3
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            0
+#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz                                                                                                                                                                                                                                                            0
 ```
+
+the full fastq files can be downloaded from SRA or as a zipped bolus
+[here](https://drive.google.com/file/d/1NOvmsxFxWb1Vigq8rdb5SCfLLNu-Qjy8/view?usp=sharing)
 
 Link to dada2-ified reference databases
 <https://benjjneb.github.io/dada2/training.html>
