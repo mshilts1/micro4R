@@ -19,7 +19,7 @@ findUserCD <- function() {
 #'
 #' @examples
 #' whereFastqs(".")
-whereFastqs <- function(path = NULL){
+whereFastqs <- function(path = NULL) {
   # Check if the folder exists first
   if (!file.exists(path)) {
     stop("Error: The folder you provided does not exist at the provided path.")
@@ -30,7 +30,7 @@ whereFastqs <- function(path = NULL){
     stop("Error: You provided a path to a file; provide path to the directory where your fastq files are located.")
   }
 
-  files <- tibble::as_tibble(list.files(path,pattern="\\."))
+  files <- tibble::as_tibble(list.files(path, pattern = "\\."))
   print(files)
 
   fastq_filename_patterns <- tibble::tribble(
@@ -38,7 +38,8 @@ whereFastqs <- function(path = NULL){
     "fastq",
     "fq",
     "R1",
-    "R2")
+    "R2"
+  )
 
   files <- files %>%
     dplyr::mutate(
@@ -46,27 +47,34 @@ whereFastqs <- function(path = NULL){
       fq = stringr::str_count(.data$value, regex("fq", ignore_case = TRUE)),
       R1 = stringr::str_count(.data$value, regex("R1", ignore_case = TRUE)),
       R2 = stringr::str_count(.data$value, regex("R2", ignore_case = TRUE)),
-    )  %>% rowwise() %>%
+    ) %>%
+    rowwise() %>%
     dplyr::mutate(any_fq = sum(c_across(c(.data$fastq, .data$fq)))) %>%
     ungroup()
 
-  fastq_sum <- files %>% summarise(total_value = sum(.data$any_fq)) %>% as.numeric()
-  r1_sum <- files %>% summarise(total_value = sum(.data$R1)) %>% as.numeric()
-  r2_sum <- files %>% summarise(total_value = sum(.data$R2)) %>% as.numeric()
+  fastq_sum <- files %>%
+    summarise(total_value = sum(.data$any_fq)) %>%
+    as.numeric()
+  r1_sum <- files %>%
+    summarise(total_value = sum(.data$R1)) %>%
+    as.numeric()
+  r2_sum <- files %>%
+    summarise(total_value = sum(.data$R2)) %>%
+    as.numeric()
 
-  #fastq_sum <- sum(files[[any_fq]])
-  #r1_sum <- sum(files[[R1]])
-  #r2_sum <- sum(files[[R2]])
+  # fastq_sum <- sum(files[[any_fq]])
+  # r1_sum <- sum(files[[R1]])
+  # r2_sum <- sum(files[[R2]])
 
-  if(r1_sum == r2_sum & r1_sum*2 == fastq_sum) {
+  if (r1_sum == r2_sum & r1_sum * 2 == fastq_sum) {
     print(sprintf("The total number of potential FASTQ files detected in the directory was %s, and the number of potential forward reads and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum))
   }
 
-  if(r1_sum != r2_sum) {
+  if (r1_sum != r2_sum) {
     print(sprintf("CAUTION: the number of forward reads and reverse reads does not appear to match! The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you! If you're sure everything is OK, then carry on.", fastq_sum, r1_sum, r2_sum))
- }
+  }
 
-  if(r1_sum*2 != fastq_sum | r2_sum*2 != fastq_sum) {
+  if (r1_sum * 2 != fastq_sum | r2_sum * 2 != fastq_sum) {
     print(sprintf("CAUTION: the number of total reads detected is not double the number of either forward or reverse reads. The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s, and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum, r2_sum))
   }
 
@@ -160,18 +168,18 @@ ref_db <- function(db) {
 #'
 #' @examples
 #' full_example_data("example")
-full_example_data <- function(path = NULL){
-  if(path == "example"){
+full_example_data <- function(path = NULL) {
+  if (path == "example") {
     path <- tempdir()
   }
-  if(rlang::is_installed("googledrive") == TRUE) {
-  googledrive::drive_download(
-  "micro4r_example_data.zip",
-  path = file.path(path, "micro4r_example_data.zip"),
-  overwrite = TRUE
-  )
+  if (rlang::is_installed("googledrive") == TRUE) {
+    googledrive::drive_download(
+      "micro4r_example_data.zip",
+      path = file.path(path, "micro4r_example_data.zip"),
+      overwrite = TRUE
+    )
   }
-  if(rlang::is_installed("googledrive") == FALSE) {
+  if (rlang::is_installed("googledrive") == FALSE) {
     print("To use this function, package 'googledrive' must be installed first. Visit https://googledrive.tidyverse.org/index.html for more information.")
   }
 }

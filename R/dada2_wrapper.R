@@ -17,23 +17,22 @@
 #' @examples
 #' dada2_wrapper("example")
 dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, ...) {
-
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
   if (is.null(where)) {
     where <- findUserCD()
-    if(chatty == TRUE) {
+    if (chatty == TRUE) {
       print(sprintf("As no argument was provided for the 'path' of your fastq files, this wrapper will assume you want to work in your current directory, %s", where))
     }
   }
 
-  if(where == "example"){
+  if (where == "example") {
     outdir <- tempdir()
-    if(chatty == TRUE) {
+    if (chatty == TRUE) {
       print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
     }
   }
-  if(where != "example"){
+  if (where != "example") {
     if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
       # If it doesn't exist, create it
       dir.create(sprintf("%s/dada2_out/figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
@@ -64,7 +63,6 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   }
 
   if (where == "example") {
-
     filtFs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
     filtRs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
@@ -129,38 +127,38 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   [which(as.numeric(as.character(sizedist[, 2])) > 260)])
   filtseqs / sum(sizedist[, 3])
   seqtab2 <- seqtab[, nchar(colnames(seqtab)) %in% seq(240, 260)]
-  #table(nchar(getSequences(seqtab2)))
+  # table(nchar(getSequences(seqtab2)))
   seqtab.nochim <- dada2::removeBimeraDenovo(seqtab2, method = "consensus", multithread = multi, verbose = chatty)
-  #dim(seqtab.nochim)
+  # dim(seqtab.nochim)
   sum(seqtab.nochim) / sum(seqtab)
   getN <- function(x) sum(getUniques(x))
   track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
   colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
   rownames(track) <- sample.names
-  if(chatty == TRUE){
-  head(track)
+  if (chatty == TRUE) {
+    head(track)
   }
 
   seqtab.nochim.tibble <- as_tibble(seqtab, rownames = "SampleID")
   track.tibble <- as_tibble(track, rownames = "SampleID")
 
   if (where != "example") {
-    write.csv(track.tibble, file=sprintf("%s/dada2_out/track_seqcounts.csv", where), row.names=FALSE)
-    write.csv(seqtab.nochim.tibble, file=sprintf("%s/dada2_out/seqtab.nochim.csv", where), row.names=FALSE)
+    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", where), row.names = FALSE)
+    write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/seqtab.nochim.csv", where), row.names = FALSE)
   }
 
   if (where == "example") {
-    write.csv(track.tibble, file=sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names=FALSE)
-    write.csv(seqtab.nochim.tibble, file=sprintf("%s/dada2_out/seqtab.nochim.csv", outdir), row.names=FALSE)
+    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
+    write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/seqtab.nochim.csv", outdir), row.names = FALSE)
     on.exit(unlink(outdir), add = TRUE)
   }
 
 
-  if(chatty == TRUE){
-  return(seqtab.nochim)
+  if (chatty == TRUE) {
+    return(seqtab.nochim)
   }
 
-  if(chatty == FALSE){
+  if (chatty == FALSE) {
     return(invisible(seqtab.nochim))
   }
 }
