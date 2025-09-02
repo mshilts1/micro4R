@@ -26,7 +26,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
 
   if(where == "example"){
     outdir <- tempdir()
-    print(sprintf("Because you're running the example, any output files go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this should all be deleted at the end of your R session.", outdir))
+    print(sprintf("Because you're running the example, any output files go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
   }
   if(where != "example"){
     if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
