@@ -3,6 +3,7 @@
 export("%>%")
 export(dada2_wrapper)
 export(findUserCD)
+export(full_example_data)
 export(known_dada2_dbs)
 export(makeExample)
 export(makeExampleMeta)

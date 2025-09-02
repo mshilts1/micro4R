@@ -153,14 +153,25 @@ ref_db <- function(db) {
 }
 #' Title
 #'
+#' @param path Path to directory where you want to download file to.
+#'
 #' @returns Downloads zipped folder of full fastq files used in example
 #' @export
 #'
 #' @examples
-full_example_data <- function(){
+#' full_example_data("example")
+full_example_data <- function(path = NULL){
+  if(path == "example"){
+    path <- tempdir()
+  }
+  if(rlang::is_installed("googledrive") == TRUE) {
   googledrive::drive_download(
-  "index-chicken-sheet",
-  path = "index-chicken-sheet.csv",
+  "micro4r_example_data.zip",
+  path = file.path(path, "micro4r_example_data.zip"),
   overwrite = TRUE
-)
+  )
+  }
+  if(rlang::is_installed("googledrive") == FALSE) {
+    print("To use this function, package 'googledrive' must be installed first. Visit https://googledrive.tidyverse.org/index.html for more information.")
+  }
 }

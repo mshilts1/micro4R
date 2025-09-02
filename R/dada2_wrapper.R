@@ -5,6 +5,7 @@
 #' @param patternR Pattern of the reverse/R2 reads. Default is Illumina standard
 #' @param multi Should multithreading be done? Can use this to set to TRUE or FALSE for entire wrapper.
 #' @param ... Allows passing of arguments to nested functions
+#' @param chatty How chatty should code be? Default is TRUE, but set to FALSE if you don't want so much text going to the console.
 #'
 #' @returns dada2 ASV table and taxonomy table
 #' @export
@@ -68,15 +69,15 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
     filtRs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
 
-  out <- dada2::filterAndTrim(fwd = fnFs, filt = filtFs, rev = fnRs, filt.rev = filtRs, compress = TRUE, truncLen = c(240, 200), maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, multithread = multi, matchIDs = TRUE)
+  out <- dada2::filterAndTrim(fwd = fnFs, filt = filtFs, rev = fnRs, filt.rev = filtRs, compress = TRUE, truncLen = c(240, 200), maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, multithread = multi, matchIDs = TRUE, verbose = chatty)
 
   # why add the next three lines in? sometimes samples with few reads to start with may get entirely filtered out and cause a fatal error during the error rate learning step. so we need to make sure files still exist first.
   exists <- file.exists(filtFs) & file.exists(filtRs)
   filtFs <- filtFs[exists]
   filtRs <- filtRs[exists]
 
-  errF <- dada2::learnErrors(filtFs, multithread = multi)
-  errR <- dada2::learnErrors(filtRs, multithread = multi)
+  errF <- dada2::learnErrors(filtFs, multithread = multi, verbose = chatty)
+  errR <- dada2::learnErrors(filtRs, multithread = multi, verbose = chatty)
 
   if (where != "example") { # create some dada2 figs
 
@@ -115,8 +116,8 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
     names(derepRs) <- sample.names[exists]
   }
 
-  dadaFs <- dada2::dada(derepFs, err = errF, multithread = multi)
-  dadaRs <- dada2::dada(derepRs, err = errR, multithread = multi)
+  dadaFs <- dada2::dada(derepFs, err = errF, multithread = multi, verbose = chatty)
+  dadaRs <- dada2::dada(derepRs, err = errR, multithread = multi, verbose = chatty)
 
   mergers <- dada2::mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose = chatty)
 
@@ -155,5 +156,11 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   }
 
 
+  if(chatty == TRUE){
   return(seqtab.nochim)
+  }
+
+  if(chatty == FALSE){
+    return(invisible(seqtab.nochim))
+  }
 }

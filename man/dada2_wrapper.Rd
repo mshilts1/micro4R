@@ -9,6 +9,7 @@ dada2_wrapper(
   patternF = "_R1_001.fastq.gz",
   patternR = "_R2_001.fastq.gz",
   multi = FALSE,
+  chatty = TRUE,
   ...
 )
 }
@@ -20,6 +21,8 @@ dada2_wrapper(
 \item{patternR}{Pattern of the reverse/R2 reads. Default is Illumina standard}
 
 \item{multi}{Should multithreading be done? Can use this to set to TRUE or FALSE for entire wrapper.}
+
+\item{chatty}{How chatty should code be? Default is TRUE, but set to FALSE if you don't want so much text going to the console.}
 
 \item{...}{Allows passing of arguments to nested functions}
 }
