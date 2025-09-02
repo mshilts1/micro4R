@@ -151,8 +151,16 @@ ref_db <- function(db) {
 
   return(db)
 }
-dada2_settings <- function(train, species){
-  train <- ref_db()
-  species <- ref_db()
-
+#' Title
+#'
+#' @returns Downloads zipped folder of full fastq files used in example
+#' @export
+#'
+#' @examples
+full_example_data <- function(){
+  googledrive::drive_download(
+  "index-chicken-sheet",
+  path = "index-chicken-sheet.csv",
+  overwrite = TRUE
+)
 }

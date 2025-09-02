@@ -15,18 +15,22 @@
 #'
 #' @examples
 #' dada2_wrapper("example")
-dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, ...) {
+dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, ...) {
 
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
   if (is.null(where)) {
     where <- findUserCD()
-    print(sprintf("As no argument was provided for the 'path' of your fastq files, this wrapper will assume you want to work in your current directory, %s", where))
+    if(chatty == TRUE) {
+      print(sprintf("As no argument was provided for the 'path' of your fastq files, this wrapper will assume you want to work in your current directory, %s", where))
+    }
   }
 
   if(where == "example"){
     outdir <- tempdir()
-    print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
+    if(chatty == TRUE) {
+      print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
+    }
   }
   if(where != "example"){
     if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
@@ -103,8 +107,8 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
     grDevices::dev.off()
   }
 
-  derepFs <- dada2::derepFastq(filtFs, verbose = TRUE)
-  derepRs <- dada2::derepFastq(filtRs, verbose = TRUE)
+  derepFs <- dada2::derepFastq(filtFs, verbose = chatty)
+  derepRs <- dada2::derepFastq(filtRs, verbose = chatty)
 
   if (where != "example") {
     names(derepFs) <- sample.names[exists]
@@ -114,7 +118,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   dadaFs <- dada2::dada(derepFs, err = errF, multithread = multi)
   dadaRs <- dada2::dada(derepRs, err = errR, multithread = multi)
 
-  mergers <- dada2::mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose = TRUE)
+  mergers <- dada2::mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose = chatty)
 
   seqtab <- dada2::makeSequenceTable(mergers)
 
@@ -124,15 +128,17 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
   [which(as.numeric(as.character(sizedist[, 2])) > 260)])
   filtseqs / sum(sizedist[, 3])
   seqtab2 <- seqtab[, nchar(colnames(seqtab)) %in% seq(240, 260)]
-  table(nchar(getSequences(seqtab2)))
-  seqtab.nochim <- dada2::removeBimeraDenovo(seqtab2, method = "consensus", multithread = multi, verbose = TRUE)
-  dim(seqtab.nochim)
+  #table(nchar(getSequences(seqtab2)))
+  seqtab.nochim <- dada2::removeBimeraDenovo(seqtab2, method = "consensus", multithread = multi, verbose = chatty)
+  #dim(seqtab.nochim)
   sum(seqtab.nochim) / sum(seqtab)
   getN <- function(x) sum(getUniques(x))
   track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
   colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
   rownames(track) <- sample.names
+  if(chatty == TRUE){
   head(track)
+  }
 
   seqtab.nochim.tibble <- as_tibble(seqtab, rownames = "SampleID")
   track.tibble <- as_tibble(track, rownames = "SampleID")

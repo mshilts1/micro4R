@@ -51,7 +51,7 @@ Included with the package is an extremely tiny toy example to demonstrate its ma
 library(micro4R)
 ## basic example code
 
-dada2_wrapper("example")
+dada2_wrapper("example", chatty = FALSE)
 ```
 
 
