@@ -64,10 +64,6 @@ whereFastqs <- function(path = NULL, chatty = TRUE) {
     summarise(total_value = sum(.data$R2)) %>%
     as.numeric()
 
-  # fastq_sum <- sum(files[[any_fq]])
-  # r1_sum <- sum(files[[R1]])
-  # r2_sum <- sum(files[[R2]])
-
   if (r1_sum == r2_sum & r1_sum * 2 == fastq_sum) {
     print(sprintf("The total number of potential FASTQ files detected in the directory was %s, and the number of potential forward reads and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum))
   }

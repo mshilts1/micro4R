@@ -62,36 +62,32 @@ seven samples from this study, using
 reads** from each FASTQ file so that the files would take up minimal
 space and the example would run quickly.
 
+The first thing we’ll do is run ‘dada2_wrapper’ can take a number of
+arguments, but the most important one is ‘where’, which is the path to
+where your FASTQ files are located. For demonstration purposes, it’s
+been set to the path of the the subsampled example FASTQ files.
+
 ``` r
 library(micro4R)
-## basic example code
 
 dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
-#> # A tibble: 14 × 1
-#>    value                                                            
-#>    <chr>                                                            
-#>  1 SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R1_001.fastq.gz
-#>  2 SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R2_001.fastq.gz
-#>  3 SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R1_001.fastq.gz
-#>  4 SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R2_001.fastq.gz
-#>  5 SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R1_001.fastq.gz
-#>  6 SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R2_001.fastq.gz
-#>  7 SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R1_001.fastq.gz
-#>  8 SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R2_001.fastq.gz
-#>  9 SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R1_001.fastq.gz
-#> 10 SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R2_001.fastq.gz
-#> 11 SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R1_001.fastq.gz
-#> 12 SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R2_001.fastq.gz
-#> 13 SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R1_001.fastq.gz
-#> 14 SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R2_001.fastq.gz
 #> [1] "The total number of potential FASTQ files detected in the directory was 14, and the number of potential forward reads and reverse reads was 7. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!"
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpH0RVkG/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpTSVymx/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
 
-If you were running this with your own data, set ‘where’ to the path
-where your fastq files are stored.
+You can see the full path of where these are:
+
+``` r
+
+normalizePath("inst/extdata/f")
+#> [1] "/Users/meghanshilts/Library/CloudStorage/Dropbox/Mac/Desktop/micro4R/inst/extdata/f"
+```
+
+If you’re running this with your own data, set ‘where’ to the path where
+your fastq files are stored. If you leave it empty (e.g., run
+`dada2_wrapper()`, it will default to your current working directory.)
 
 Skip to the next section if you don’t care. If you’d like to run through
 this the full fastq files can be downloaded from SRA or as a zipped
