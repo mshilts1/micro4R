@@ -53,7 +53,7 @@ The first thing we'll do on these files is run 'dada2_wrapper'. This wrapper can
 ```{r example1}
 library(micro4R)
 
-dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
+asvtable <- dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
 
 ```
 
@@ -65,6 +65,7 @@ You can see the full path of where these are:
 normalizePath("inst/extdata/f")
 
 ```
+footnote test^[this is a test of a footnote]
 
 If you're running this with your own data, set 'where' to the path where your fastq files are stored. If you leave it empty (e.g., run `dada2_wrapper()`, it will default to your current working directory.) 'chatty' was set to FALSE because tons of information gets printed to the console otherwise; I'd recommend setting it to TRUE (the default) when you're processing data for real, as the information is useful, just too much here.    
 
@@ -72,6 +73,7 @@ Next, we want to assign taxonomy to the reads.
 
 ```{r example3}
 
+#taxa <- dada2_taxa(asvtable)
 
 ```
 

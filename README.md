@@ -64,9 +64,9 @@ FASTQ files included with the package.
 ``` r
 library(micro4R)
 
-dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
+asvtable <- dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
 #> [1] "The total number of potential FASTQ files detected in the directory was 14, and the number of potential forward reads and reverse reads was 7. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!"
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpXymNGe/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpYeuvYT/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -79,6 +79,8 @@ normalizePath("inst/extdata/f")
 #> [1] "/Users/meghanshilts/Library/CloudStorage/Dropbox/Mac/Desktop/micro4R/inst/extdata/f"
 ```
 
+footnote test[^1]
+
 If you’re running this with your own data, set ‘where’ to the path where
 your fastq files are stored. If you leave it empty (e.g., run
 `dada2_wrapper()`, it will default to your current working directory.)
@@ -88,6 +90,11 @@ when you’re processing data for real, as the information is useful, just
 too much here.
 
 Next, we want to assign taxonomy to the reads.
+
+``` r
+
+#taxa <- dada2_taxa(asvtable)
+```
 
 Move information to the bottom for anyone who wants more details
 
@@ -124,3 +131,5 @@ s_height = .5, p_color = “black”, h_fill = “\#6ed5f5”, h_color=
 built R 4.5.1  
 RStudio Version 2025.05.1+513 (2025.05.1+513) macOS Sequoia Version
 15.6.1
+
+[^1]: this is a test of a footnote

@@ -21,6 +21,8 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   taxa <- dada2::addSpecies(taxtab = taxa, refFasta = species_db, allowMultiple = FALSE, tryRC = FALSE, verbose = chatty)
   }
 
+  tibblefy(taxa)
+
   if (chatty == TRUE) {
     return(taxa)
   }
