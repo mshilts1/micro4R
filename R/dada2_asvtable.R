@@ -126,6 +126,8 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
 
   seqtab <- dada2::makeSequenceTable(mergers)
 
+  rownames(seqtab) <- gsub("_F_filt.fastq.gz", "", rownames(seqtab))
+
   # V4 region is ~250 bp, so sequences over this length are probably something else; we will get rid of anything > 260 bp
   sizedist <- data.frame(t(table(nchar(dada2::getSequences(seqtab)))))
   filtseqs <- sum(sizedist[, 3]

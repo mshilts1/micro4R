@@ -219,3 +219,8 @@ matrixify <- function(x){
     x <- as.matrix(x)
   }
 }
+example_metadata <- function(){
+  filepath <- system.file("extdata/objects", package = "micro4R", "metadata.csv", mustWork = TRUE)
+  metadata <- read.csv(file = filepath, header=TRUE)
+  return(metadata)
+}

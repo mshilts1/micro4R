@@ -45,7 +45,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
 
 
 
-  tibblefy(taxa)
+  as_tibble(taxa, rownames = "ASV", .name_repair = 'unique')
 
   #  if (where == "example" | where == "inst/extdata/f") {
   #    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)

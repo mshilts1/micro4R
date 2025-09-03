@@ -55,43 +55,102 @@ Included with the package is an extremely tiny toy example to
 demonstrate its major functionality, using subsampled publicly available
 [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).
 
-The first thing we’ll do on these files is run ‘dada2_wrapper’. This
-wrapper can take a number of arguments, but the most important one is
-‘where’, which is the path to where your FASTQ files are located. For
-demonstration purposes, it’s been set to the realtive path of the the
-example FASTQ files that are included with the package.
+The first thing we’ll do on these files is run ‘dada2_asvtable()’. This
+function can take a number of arguments, but the most important one is
+‘where’, which is the path to where your FASTQ files are located.  
+For demonstration purposes, it’s been set to the relative path of the
+the example FASTQ files that are included with the package:
 
 ``` r
 library(micro4R)
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpPlU8Ey/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpATZslb/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
+head(asvtable)
+#>                                                   TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                            44
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                            24
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                             0
+#>                                                   TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                            35
+#>                                                   TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                              0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                              0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                              0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                              0
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                             12
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                              6
+#>                                                   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                            13
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                             0
+#>                                                   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                             0
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                            13
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                             0
+#>                                                   TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG
+#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                            0
+#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                            0
+#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                            0
+#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                            0
+#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                            3
+#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                            0
 ```
-
-You can see the full path of where these are:
-
-``` r
-normalizePath("inst/extdata/f")
-#> [1] "/Users/meghanshilts/Library/CloudStorage/Dropbox/Mac/Desktop/micro4R/inst/extdata/f"
-```
-
-footnote test[^1]
 
 If you’re running this with your own data, set ‘where’ to the path where
 your fastq files are stored. If you leave it empty (e.g., run
-`dada2_wrapper()`, it will default to your current working directory.)
-‘chatty’ was set to FALSE because tons of information gets printed to
+`dada2_asvtable()`, it will default to your current working directory.)
+(‘chatty’ was set to FALSE because tons of information gets printed to
 the console otherwise; I’d recommend setting it to TRUE (the default)
-when you’re processing data for real, as the information is useful, just
-too much here.
+when you’re processing data for real, as the information is useful, but
+just too much here.)
 
-Next, we want to assign taxonomy to the reads.
+Now we have a bunch of literal DNA sequences. That’s great, but what are
+they? The next step will take the sequences and compare them against a
+database or two of sequences with known taxonomy:
 
 ``` r
-# taxa <- dada2_taxa(asvtable)
+train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
+species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
+dada2_taxa(asvtable = asvtable, train = train, species = species, chatty = FALSE)
 ```
+
+There are two databases that we’re using for taxonomic assignment
+here:  
+1. ‘train’ needs to be the path to whatever you’d like to use as the
+“training set of reference sequences with known taxonomy”.  
+2. ‘species’ is OPTIONAL. If you’d like to use this option, provide the
+path to a specifically formatted species assignment database. (Read more
+[here](https://benjjneb.github.io/dada2/assign.html#species-assignment).)
+
+**The two databases used in the example here are comically small and
+artificial, and should only ever be used for testing and demonstration
+purposes.** You’ll definitely want/need to download the real
+[databases](https://benjjneb.github.io/dada2/training.html) for your
+actual data!
+
+There are many options for taxonomic databases you can use; the major
+players are SILVA, RDP, GreenGenes, and UNITE. Please go
+[here](https://benjjneb.github.io/dada2/training.html) for details and
+links. I tend to usually use the SILVA databases, but you don’t have to.
+
+------------------------------------------------------------------------
 
 Move information to the bottom for anyone who wants more details
 
@@ -128,5 +187,3 @@ s_height = .5, p_color = “black”, h_fill = “\#6ed5f5”, h_color=
 built R 4.5.1  
 RStudio Version 2025.05.1+513 (2025.05.1+513) macOS Sequoia Version
 15.6.1
-
-[^1]: this is a test of a footnote
