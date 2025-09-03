@@ -30,6 +30,10 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     stop("You must provide the path to a taxonomic reference database. See here for options and more info: https://benjjneb.github.io/dada2/training.html")
   }
 
+  if (!is.matrix(asvtable)){
+    asvtable <- matrixify(asvtable)
+  }
+
   train_db <- ref_db(train, chatty = chatty)
 
   taxa <- dada2::assignTaxonomy(seqs = asvtable, refFasta = train_db, multithread = multi, verbose = chatty)

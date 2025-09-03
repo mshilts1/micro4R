@@ -212,3 +212,10 @@ full_example_data <- function(path = NULL) {
 tibblefy <- function(x) {
   as_tibble(x, rownames = "SampleID", .name_repair = 'unique')
 }
+matrixify <- function(x){
+  if (!is.matrix(x)){
+    rownames(x) <- x[, 1]
+    x <- x[, -1]
+    x <- as.matrix(x)
+  }
+}
