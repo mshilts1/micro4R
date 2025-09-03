@@ -58,15 +58,14 @@ demonstrate its major functionality, using subsampled publicly available
 The first thing we’ll do on these files is run ‘dada2_wrapper’. This
 wrapper can take a number of arguments, but the most important one is
 ‘where’, which is the path to where your FASTQ files are located. For
-demonstration purposes, it’s been set to the path of the the example
-FASTQ files included with the package.
+demonstration purposes, it’s been set to the realtive path of the the
+example FASTQ files that are included with the package.
 
 ``` r
 library(micro4R)
 
-asvtable <- dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
-#> [1] "The total number of potential FASTQ files detected in the directory was 14, and the number of potential forward reads and reverse reads was 7. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!"
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpWrSgEK/dada2_out/filtered
+asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpPlU8Ey/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```

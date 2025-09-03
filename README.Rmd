@@ -47,13 +47,13 @@ I'll run through the smallest and simplest possible use case below. For more det
 
 Included with the package is an extremely tiny toy example to demonstrate its major functionality, using subsampled publicly available  [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).   
 
-The first thing we'll do on these files is run 'dada2_wrapper'. This wrapper can take a number of arguments, but the most important one is 'where', which is the path to where your FASTQ files are located. For demonstration purposes, it's been set to the path of the the example FASTQ files included with the package. 
+The first thing we'll do on these files is run 'dada2_wrapper'. This wrapper can take a number of arguments, but the most important one is 'where', which is the path to where your FASTQ files are located. For demonstration purposes, it's been set to the realtive path of the the example FASTQ files that are included with the package. 
 
 
 ```{r example1}
 library(micro4R)
 
-asvtable <- dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
+asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
 ```
 
 You can see the full path of where these are:
