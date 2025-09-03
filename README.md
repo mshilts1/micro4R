@@ -66,7 +66,7 @@ library(micro4R)
 
 asvtable <- dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
 #> [1] "The total number of potential FASTQ files detected in the directory was 14, and the number of potential forward reads and reverse reads was 7. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!"
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpYeuvYT/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpWrSgEK/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -74,7 +74,6 @@ asvtable <- dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
 You can see the full path of where these are:
 
 ``` r
-
 normalizePath("inst/extdata/f")
 #> [1] "/Users/meghanshilts/Library/CloudStorage/Dropbox/Mac/Desktop/micro4R/inst/extdata/f"
 ```
@@ -92,8 +91,7 @@ too much here.
 Next, we want to assign taxonomy to the reads.
 
 ``` r
-
-#taxa <- dada2_taxa(asvtable)
+# taxa <- dada2_taxa(asvtable)
 ```
 
 Move information to the bottom for anyone who wants more details

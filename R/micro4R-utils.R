@@ -32,8 +32,9 @@ whereFastqs <- function(path = NULL, chatty = TRUE) {
   }
 
   files <- tibble::as_tibble(list.files(path, pattern = "\\."))
-  if(chatty == TRUE){
-    print(files)}
+  if (chatty == TRUE) {
+    print(files)
+  }
 
   fastq_filename_patterns <- tibble::tribble(
     ~pattern,
@@ -84,7 +85,6 @@ whereFastqs <- function(path = NULL, chatty = TRUE) {
   if (chatty == FALSE) {
     return(invisible(path))
   }
-
 }
 #' A simple tibble of the names of maintained dada2-formatted taxonomy reference databases
 #'
@@ -196,6 +196,6 @@ full_example_data <- function(path = NULL) {
     print("To use this function, package 'googledrive' must be installed first. Visit https://googledrive.tidyverse.org/index.html for more information.")
   }
 }
-tibblefy <- function(x){
+tibblefy <- function(x) {
   as_tibble(x, rownames = "SampleID")
 }

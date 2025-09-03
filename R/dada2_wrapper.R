@@ -26,7 +26,7 @@ dada2_wrapper <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR 
     }
   }
 
-  if(where != "example"){
+  if (where != "example") {
     whereFastqs(where, chatty = chatty)
   }
 

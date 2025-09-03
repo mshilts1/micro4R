@@ -17,8 +17,8 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   taxa <- dada2::assignTaxonomy(seqs = asvtable, refFasta = train_db, multithread = multi, verbose = chatty)
 
   if (!is.null(species)) {
-  species_db <- ref_db(species, chatty = chatty)
-  taxa <- dada2::addSpecies(taxtab = taxa, refFasta = species_db, allowMultiple = FALSE, tryRC = FALSE, verbose = chatty)
+    species_db <- ref_db(species, chatty = chatty)
+    taxa <- dada2::addSpecies(taxtab = taxa, refFasta = species_db, allowMultiple = FALSE, tryRC = FALSE, verbose = chatty)
   }
 
   tibblefy(taxa)

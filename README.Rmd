@@ -54,16 +54,13 @@ The first thing we'll do on these files is run 'dada2_wrapper'. This wrapper can
 library(micro4R)
 
 asvtable <- dada2_wrapper(where = "inst/extdata/f", chatty = FALSE)
-
 ```
 
 You can see the full path of where these are:
 
 
 ```{r example2}
-
 normalizePath("inst/extdata/f")
-
 ```
 footnote test^[this is a test of a footnote]
 
@@ -72,9 +69,7 @@ If you're running this with your own data, set 'where' to the path where your fa
 Next, we want to assign taxonomy to the reads.
 
 ```{r example3}
-
-#taxa <- dada2_taxa(asvtable)
-
+# taxa <- dada2_taxa(asvtable)
 ```
 
 
