@@ -8,6 +8,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_taxa.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_wrapper.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/exampleData.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/example_metadata.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/findUserCD.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/full_example_data.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/index.html</loc></url>
@@ -16,8 +17,10 @@
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleMeta.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleSeqtab.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleTaxa.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/matrixify.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/pipe.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/ref_db.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/tibblefy.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/whereFastqs.html</loc></url>
 </urlset>
 
