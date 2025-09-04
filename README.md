@@ -81,7 +81,7 @@ the example FASTQ files that are included with the package:
 library(micro4R)
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpIdNNmo/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmppNWwdQ/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -155,23 +155,15 @@ links. I tend to usually use the SILVA databases, but you don’t have to.
 
 Let’s take a look at the taxonomy assignment table:
 
-    #> # A tibble: 7 × 7
-    #>   ASV       TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³
-    #>   <chr>                      <int>                  <int>                  <int>
-    #> 1 SAMPLED_…                      0                      0                      0
-    #> 2 SAMPLED_…                      0                      0                      0
-    #> 3 SAMPLED_…                     44                      0                      0
-    #> 4 SAMPLED_…                     24                      0                      0
-    #> 5 SAMPLED_…                      0                      0                     12
-    #> 6 SAMPLED_…                      0                     35                      6
-    #> 7 SAMPLED_…                      0                      0                      0
-    #> # ℹ abbreviated names:
-    #> #   ¹​TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG,
-    #> #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG,
-    #> #   ³​TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG
-    #> # ℹ 3 more variables:
-    #> #   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG <int>,
-    #> #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG <int>, …
+    #> # A tibble: 6 × 9
+    #>   ASV   ASV                      Kingdom Phylum Class Order Family Genus Species
+    #>   <chr> <chr>                    <chr>   <chr>  <chr> <chr> <chr>  <chr> <chr>  
+    #> 1 1     TACGTAGGTGGCAAGCGTTATCC… Bacter… Bacil… Baci… Stap… Staph… Stap… <NA>   
+    #> 2 2     TACGGAGGGTGCAAGCGTTAATC… Bacter… Pseud… Gamm… Ente… Enter… Kleb… <NA>   
+    #> 3 3     TACGTAGGGTGCGAGCGTTGTCC… Bacter… Actin… Acti… Myco… Coryn… Cory… <NA>   
+    #> 4 4     TACGTAGGGTGCAAGCGTTGTCC… Bacter… Actin… Acti… Myco… Coryn… Cory… <NA>   
+    #> 5 5     TACGTAGGTGACAAGCGTTGTCC… Bacter… Bacil… Baci… Lact… Carno… Dolo… pigrum 
+    #> 6 6     TACGTAGGTCCCGAGCGTTGTCC… Bacter… Bacil… Baci… Lact… Strep… Stre… <NA>
 
 ### Sample metadata
 

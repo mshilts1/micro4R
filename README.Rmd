@@ -96,7 +96,7 @@ There are many options for taxonomic databases you can use; the major players ar
 
 ```{r example3.1, echo = FALSE}
 
-taxa <- tibble::as_tibble(asvtable, rownames = "ASV")
+taxa <- tibble::as_tibble(taxa, rownames = "ASV")
 ```
 
 Let's take a look at the taxonomy assignment table:
