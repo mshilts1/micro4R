@@ -117,7 +117,8 @@ metadata <- example_metadata()
 metadata
 ```
 
-The first thing you may notice is the 'SampleIDs' are the kinds of IDs that only a computer could love. For my standard workflow, I like to keep the SampleIDs as the FASTQ file names for full 
+The first thing you may notice is the 'SampleIDs' are the kinds of IDs that only a computer could love. For my standard workflow, I like to keep the SampleIDs as the FASTQ file names for full transparency and so I can always easy go back and track down the original FASTQ ID.
+
 ___
 
 What kind of information you'll need here is highly dependent on your study, but there are some types of technical metadata that you'll want to always have, at least during 

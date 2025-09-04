@@ -81,7 +81,7 @@ the example FASTQ files that are included with the package:
 library(micro4R)
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpkEjD2z/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpIdNNmo/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -195,7 +195,10 @@ metadata
 
 The first thing you may notice is the ‘SampleIDs’ are the kinds of IDs
 that only a computer could love. For my standard workflow, I like to
-keep the SampleIDs as the FASTQ file names for full \_\_\_
+keep the SampleIDs as the FASTQ file names for full transparency and so
+I can always easy go back and track down the original FASTQ ID.
+
+------------------------------------------------------------------------
 
 What kind of information you’ll need here is highly dependent on your
 study, but there are some types of technical metadata that you’ll want
