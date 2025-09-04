@@ -73,35 +73,36 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>I’ll run through the smallest and simplest possible use case below. For more detailed help and documentation, please explore the vignettes <em>(link(s) TBA)</em>.</p>
+<p>I’ll run through the smallest and simplest possible use case below. For more detailed help and documentation, please explore the vignettes <em>(TBA)</em>.</p>
 <p>Included with the package is an extremely tiny toy example to demonstrate its major functionality, using subsampled publicly available <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992" class="external-link">data</a>.</p>
 <div class="section level3">
 <h3 id="making-the-asv-count-and-taxonomy-tables">Making the ASV count and taxonomy tables<a class="anchor" aria-label="anchor" href="#making-the-asv-count-and-taxonomy-tables"></a>
 </h3>
-<p>The first thing we’ll do on these files is run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>. This function can take a number of arguments, but the most important one is ‘where’, which is the path to where your FASTQ files are located.<br>
-For demonstration purposes, it’s been set to the relative path of the the example FASTQ files that are included with the package:</p>
+<p>The first thing we’ll do on these files is run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>, which is essentially a wrapper to generate an ASV count table by following a workflow similar to the <a href="https://benjjneb.github.io/dada2/tutorial.html" class="external-link">dada2 tutorial</a>.</p>
+<p>This function can take a number of arguments, but the most important one is ‘where’, which is the path to the folder where your FASTQ files are located.</p>
+<p>For demonstration purposes, it’s been set to the relative path of the the example FASTQ files that are included with the package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mshilts1.github.io/micro4R/">micro4R</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmprLwNiR/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpkEjD2z/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
-<p>If you’re running this with your own data, set ‘where’ to the path of the folder where your fastq files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
-<p>Let’s take a quick look at what this asvtable looks like:</p>
+<p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
+<p>Let’s take a quick look at what this asvtable looks like (using the <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> function so it prints more nicely):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">asvtable</span>, rownames <span class="op">=</span> <span class="st">"SampleID"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 7 × 7</span></span>
-<span><span class="co">#&gt;   SampleID  TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                      &lt;int&gt;                  &lt;int&gt;                  &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 SAMPLED_…                      0                      0                      0</span></span>
-<span><span class="co">#&gt; 2 SAMPLED_…                      0                      0                      0</span></span>
-<span><span class="co">#&gt; 3 SAMPLED_…                     44                      0                      0</span></span>
-<span><span class="co">#&gt; 4 SAMPLED_…                     24                      0                      0</span></span>
-<span><span class="co">#&gt; 5 SAMPLED_…                      0                      0                     12</span></span>
-<span><span class="co">#&gt; 6 SAMPLED_…                      0                     35                      6</span></span>
-<span><span class="co">#&gt; 7 SAMPLED_…                      0                      0                      0</span></span>
+<span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">asvtable</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 7 × 6</span></span>
+<span><span class="co">#&gt;   TACGTAGGTGGCAAGCGTTATCCGGAATTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³</span></span>
+<span><span class="co">#&gt;                              &lt;int&gt;                  &lt;int&gt;                  &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1                                0                      0                      0</span></span>
+<span><span class="co">#&gt; 2                                0                      0                      0</span></span>
+<span><span class="co">#&gt; 3                               44                      0                      0</span></span>
+<span><span class="co">#&gt; 4                               24                      0                      0</span></span>
+<span><span class="co">#&gt; 5                                0                      0                     12</span></span>
+<span><span class="co">#&gt; 6                                0                     35                      6</span></span>
+<span><span class="co">#&gt; 7                                0                      0                      0</span></span>
 <span><span class="co">#&gt; # ℹ abbreviated names:</span></span>
 <span><span class="co">#&gt; #   ¹​TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG,</span></span>
 <span><span class="co">#&gt; #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG,</span></span>
@@ -109,24 +110,56 @@ For demonstration purposes, it’s been set to the relative path of the the exam
 <span><span class="co">#&gt; # ℹ 3 more variables:</span></span>
 <span><span class="co">#&gt; #   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG &lt;int&gt;,</span></span>
 <span><span class="co">#&gt; #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG &lt;int&gt;, …</span></span></code></pre></div>
-<p>We have a bunch of literal DNA sequences and their count for each sample. Since you’re (probably) not a computer, a string of hundreds of nucletotides is likely not something you can make much sense of by yourself. The next step will take those nucleotide sequences and compare them against a database (or two) of sequences with known taxonomy:</p>
+<p>We now have an ASV table, which is a bunch of literal DNA sequences and the count of each that was detected for each sample. Since you’re (probably) not a computer, a string of hundreds of nucletotides is likely not something you can make much sense of by yourself. The next step will take those nucleotide sequences and compare them against a database (or two) of sequences with known taxonomy:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">train</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"</span></span>
-<span><span class="va">species</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"</span></span>
-<span><span class="fu"><a href="reference/dada2_taxa.html">dada2_taxa</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">asvtable</span>, train <span class="op">=</span> <span class="va">train</span>, species <span class="op">=</span> <span class="va">species</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">train</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"</span> <span class="co"># set training database</span></span>
+<span><span class="va">species</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"</span>      <span class="co"># set species database </span></span>
+<span></span>
+<span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_taxa.html">dada2_taxa</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">asvtable</span>, train <span class="op">=</span> <span class="va">train</span>, species <span class="op">=</span> <span class="va">species</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>There are two databases that we’re using for taxonomic assignment here:<br>
 1. ‘train’ needs to be the path to whatever database you’d like to use as the “training set of reference sequences with known taxonomy”.<br>
 2. ‘species’ is OPTIONAL. If you’d like to use this option, provide the path to a specifically formatted species assignment database. (Read more <a href="https://benjjneb.github.io/dada2/assign.html#species-assignment" class="external-link">here</a>.)</p>
 <p><strong>The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!</strong> You’ll definitely need to download and use the real <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">databases</a> for your actual data!</p>
 <p>There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">here</a> for details and links. I tend to usually use the SILVA databases, but you don’t have to.</p>
+<p>Let’s take a look at the taxonomy assignment table:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 7</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   ASV       TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                      &lt;int&gt;                  &lt;int&gt;                  &lt;int&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 1 SAMPLED_…                      0                      0                      0</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 2 SAMPLED_…                      0                      0                      0</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 3 SAMPLED_…                     44                      0                      0</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 4 SAMPLED_…                     24                      0                      0</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 5 SAMPLED_…                      0                      0                     12</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 6 SAMPLED_…                      0                     35                      6</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 7 SAMPLED_…                      0                      0                      0</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; # ℹ abbreviated names:</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; #   ¹​TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG,</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG,</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; #   ³​TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 3 more variables:</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; #   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG &lt;int&gt;,</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG &lt;int&gt;, …</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="sample-metadata">Sample metadata<a class="anchor" aria-label="anchor" href="#sample-metadata"></a>
 </h3>
-<p>Next, we need to load in some metadata about our samples. What kind of information you’ll need here is highly dependent on your study, but there are some types of technical metadata abo</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/example_metadata.html">example_metadata</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<hr>
+<p>Next, we need to load in some metadata about our samples.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/example_metadata.html">example_metadata</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">metadata</span></span>
+<span><span class="co">#&gt; # A tibble: 7 × 6</span></span>
+<span><span class="co">#&gt;   SampleID                       LabID SampleType host_age host_sex Host_disease</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                          &lt;chr&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;       </span></span>
+<span><span class="co">#&gt; 1 SAMPLED_5080-MS-1_307-ATAGTAC… CTRL… negative …       NA &lt;NA&gt;     &lt;NA&gt;        </span></span>
+<span><span class="co">#&gt; 2 SAMPLED_5080-MS-1_313-GACATAG… CTRL… negative …       NA &lt;NA&gt;     &lt;NA&gt;        </span></span>
+<span><span class="co">#&gt; 3 SAMPLED_5080-MS-1_328-GATCTAC… part… Homo sapi…       33 female   healthy     </span></span>
+<span><span class="co">#&gt; 4 SAMPLED_5080-MS-1_339-ACTCACT… part… Homo sapi…       25 male     healthy     </span></span>
+<span><span class="co">#&gt; 5 SAMPLED_5348-MS-1_162-ACGTGCG… part… Homo sapi…       27 male     COVID-19    </span></span>
+<span><span class="co">#&gt; 6 SAMPLED_5348-MS-1_297-GTCTGCT… part… Homo sapi…       26 female   COVID-19    </span></span>
+<span><span class="co">#&gt; 7 SAMPLED_5348-MS-1_381-TGCTCGT… CTRL… not appli…       NA &lt;NA&gt;     &lt;NA&gt;</span></span></code></pre></div>
+<p>The first thing you may notice is the ‘SampleIDs’ are the kinds of IDs that only a computer could love. For my standard workflow, I like to keep the SampleIDs as the FASTQ file names for full ___</p>
+<p>What kind of information you’ll need here is highly dependent on your study, but there are some types of technical metadata that you’ll want to always have, at least during</p>
 <p>Move information to the bottom for anyone who wants more details</p>
 <p>subsampled FASTQ files from a <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/" class="external-link">manuscript</a> I co-authored with my colleagues, for which the raw data is publicly available under bioproject ID <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992" class="external-link">PRJNA726992</a>. From seven samples from this study, using <a href="https://github.com/lh3/seqtk" class="external-link">seqtk</a>, I randomly sampled <strong>only 50 reads</strong> from each FASTQ file so that the files would take up minimal space and the example would run quickly.</p>
 <p>If you’d like to run through this the full fastq files can be downloaded from SRA or as a zipped bolus <a href="https://drive.google.com/file/d/1NOvmsxFxWb1Vigq8rdb5SCfLLNu-Qjy8/view?usp=sharing" class="external-link">here</a></p>
