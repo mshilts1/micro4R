@@ -209,18 +209,71 @@ full_example_data <- function(path = NULL) {
     print("To use this function, package 'googledrive' must be installed first. Visit https://googledrive.tidyverse.org/index.html for more information.")
   }
 }
-tibblefy <- function(x) {
-  as_tibble(x, rownames = "SampleID", .name_repair = 'unique')
+#' tibblefy a specific type of data frame
+#'
+#' @param x data frame you want to turn into a tibble
+#' @param type asvtable or taxa
+#'
+#' @returns a tibble
+#' @export
+#'
+#' @examples
+#' filepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
+#' asvtable <- read.csv(file = filepath, header=TRUE)
+#' tibblefy(asvtable)
+tibblefy <- function(x, type = "asvtable") {
+  if(type != "asvtable" & type != "taxa"){
+    stop("Valid options for type are either 'asvtable' or 'taxa'.")
+  }
+
+  if(type == "asvtable"){
+    rownames <- "SampleID"
+  }
+
+  if(type == "taxa"){
+    rownames <- "ASV"
+  }
+
+  if(identical(rownames(x), as.character(1:nrow(x)))){
+    x <- as_tibble(x, .name_repair = 'unique')
+    return(x)
+  }
+
+  if(!identical(rownames(x), as.character(1:nrow(x)))){
+    x <- as_tibble(x, rownames = rownames, .name_repair = 'unique')
+    return(x)
+  }
+
 }
+#' Turn a data frame or tibble into a matrix
+#'
+#' @param x data frame or tibble
+#'
+#' @returns a matrix
+#' @export
+#'
+#' @examples
+#' asvtablepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
+#' asvtable <- read.csv(file = asvtablepath, header=TRUE)
+#' matrixify(asvtable)
 matrixify <- function(x){
   if (!is.matrix(x)){
     rownames(x) <- x[, 1]
     x <- x[, -1]
     x <- as.matrix(x)
+    return(x)
   }
 }
+#' Load in example metadata file
+#'
+#' @returns An example metadata file
+#' @export
+#'
+#' @examples
+#' metadata <- example_metadata()
 example_metadata <- function(){
   filepath <- system.file("extdata/objects", package = "micro4R", "metadata.csv", mustWork = TRUE)
   metadata <- read.csv(file = filepath, header=TRUE)
+  metadata <- tibble::as_tibble(metadata)
   return(metadata)
 }

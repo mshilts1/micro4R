@@ -34,12 +34,15 @@ This package does not create any brand new functionality and was built on the gr
 
 ## Installation
 
-You can install the development version of micro4R like so:
+All you really need is [R](https://cran.rstudio.com), but I'd recommend also downloading and working in [RStudio](https://posit.co/download/rstudio-desktop/). If you're a true newbie to R, there's tons of free [content](https://www.reddit.com/user/jjkraker/comments/zfhe1e/i_want_to_learn_basics_of_r_if_so_heres_a_reading/) to help you learn the basics.   
+
+Once you're set in R/RStudio, you can install the development version of micro4R like so:
 
 ``` r
 # install.packages("pak")
 pak::pak("mshilts1/micro4R")
 ```
+
 
 ## Example
 
@@ -47,7 +50,7 @@ I'll run through the smallest and simplest possible use case below. For more det
 
 Included with the package is an extremely tiny toy example to demonstrate its major functionality, using subsampled publicly available  [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).   
 
-The first thing we'll do on these files is run 'dada2_asvtable()'. This function can take a number of arguments, but the most important one is 'where', which is the path to where your FASTQ files are located.    
+The first thing we'll do on these files is run `dada2_asvtable()`. This function can take a number of arguments, but the most important one is 'where', which is the path to where your FASTQ files are located.    
 For demonstration purposes, it's been set to the relative path of the the example FASTQ files that are included with the package:
 
 

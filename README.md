@@ -38,7 +38,15 @@ to explore multiple tools.
 
 ## Installation
 
-You can install the development version of micro4R like so:
+All you really need is [R](https://cran.rstudio.com), but I’d recommend
+also downloading and working in
+[RStudio](https://posit.co/download/rstudio-desktop/). If you’re a true
+newbie to R, there’s tons of free
+[content](https://www.reddit.com/user/jjkraker/comments/zfhe1e/i_want_to_learn_basics_of_r_if_so_heres_a_reading/)
+to help you learn the basics.
+
+Once you’re set in R/RStudio, you can install the development version of
+micro4R like so:
 
 ``` r
 # install.packages("pak")
@@ -55,7 +63,7 @@ Included with the package is an extremely tiny toy example to
 demonstrate its major functionality, using subsampled publicly available
 [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).
 
-The first thing we’ll do on these files is run ‘dada2_asvtable()’. This
+The first thing we’ll do on these files is run `dada2_asvtable()`. This
 function can take a number of arguments, but the most important one is
 ‘where’, which is the path to where your FASTQ files are located.  
 For demonstration purposes, it’s been set to the relative path of the
@@ -65,7 +73,7 @@ the example FASTQ files that are included with the package:
 library(micro4R)
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmp8ajRV1/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmp00Rjvs/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 tibble::as_tibble(asvtable, rownames = "SampleID")
