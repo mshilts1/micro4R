@@ -50,15 +50,15 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   #  if (where == "example" | where == "inst/extdata/f") {
   #    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
     outdir <- tempdir()
-    write.csv(tibblefy(taxa), file = sprintf("%s/dada2_out/taxa.csv", outdir), row.names = FALSE)
+    write.csv(tibblefy(taxa, type = "taxa"), file = sprintf("%s/dada2_out/taxa.csv", outdir), row.names = FALSE)
     on.exit(unlink(outdir), add = TRUE)
   #  }
 
   if (chatty == TRUE) {
-    return(tibblefy(taxa))
+    return(tibblefy(taxa, type = "taxa"))
   }
 
   if (chatty == FALSE) {
-    return(invisible(tibblefy(taxa)))
+    return(invisible(tibblefy(taxa, type = "taxa")))
   }
 }

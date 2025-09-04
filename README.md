@@ -57,7 +57,7 @@ pak::pak("mshilts1/micro4R")
 
 I’ll run through the smallest and simplest possible use case below. For
 more detailed help and documentation, please explore the vignettes
-*(link(s) TBA)*.
+*(TBA)*.
 
 Included with the package is an extremely tiny toy example to
 demonstrate its major functionality, using subsampled publicly available
@@ -65,9 +65,15 @@ demonstrate its major functionality, using subsampled publicly available
 
 ### Making the ASV count and taxonomy tables
 
-The first thing we’ll do on these files is run `dada2_asvtable()`. This
-function can take a number of arguments, but the most important one is
-‘where’, which is the path to where your FASTQ files are located.  
+The first thing we’ll do on these files is run `dada2_asvtable()`, which
+is essentially a wrapper to generate an ASV count table by following a
+workflow similar to the [dada2
+tutorial](https://benjjneb.github.io/dada2/tutorial.html).
+
+This function can take a number of arguments, but the most important one
+is ‘where’, which is the path to the folder where your FASTQ files are
+located.
+
 For demonstration purposes, it’s been set to the relative path of the
 the example FASTQ files that are included with the package:
 
@@ -75,34 +81,35 @@ the example FASTQ files that are included with the package:
 library(micro4R)
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmprLwNiR/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpkEjD2z/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
 
 If you’re running this with your own data, set ‘where’ to the path of
-the folder where your fastq files are stored. If you leave it empty
+the folder where your FASTQ files are stored. If you leave it empty
 (e.g., run `dada2_asvtable()`), it will default to your current working
 directory. (‘chatty’ was set to FALSE because tons of information gets
 printed to the console otherwise; I’d recommend setting it to TRUE (the
 default) when you’re processing data for real, as the information is
 useful, but just too much here.)
 
-Let’s take a quick look at what this asvtable looks like:
+Let’s take a quick look at what this asvtable looks like (using the
+`tibble::as_tibble()` function so it prints more nicely):
 
 ``` r
 
-tibble::as_tibble(asvtable, rownames = "SampleID")
-#> # A tibble: 7 × 7
-#>   SampleID  TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³
-#>   <chr>                      <int>                  <int>                  <int>
-#> 1 SAMPLED_…                      0                      0                      0
-#> 2 SAMPLED_…                      0                      0                      0
-#> 3 SAMPLED_…                     44                      0                      0
-#> 4 SAMPLED_…                     24                      0                      0
-#> 5 SAMPLED_…                      0                      0                     12
-#> 6 SAMPLED_…                      0                     35                      6
-#> 7 SAMPLED_…                      0                      0                      0
+tibble::as_tibble(asvtable)
+#> # A tibble: 7 × 6
+#>   TACGTAGGTGGCAAGCGTTATCCGGAATTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³
+#>                              <int>                  <int>                  <int>
+#> 1                                0                      0                      0
+#> 2                                0                      0                      0
+#> 3                               44                      0                      0
+#> 4                               24                      0                      0
+#> 5                                0                      0                     12
+#> 6                                0                     35                      6
+#> 7                                0                      0                      0
 #> # ℹ abbreviated names:
 #> #   ¹​TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG,
 #> #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG,
@@ -112,16 +119,18 @@ tibble::as_tibble(asvtable, rownames = "SampleID")
 #> #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG <int>, …
 ```
 
-We have a bunch of literal DNA sequences and their count for each
-sample. Since you’re (probably) not a computer, a string of hundreds of
-nucletotides is likely not something you can make much sense of by
-yourself. The next step will take those nucleotide sequences and compare
-them against a database (or two) of sequences with known taxonomy:
+We now have an ASV table, which is a bunch of literal DNA sequences and
+the count of each that was detected for each sample. Since you’re
+(probably) not a computer, a string of hundreds of nucletotides is
+likely not something you can make much sense of by yourself. The next
+step will take those nucleotide sequences and compare them against a
+database (or two) of sequences with known taxonomy:
 
 ``` r
-train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
-species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
-dada2_taxa(asvtable = asvtable, train = train, species = species, chatty = FALSE)
+train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz" # set training database
+species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"      # set species database 
+
+taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species, chatty = FALSE)
 ```
 
 There are two databases that we’re using for taxonomic assignment
@@ -144,17 +153,53 @@ players are SILVA, RDP, GreenGenes, and UNITE. Please go
 [here](https://benjjneb.github.io/dada2/training.html) for details and
 links. I tend to usually use the SILVA databases, but you don’t have to.
 
+Let’s take a look at the taxonomy assignment table:
+
+    #> # A tibble: 7 × 7
+    #>   ASV       TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³
+    #>   <chr>                      <int>                  <int>                  <int>
+    #> 1 SAMPLED_…                      0                      0                      0
+    #> 2 SAMPLED_…                      0                      0                      0
+    #> 3 SAMPLED_…                     44                      0                      0
+    #> 4 SAMPLED_…                     24                      0                      0
+    #> 5 SAMPLED_…                      0                      0                     12
+    #> 6 SAMPLED_…                      0                     35                      6
+    #> 7 SAMPLED_…                      0                      0                      0
+    #> # ℹ abbreviated names:
+    #> #   ¹​TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG,
+    #> #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG,
+    #> #   ³​TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG
+    #> # ℹ 3 more variables:
+    #> #   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG <int>,
+    #> #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG <int>, …
+
 ### Sample metadata
 
-Next, we need to load in some metadata about our samples. What kind of
-information you’ll need here is highly dependent on your study, but
-there are some types of technical metadata abo
+Next, we need to load in some metadata about our samples.
 
 ``` r
 metadata <- example_metadata()
+
+metadata
+#> # A tibble: 7 × 6
+#>   SampleID                       LabID SampleType host_age host_sex Host_disease
+#>   <chr>                          <chr> <chr>         <int> <chr>    <chr>       
+#> 1 SAMPLED_5080-MS-1_307-ATAGTAC… CTRL… negative …       NA <NA>     <NA>        
+#> 2 SAMPLED_5080-MS-1_313-GACATAG… CTRL… negative …       NA <NA>     <NA>        
+#> 3 SAMPLED_5080-MS-1_328-GATCTAC… part… Homo sapi…       33 female   healthy     
+#> 4 SAMPLED_5080-MS-1_339-ACTCACT… part… Homo sapi…       25 male     healthy     
+#> 5 SAMPLED_5348-MS-1_162-ACGTGCG… part… Homo sapi…       27 male     COVID-19    
+#> 6 SAMPLED_5348-MS-1_297-GTCTGCT… part… Homo sapi…       26 female   COVID-19    
+#> 7 SAMPLED_5348-MS-1_381-TGCTCGT… CTRL… not appli…       NA <NA>     <NA>
 ```
 
-------------------------------------------------------------------------
+The first thing you may notice is the ‘SampleIDs’ are the kinds of IDs
+that only a computer could love. For my standard workflow, I like to
+keep the SampleIDs as the FASTQ file names for full \_\_\_
+
+What kind of information you’ll need here is highly dependent on your
+study, but there are some types of technical metadata that you’ll want
+to always have, at least during
 
 Move information to the bottom for anyone who wants more details
 

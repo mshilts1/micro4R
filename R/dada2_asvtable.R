@@ -160,7 +160,7 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
     on.exit(unlink(outdir), add = TRUE)
   }
 
-  tibblefy(seqtab.nochim)
+  tibblefy(seqtab.nochim, type = "asvtable")
 
   if (chatty == TRUE) {
     return(seqtab.nochim)
