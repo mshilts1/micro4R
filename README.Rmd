@@ -100,7 +100,7 @@ There are many options for taxonomic databases you can use; the major players ar
 Let's take a look at the taxonomy assignment table:
 
 ```{r example3.2, echo = FALSE}
-taxa
+tibble::as_tibble(taxa, rownames = "ASV")
 ```
 
 
