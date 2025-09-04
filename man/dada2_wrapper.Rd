@@ -2,36 +2,21 @@
 % Please edit documentation in R/dada2_wrapper.R
 \name{dada2_wrapper}
 \alias{dada2_wrapper}
-\title{dada2 Wrapper}
+\title{dada2 wrapper}
 \usage{
-dada2_wrapper(
-  where = NULL,
-  patternF = "_R1_001.fastq.gz",
-  patternR = "_R2_001.fastq.gz",
-  multi = FALSE,
-  chatty = TRUE,
-  ...
-)
+dada2_wrapper(...)
 }
 \arguments{
-\item{where}{Path to your fastq files. Run \code{dada2_wrapper(path = "example")} if you want to run the example data.}
-
-\item{patternF}{Pattern of the forward/R1 reads. Default is Illumina standard.}
-
-\item{patternR}{Pattern of the reverse/R2 reads. Default is Illumina standard}
-
-\item{multi}{Should multithreading be done? Can use this to set to TRUE or FALSE for entire wrapper.}
-
-\item{chatty}{How chatty should code be? Default is TRUE, but set to FALSE if you don't want so much text going to the console.}
-
 \item{...}{Allows passing of arguments to nested functions}
 }
 \value{
 dada2 ASV table and taxonomy table
 }
 \description{
-dada2 Wrapper
+dada2 wrapper
 }
 \examples{
-dada2_wrapper("example")
+train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
+species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
+dada2_wrapper(where = "example", train = train, species = species)
 }

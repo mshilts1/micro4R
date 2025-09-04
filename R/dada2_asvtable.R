@@ -7,7 +7,7 @@
 #' @param ... Allows passing of arguments to nested functions
 #' @param chatty How chatty should code be? Default is TRUE, but set to FALSE if you don't want so much text going to the console.
 #'
-#' @returns dada2 ASV table and taxonomy table
+#' @returns dada2 ASV table
 #' @export
 #' @import dada2
 #' @import rlang

@@ -27,7 +27,7 @@ dada2_asvtable(
 \item{...}{Allows passing of arguments to nested functions}
 }
 \value{
-dada2 ASV table and taxonomy table
+dada2 ASV table
 }
 \description{
 dada2 workflow to generate ASV table
