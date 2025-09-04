@@ -85,14 +85,13 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mshilts1.github.io/micro4R/">micro4R</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpk98YPA/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpwjD8yS/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
 <p>Let’s take a quick look at what this asvtable looks like (using the <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> function so it prints more nicely):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">asvtable</span>, rownames <span class="op">=</span> <span class="st">"SampleID"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">asvtable</span>, rownames <span class="op">=</span> <span class="st">"SampleID"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 7 × 7</span></span>
 <span><span class="co">#&gt;   SampleID  TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                      &lt;int&gt;                  &lt;int&gt;                  &lt;int&gt;</span></span>
@@ -113,7 +112,7 @@
 <p>We now have an ASV table, which is a bunch of literal DNA sequences and the count of each that was detected for each sample. Since you’re (probably) not a computer, a string of hundreds of nucletotides is likely not something you can make much sense of by yourself. The next step will take those nucleotide sequences and compare them against a database (or two) of sequences with known taxonomy:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">train</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"</span> <span class="co"># set training database</span></span>
-<span><span class="va">species</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"</span>      <span class="co"># set species database </span></span>
+<span><span class="va">species</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"</span> <span class="co"># set species database</span></span>
 <span></span>
 <span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_taxa.html">dada2_taxa</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">asvtable</span>, train <span class="op">=</span> <span class="va">train</span>, species <span class="op">=</span> <span class="va">species</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>There are two databases that we’re using for taxonomic assignment here:<br>
