@@ -116,9 +116,11 @@ metadata
 
 The first thing you may notice is the 'SampleIDs' are the kinds of IDs that only a computer could love. For my standard workflow, I like to keep the SampleIDs as the FASTQ file names for full transparency and so I can always easy go back and track down the original FASTQ ID.
 
+What kind of information you'll need here is highly dependent on your study, but there's some data that we need to have for the optional (but highly recommended!) processing of your ASV table through [decontam](https://github.com/benjjneb/decontam). Most importantly, `decontam` needs to know which samples are your negative controls. Don't have any negative controls? You won't be able to run `decontam`, and I highly recommend you include some next time!  
+
 ___
 
-What kind of information you'll need here is highly dependent on your study, but there are some types of technical metadata that you'll want to always have, at least during 
+
 
 Move information to the bottom for anyone who wants more details
 

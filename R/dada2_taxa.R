@@ -55,10 +55,10 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   #  }
 
   if (chatty == TRUE) {
-    return(tibblefy(taxa, type = "taxa"))
+    return(taxa)
   }
 
   if (chatty == FALSE) {
-    return(invisible(tibblefy(taxa, type = "taxa")))
+    return(invisible(taxa))
   }
 }
