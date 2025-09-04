@@ -19,6 +19,6 @@ tibblefy a specific type of data frame
 }
 \examples{
 filepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
-asvtable <- read.csv(file = filepath, header=TRUE)
+asvtable <- read.csv(file = filepath, header = TRUE)
 tibblefy(asvtable)
 }

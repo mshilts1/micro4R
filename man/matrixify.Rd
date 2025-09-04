@@ -17,6 +17,6 @@ Turn a data frame or tibble into a matrix
 }
 \examples{
 asvtablepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
-asvtable <- read.csv(file = asvtablepath, header=TRUE)
+asvtable <- read.csv(file = asvtablepath, header = TRUE)
 matrixify(asvtable)
 }
