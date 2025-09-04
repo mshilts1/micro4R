@@ -63,6 +63,8 @@ Included with the package is an extremely tiny toy example to
 demonstrate its major functionality, using subsampled publicly available
 [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).
 
+### Making the ASV count and taxonomy tables
+
 The first thing we’ll do on these files is run `dada2_asvtable()`. This
 function can take a number of arguments, but the most important one is
 ‘where’, which is the path to where your FASTQ files are located.  
@@ -73,9 +75,23 @@ the example FASTQ files that are included with the package:
 library(micro4R)
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmp00Rjvs/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmprLwNiR/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
+```
+
+If you’re running this with your own data, set ‘where’ to the path of
+the folder where your fastq files are stored. If you leave it empty
+(e.g., run `dada2_asvtable()`), it will default to your current working
+directory. (‘chatty’ was set to FALSE because tons of information gets
+printed to the console otherwise; I’d recommend setting it to TRUE (the
+default) when you’re processing data for real, as the information is
+useful, but just too much here.)
+
+Let’s take a quick look at what this asvtable looks like:
+
+``` r
+
 tibble::as_tibble(asvtable, rownames = "SampleID")
 #> # A tibble: 7 × 7
 #>   SampleID  TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³
@@ -96,17 +112,11 @@ tibble::as_tibble(asvtable, rownames = "SampleID")
 #> #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG <int>, …
 ```
 
-If you’re running this with your own data, set ‘where’ to the path where
-your fastq files are stored. If you leave it empty (e.g., run
-`dada2_asvtable()`, it will default to your current working directory.)
-(‘chatty’ was set to FALSE because tons of information gets printed to
-the console otherwise; I’d recommend setting it to TRUE (the default)
-when you’re processing data for real, as the information is useful, but
-just too much here.)
-
-Now we have a bunch of literal DNA sequences. That’s great, but what are
-they? The next step will take the sequences and compare them against a
-database or two of sequences with known taxonomy:
+We have a bunch of literal DNA sequences and their count for each
+sample. Since you’re (probably) not a computer, a string of hundreds of
+nucletotides is likely not something you can make much sense of by
+yourself. The next step will take those nucleotide sequences and compare
+them against a database (or two) of sequences with known taxonomy:
 
 ``` r
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
@@ -116,15 +126,16 @@ dada2_taxa(asvtable = asvtable, train = train, species = species, chatty = FALSE
 
 There are two databases that we’re using for taxonomic assignment
 here:  
-1. ‘train’ needs to be the path to whatever you’d like to use as the
-“training set of reference sequences with known taxonomy”.  
+1. ‘train’ needs to be the path to whatever database you’d like to use
+as the “training set of reference sequences with known taxonomy”.  
 2. ‘species’ is OPTIONAL. If you’d like to use this option, provide the
 path to a specifically formatted species assignment database. (Read more
 [here](https://benjjneb.github.io/dada2/assign.html#species-assignment).)
 
 **The two databases used in the example here are comically small and
-artificial, and should only ever be used for testing and demonstration
-purposes.** You’ll definitely want/need to download the real
+artificial subsamples of the real SILVA databases, and should only ever
+be used for testing and demonstration purposes!** You’ll definitely need
+to download and use the real
 [databases](https://benjjneb.github.io/dada2/training.html) for your
 actual data!
 
@@ -132,6 +143,16 @@ There are many options for taxonomic databases you can use; the major
 players are SILVA, RDP, GreenGenes, and UNITE. Please go
 [here](https://benjjneb.github.io/dada2/training.html) for details and
 links. I tend to usually use the SILVA databases, but you don’t have to.
+
+### Sample metadata
+
+Next, we need to load in some metadata about our samples. What kind of
+information you’ll need here is highly dependent on your study, but
+there are some types of technical metadata abo
+
+``` r
+metadata <- example_metadata()
+```
 
 ------------------------------------------------------------------------
 
@@ -147,13 +168,9 @@ seven samples from this study, using
 reads** from each FASTQ file so that the files would take up minimal
 space and the example would run quickly.
 
-Skip to the next section if you don’t care. If you’d like to run through
-this the full fastq files can be downloaded from SRA or as a zipped
-bolus
+If you’d like to run through this the full fastq files can be downloaded
+from SRA or as a zipped bolus
 [here](https://drive.google.com/file/d/1NOvmsxFxWb1Vigq8rdb5SCfLLNu-Qjy8/view?usp=sharing)
-
-Link to dada2-ified reference databases
-<https://benjjneb.github.io/dada2/training.html>
 
 - logo made by me using artwork from [Canva](https://www.canva.com/)
   (©[iconbunny11](https://www.canva.com/p/id/BAClqvm1MBE/)) followed by
