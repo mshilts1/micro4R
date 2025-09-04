@@ -131,7 +131,7 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
   # V4 region is ~250 bp, so sequences over this length are probably something else; we will get rid of anything > 260 bp
   sizedist <- data.frame(t(table(nchar(dada2::getSequences(seqtab)))))
   filtseqs <- sum(sizedist[, 3]
-                  [which(as.numeric(as.character(sizedist[, 2])) > 260)])
+  [which(as.numeric(as.character(sizedist[, 2])) > 260)])
   filtseqs / sum(sizedist[, 3])
   seqtab2 <- seqtab[, nchar(colnames(seqtab)) %in% seq(240, 260)]
   # table(nchar(getSequences(seqtab2)))

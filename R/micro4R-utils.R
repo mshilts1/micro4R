@@ -134,13 +134,13 @@ known_dada2_dbs <- function(what = "list") {
 #' @export
 #'
 ref_db <- function(db, chatty = TRUE) {
-  #db <- normalizePath(db)
+  # db <- normalizePath(db)
 
-  if(db == "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"){
+  if (db == "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz") {
     db <- system.file("extdata/db", package = "micro4R", "EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz", mustWork = TRUE)
   }
 
-  if(db == "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"){
+  if (db == "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz") {
     db <- system.file("extdata/db", package = "micro4R", "EXAMPLE_silva_v138.2_assignSpecies.fa.gz", mustWork = TRUE)
   }
 
@@ -219,31 +219,30 @@ full_example_data <- function(path = NULL) {
 #'
 #' @examples
 #' filepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
-#' asvtable <- read.csv(file = filepath, header=TRUE)
+#' asvtable <- read.csv(file = filepath, header = TRUE)
 #' tibblefy(asvtable)
 tibblefy <- function(x, type = "asvtable") {
-  if(type != "asvtable" & type != "taxa"){
+  if (type != "asvtable" & type != "taxa") {
     stop("Valid options for type are either 'asvtable' or 'taxa'.")
   }
 
-  if(type == "asvtable"){
+  if (type == "asvtable") {
     rownames <- "SampleID"
   }
 
-  if(type == "taxa"){
+  if (type == "taxa") {
     rownames <- "ASV"
   }
 
-  if(identical(rownames(x), as.character(1:nrow(x)))){
-    x <- as_tibble(x, .name_repair = 'unique')
+  if (identical(rownames(x), as.character(1:nrow(x)))) {
+    x <- as_tibble(x, .name_repair = "unique")
     return(x)
   }
 
-  if(!identical(rownames(x), as.character(1:nrow(x)))){
-    x <- as_tibble(x, rownames = rownames, .name_repair = 'unique')
+  if (!identical(rownames(x), as.character(1:nrow(x)))) {
+    x <- as_tibble(x, rownames = rownames, .name_repair = "unique")
     return(x)
   }
-
 }
 #' Turn a data frame or tibble into a matrix
 #'
@@ -254,10 +253,10 @@ tibblefy <- function(x, type = "asvtable") {
 #'
 #' @examples
 #' asvtablepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
-#' asvtable <- read.csv(file = asvtablepath, header=TRUE)
+#' asvtable <- read.csv(file = asvtablepath, header = TRUE)
 #' matrixify(asvtable)
-matrixify <- function(x){
-  if (!is.matrix(x)){
+matrixify <- function(x) {
+  if (!is.matrix(x)) {
     rownames(x) <- x[, 1]
     x <- x[, -1]
     x <- as.matrix(x)
@@ -271,9 +270,9 @@ matrixify <- function(x){
 #'
 #' @examples
 #' metadata <- example_metadata()
-example_metadata <- function(){
+example_metadata <- function() {
   filepath <- system.file("extdata/objects", package = "micro4R", "metadata.csv", mustWork = TRUE)
-  metadata <- read.csv(file = filepath, header=TRUE)
+  metadata <- read.csv(file = filepath, header = TRUE)
   metadata <- tibble::as_tibble(metadata)
   return(metadata)
 }

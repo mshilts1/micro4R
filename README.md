@@ -81,7 +81,7 @@ the example FASTQ files that are included with the package:
 library(micro4R)
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpk98YPA/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpwjD8yS/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -98,7 +98,6 @@ Let’s take a quick look at what this asvtable looks like (using the
 `tibble::as_tibble()` function so it prints more nicely):
 
 ``` r
-
 tibble::as_tibble(asvtable, rownames = "SampleID")
 #> # A tibble: 7 × 7
 #>   SampleID  TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³
@@ -128,7 +127,7 @@ database (or two) of sequences with known taxonomy:
 
 ``` r
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz" # set training database
-species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"      # set species database 
+species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz" # set species database
 
 taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species, chatty = FALSE)
 ```

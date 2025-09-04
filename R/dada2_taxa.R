@@ -30,7 +30,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     stop("You must provide the path to a taxonomic reference database. See here for options and more info: https://benjjneb.github.io/dada2/training.html")
   }
 
-  if (!is.matrix(asvtable)){
+  if (!is.matrix(asvtable)) {
     asvtable <- matrixify(asvtable)
   }
 
@@ -45,13 +45,13 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
 
 
 
-  as_tibble(taxa, rownames = "ASV", .name_repair = 'unique')
+  as_tibble(taxa, rownames = "ASV", .name_repair = "unique")
 
   #  if (where == "example" | where == "inst/extdata/f") {
   #    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
-    outdir <- tempdir()
-    write.csv(tibblefy(taxa, type = "taxa"), file = sprintf("%s/dada2_out/taxa.csv", outdir), row.names = FALSE)
-    on.exit(unlink(outdir), add = TRUE)
+  outdir <- tempdir()
+  write.csv(tibblefy(taxa, type = "taxa"), file = sprintf("%s/dada2_out/taxa.csv", outdir), row.names = FALSE)
+  on.exit(unlink(outdir), add = TRUE)
   #  }
 
   if (chatty == TRUE) {

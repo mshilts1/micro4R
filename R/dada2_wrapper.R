@@ -13,13 +13,9 @@ dada2_wrapper <- function(...) {
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
   asvtable <- dada2_asvtable(...)
-  #return(asvtable)
+  # return(asvtable)
   taxa <- dada2_taxa(asvtable, ...)
 
   asvtable <- as_tibble(asvtable, rownames = "SampleID")
   return(list("asvtable" = asvtable, "taxa" = taxa))
-
-
-
-
 }

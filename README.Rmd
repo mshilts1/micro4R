@@ -72,7 +72,6 @@ Let's take a quick look at what this asvtable looks like (using the `tibble::as_
 
 
 ```{r example2}
-
 tibble::as_tibble(asvtable, rownames = "SampleID")
 ```
 
@@ -81,7 +80,7 @@ We now have an ASV table, which is a bunch of literal DNA sequences and the coun
 
 ```{r example3}
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz" # set training database
-species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"      # set species database 
+species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz" # set species database
 
 taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species, chatty = FALSE)
 ```
@@ -95,14 +94,12 @@ There are two databases that we're using for taxonomic assignment here:
 There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go [here](https://benjjneb.github.io/dada2/training.html) for details and links. I tend to usually use the SILVA databases, but you don't have to.
 
 ```{r example3.1, echo = FALSE}
-
-#taxa <- tibble::as_tibble(taxa, rownames = "ASV")
+# taxa <- tibble::as_tibble(taxa, rownames = "ASV")
 ```
 
 Let's take a look at the taxonomy assignment table:
 
 ```{r example3.2, echo = FALSE}
-
 taxa
 ```
 
