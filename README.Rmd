@@ -21,6 +21,7 @@ Microbiome data analysis tools for R
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/micro4R)](https://CRAN.R-project.org/)
 [![Codecov test coverage](https://codecov.io/gh/mshilts1/micro4R/graph/badge.svg)](https://app.codecov.io/gh/mshilts1/micro4R)
+[![R-CMD-check](https://github.com/mshilts1/micro4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mshilts1/micro4R/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 

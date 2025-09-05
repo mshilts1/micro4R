@@ -13,6 +13,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/micro4R)](https://CRAN.R-project.org/)
 [![Codecov test
 coverage](https://codecov.io/gh/mshilts1/micro4R/graph/badge.svg)](https://app.codecov.io/gh/mshilts1/micro4R)
+[![R-CMD-check](https://github.com/mshilts1/micro4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mshilts1/micro4R/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `micro4R` was to create an R package with a low barrier to
@@ -81,9 +82,10 @@ the example FASTQ files that are included with the package:
 
 ``` r
 library(micro4R)
+#> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpkxnIN8/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpKfiPRU/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
