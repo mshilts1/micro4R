@@ -22,7 +22,9 @@ asvtable with potential contaminants removed
 Decontam
 }
 \examples{
-asvtable <- dada2_asvtable("example")
+train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
+species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
+dada2_wrapper(where = "example", train = train, species = species)
 metadata <- example_metadata()
 decontam_wrapper(asvtable = asvtable, metadata = metadata)
 }
