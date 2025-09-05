@@ -189,7 +189,9 @@ ref_db <- function(db, chatty = TRUE) {
 #' @export
 #'
 #' @examples
+#'\dontrun{
 #' full_example_data("example")
+#'
 full_example_data <- function(path = NULL) {
   if (path == "example") {
     path <- tempdir()
