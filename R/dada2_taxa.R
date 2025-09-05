@@ -41,6 +41,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   if (!is.null(species)) {
     species_db <- ref_db(species, chatty = chatty)
     taxa <- dada2::addSpecies(taxtab = taxa, refFasta = species_db, allowMultiple = FALSE, tryRC = FALSE, verbose = chatty)
+    return(taxa)
   }
 
 
