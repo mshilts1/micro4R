@@ -4,13 +4,15 @@
 \alias{dada2_wrapper}
 \title{dada2 wrapper}
 \usage{
-dada2_wrapper(...)
+dada2_wrapper(metadata = NULL, ...)
 }
 \arguments{
+\item{metadata}{OPTIONAL. Can pass your associated metadata object to this function so it packages it all up for you for downstream steps}
+
 \item{...}{Allows passing of arguments to nested functions}
 }
 \value{
-dada2 ASV table and taxonomy table
+a list of dada2 ASV table and taxonomy table (and metadata, optionally)
 }
 \description{
 dada2 wrapper
