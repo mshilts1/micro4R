@@ -26,10 +26,22 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
     }
   }
 
+  if (where != "example" & where != "inst/extdata/f") {
+    if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
+      # If it doesn't exist, create it
+      dir.create(sprintf("%s/dada2_out/figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
+    }
+  }
+
   if(logfile){
   functionname <- as.character(sys.call()[[1]])
   log_file_conn <- NULL
+  if (where == "example" | where == "inst/extdata/f") {
   log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", outdir, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
+  }
+  if (where != "example" & where != "inst/extdata/f") {
+  log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", where, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
+  }
   sink(log_file_conn, split = TRUE)
   print(sprintf("Run with function %s started at %s", functionname, Sys.time()))
   }
@@ -54,12 +66,6 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
     }
   }
 
-  if (where != "example" & where != "inst/extdata/f") {
-    if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
-      # If it doesn't exist, create it
-      dir.create(sprintf("%s/dada2_out/figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
-    }
-  }
 
   if (where == "example" | where == "inst/extdata/f") {
     fnFs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R1_001.fastq.gz", full.names = TRUE)

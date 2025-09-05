@@ -186,13 +186,7 @@ ref_db <- function(db, chatty = TRUE) {
 #' @param path Path to directory where you want to download file to.
 #'
 #' @returns Downloads zipped folder of full fastq files used in example
-#' @export
-#'
-#' @examples
-#' drive_deauth()
-#'\dontrun{
-#' full_example_data("example")
-#'
+#' as this is it doesn't work. may delete later.
 full_example_data <- function(path = NULL) {
   if (path == "example") {
     path <- tempdir()

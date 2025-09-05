@@ -11,10 +11,8 @@ full_example_data(path = NULL)
 }
 \value{
 Downloads zipped folder of full fastq files used in example
+as this is it doesn't work. may delete later.
 }
 \description{
 Option to use googledrive package to download example data
-}
-\examples{
-full_example_data("example")
 }
