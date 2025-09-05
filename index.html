@@ -85,8 +85,8 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mshilts1.github.io/micro4R/">micro4R</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
-<span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpKfiPRU/dada2_out/filtered</span></span>
+<span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpZSgkSJ/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
@@ -156,6 +156,7 @@
 <p>Move information to the bottom for anyone who wants more details</p>
 <p>subsampled FASTQ files from a <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/" class="external-link">manuscript</a> I co-authored with my colleagues, for which the raw data is publicly available under bioproject ID <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992" class="external-link">PRJNA726992</a>. From seven samples from this study, using <a href="https://github.com/lh3/seqtk" class="external-link">seqtk</a>, I randomly sampled <strong>only 50 reads</strong> from each FASTQ file so that the files would take up minimal space and the example would run quickly.</p>
 <p>If you’d like to run through this the full fastq files can be downloaded from SRA or as a zipped bolus <a href="https://drive.google.com/file/d/1NOvmsxFxWb1Vigq8rdb5SCfLLNu-Qjy8/view?usp=sharing" class="external-link">here</a></p>
+<p>Here is some body text that needs a footnote.<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;This is the content of the footnote.&lt;/p&gt;"><sup>1</sup></a></p>
 <ul>
 <li>logo made by me using artwork from <a href="https://www.canva.com/" class="external-link">Canva</a> (©<a href="https://www.canva.com/p/id/BAClqvm1MBE/" class="external-link">iconbunny11</a>) followed by <a href="https://github.com/GuangchuangYu/hexSticker" class="external-link">hexSticker</a> to get it into the typical hex logo format.</li>
 </ul>
@@ -166,6 +167,8 @@ RStudio Version 2025.05.1+513 (2025.05.1+513) macOS Sequoia Version 15.6.1</p>
 </div>
 </div>
 </div>
+
+
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
