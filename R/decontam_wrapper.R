@@ -8,6 +8,7 @@
 #' @returns asvtable with potential contaminants removed
 #' @export
 #' @import decontam
+#' @import phyloseq
 #'
 #' @examples
 #' asvtable <- dada2_asvtable("example")
@@ -15,4 +16,6 @@
 #' decontam_wrapper(asvtable = asvtable, metadata = metadata)
 decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...){
   contamdf.prev <- decontam::isContaminant(asvtable, neg = metadata$neg, ...)
+  table(contamdf.prev$contaminant)
+  head(which(contamdf.prev$contaminant))
 }
