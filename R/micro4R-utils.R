@@ -189,6 +189,7 @@ ref_db <- function(db, chatty = TRUE) {
 #' @export
 #'
 #' @examples
+#' drive_deauth()
 #'\dontrun{
 #' full_example_data("example")
 #'
