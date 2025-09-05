@@ -13,6 +13,7 @@ Imports:
     dada2,
     decontam,
     dplyr,
+    ggplot2,
     grDevices,
     magrittr,
     phyloseq,
