@@ -20,5 +20,5 @@ dada2 wrapper
 \examples{
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
-dada2_wrapper(where = "example", train = train, species = species)
+dada2_wrapper(where = "example", train = train, species = species, logfile = FALSE)
 }

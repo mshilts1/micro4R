@@ -10,6 +10,7 @@ dada2_asvtable(
   patternR = "_R2_001.fastq.gz",
   multi = FALSE,
   chatty = TRUE,
+  logfile = TRUE,
   ...
 )
 }
@@ -24,6 +25,8 @@ dada2_asvtable(
 
 \item{chatty}{How chatty should code be? Default is TRUE, but set to FALSE if you don't want so much text going to the console.}
 
+\item{logfile}{Write a logfile to user's computer. Default is TRUE}
+
 \item{...}{Allows passing of arguments to nested functions}
 }
 \value{
@@ -33,5 +36,5 @@ dada2 ASV table
 dada2 workflow to generate ASV table
 }
 \examples{
-dada2_asvtable("example")
+dada2_asvtable("example", logfile = FALSE)
 }

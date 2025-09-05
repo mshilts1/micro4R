@@ -1,10 +1,6 @@
 #' Collection of helper/utility functions not intended to be directly used by end user
 #'
 #' @returns Path of user's current working directory
-#' @export
-#'
-#' @examples
-#' findUserCD()
 findUserCD <- function() {
   # cur_dir <- getwd()
   return(getwd())
@@ -215,12 +211,7 @@ full_example_data <- function(path = NULL) {
 #' @param type asvtable or taxa
 #'
 #' @returns a tibble
-#' @export
 #'
-#' @examples
-#' filepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
-#' asvtable <- read.csv(file = filepath, header = TRUE)
-#' tibblefy(asvtable)
 tibblefy <- function(x, type = "asvtable") {
   if (type != "asvtable" & type != "taxa") {
     stop("Valid options for type are either 'asvtable' or 'taxa'.")
@@ -249,12 +240,7 @@ tibblefy <- function(x, type = "asvtable") {
 #' @param x data frame or tibble
 #'
 #' @returns a matrix
-#' @export
 #'
-#' @examples
-#' asvtablepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
-#' asvtable <- read.csv(file = asvtablepath, header = TRUE)
-#' matrixify(asvtable)
 matrixify <- function(x) {
   if (!is.matrix(x)) {
     rownames(x) <- x[, 1]
