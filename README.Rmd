@@ -64,7 +64,7 @@ For demonstration purposes, it's been set to the relative path of the the exampl
 ```{r example1}
 library(micro4R)
 
-asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
+asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
 ```
 
 
@@ -130,7 +130,7 @@ subsampled FASTQ files from a [manuscript](https://pmc.ncbi.nlm.nih.gov/articles
 
 If you'd like to run through this the full fastq files can be downloaded from SRA or as a zipped bolus [here](https://drive.google.com/file/d/1NOvmsxFxWb1Vigq8rdb5SCfLLNu-Qjy8/view?usp=sharing) 
 
-
+Here is some body text that needs a footnote.^[This is the content of the footnote.]
 
 * logo made by me using artwork from [Canva](https://www.canva.com/) (©[iconbunny11](https://www.canva.com/p/id/BAClqvm1MBE/)) followed by [hexSticker](https://github.com/GuangchuangYu/hexSticker) to get it into the typical hex logo format.
 

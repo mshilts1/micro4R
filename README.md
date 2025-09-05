@@ -84,8 +84,8 @@ the example FASTQ files that are included with the package:
 library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
-asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpKfiPRU/dada2_out/filtered
+asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpZSgkSJ/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -219,6 +219,8 @@ If you’d like to run through this the full fastq files can be downloaded
 from SRA or as a zipped bolus
 [here](https://drive.google.com/file/d/1NOvmsxFxWb1Vigq8rdb5SCfLLNu-Qjy8/view?usp=sharing)
 
+Here is some body text that needs a footnote.[^1]
+
 - logo made by me using artwork from [Canva](https://www.canva.com/)
   (©[iconbunny11](https://www.canva.com/p/id/BAClqvm1MBE/)) followed by
   [hexSticker](https://github.com/GuangchuangYu/hexSticker) to get it
@@ -234,3 +236,5 @@ s_height = .5, p_color = “black”, h_fill = “\#6ed5f5”, h_color=
 built R 4.5.1  
 RStudio Version 2025.05.1+513 (2025.05.1+513) macOS Sequoia Version
 15.6.1
+
+[^1]: This is the content of the footnote.
