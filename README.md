@@ -78,14 +78,14 @@ is ‘where’, which is the path to the folder where your FASTQ files are
 located.
 
 For demonstration purposes, it’s been set to the relative path of the
-the example FASTQ files that are included with the package:
+example FASTQ files that are included with the package:
 
 ``` r
 library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpZSgkSJ/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpBkd0hA/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -158,15 +158,15 @@ links. I tend to usually use the SILVA databases, but you don’t have to.
 
 Let’s take a look at the taxonomy assignment table:
 
-    #> # A tibble: 6 × 8
-    #>   ASV                            Kingdom Phylum Class Order Family Genus Species
-    #>   <chr>                          <chr>   <chr>  <chr> <chr> <chr>  <chr> <chr>  
-    #> 1 TACGTAGGTGGCAAGCGTTATCCGGAATT… Bacter… Bacil… Baci… Stap… Staph… Stap… <NA>   
-    #> 2 TACGGAGGGTGCAAGCGTTAATCGGAATT… Bacter… Pseud… Gamm… Ente… Enter… Kleb… <NA>   
-    #> 3 TACGTAGGGTGCGAGCGTTGTCCGGAATT… Bacter… Actin… Acti… Myco… Coryn… Cory… <NA>   
-    #> 4 TACGTAGGGTGCAAGCGTTGTCCGGAATT… Bacter… Actin… Acti… Myco… Coryn… Cory… <NA>   
-    #> 5 TACGTAGGTGACAAGCGTTGTCCGGATTT… Bacter… Bacil… Baci… Lact… Carno… Dolo… pigrum 
-    #> 6 TACGTAGGTCCCGAGCGTTGTCCGGATTT… Bacter… Bacil… Baci… Lact… Strep… Stre… <NA>
+    #> # A tibble: 6 × 7
+    #>   ASV                                    Kingdom Phylum Class Order Family Genus
+    #>   <chr>                                  <chr>   <chr>  <chr> <chr> <chr>  <chr>
+    #> 1 TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCG… Bacter… Bacil… Baci… Stap… Staph… Stap…
+    #> 2 TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCG… Bacter… Pseud… Gamm… Ente… Enter… Kleb…
+    #> 3 TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCG… Bacter… Actin… Acti… Myco… Coryn… Cory…
+    #> 4 TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCG… Bacter… Actin… Acti… Myco… Coryn… Cory…
+    #> 5 TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Carno… Dolo…
+    #> 6 TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Strep… Stre…
 
 ### Sample metadata
 

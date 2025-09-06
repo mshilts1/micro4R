@@ -58,7 +58,7 @@ The first thing we'll do on these files is run `dada2_asvtable()`, which is esse
 
 This function can take a number of arguments, but the most important one is 'where', which is the path to the folder where your FASTQ files are located.  
 
-For demonstration purposes, it's been set to the relative path of the the example FASTQ files that are included with the package:
+For demonstration purposes, it's been set to the relative path of the example FASTQ files that are included with the package:
 
 
 ```{r example1}
