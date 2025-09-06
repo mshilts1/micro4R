@@ -80,13 +80,13 @@
 </h3>
 <p>The first thing we’ll do on these files is run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>, which is essentially a wrapper to generate an ASV count table by following a workflow similar to the <a href="https://benjjneb.github.io/dada2/tutorial.html" class="external-link">dada2 tutorial</a>.</p>
 <p>This function can take a number of arguments, but the most important one is ‘where’, which is the path to the folder where your FASTQ files are located.</p>
-<p>For demonstration purposes, it’s been set to the relative path of the the example FASTQ files that are included with the package:</p>
+<p>For demonstration purposes, it’s been set to the relative path of the example FASTQ files that are included with the package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mshilts1.github.io/micro4R/">micro4R</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpZSgkSJ/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpBkd0hA/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
@@ -122,15 +122,15 @@
 <p><strong>The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!</strong> You’ll definitely need to download and use the real <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">databases</a> for your actual data!</p>
 <p>There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">here</a> for details and links. I tend to usually use the SILVA databases, but you don’t have to.</p>
 <p>Let’s take a look at the taxonomy assignment table:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 8</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   ASV                            Kingdom Phylum Class Order Family Genus Species</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                          &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  </span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 1 TACGTAGGTGGCAAGCGTTATCCGGAATT… Bacter… Bacil… Baci… Stap… Staph… Stap… &lt;NA&gt;   </span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 2 TACGGAGGGTGCAAGCGTTAATCGGAATT… Bacter… Pseud… Gamm… Ente… Enter… Kleb… &lt;NA&gt;   </span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 3 TACGTAGGGTGCGAGCGTTGTCCGGAATT… Bacter… Actin… Acti… Myco… Coryn… Cory… &lt;NA&gt;   </span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 4 TACGTAGGGTGCAAGCGTTGTCCGGAATT… Bacter… Actin… Acti… Myco… Coryn… Cory… &lt;NA&gt;   </span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 5 TACGTAGGTGACAAGCGTTGTCCGGATTT… Bacter… Bacil… Baci… Lact… Carno… Dolo… pigrum </span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 6 TACGTAGGTCCCGAGCGTTGTCCGGATTT… Bacter… Bacil… Baci… Lact… Strep… Stre… &lt;NA&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 7</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   ASV                                    Kingdom Phylum Class Order Family Genus</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                                  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 1 TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCG… Bacter… Bacil… Baci… Stap… Staph… Stap…</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 2 TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCG… Bacter… Pseud… Gamm… Ente… Enter… Kleb…</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 3 TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCG… Bacter… Actin… Acti… Myco… Coryn… Cory…</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 4 TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCG… Bacter… Actin… Acti… Myco… Coryn… Cory…</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 5 TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Carno… Dolo…</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 6 TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Strep… Stre…</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="sample-metadata">Sample metadata<a class="anchor" aria-label="anchor" href="#sample-metadata"></a>
