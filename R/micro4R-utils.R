@@ -1,10 +1,4 @@
 #' Collection of helper/utility functions not intended to be directly used by end user
-#'
-#' @returns Path of user's current working directory
-findUserCD <- function() {
-  # cur_dir <- getwd()
-  return(getwd())
-}
 #' Title
 #'
 #' @param path Path to folder containing fastq files

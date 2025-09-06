@@ -2,7 +2,8 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{whereFastqs}
 \alias{whereFastqs}
-\title{Title}
+\title{Collection of helper/utility functions not intended to be directly used by end user
+Title}
 \usage{
 whereFastqs(path = NULL, chatty = TRUE)
 }
@@ -15,6 +16,7 @@ whereFastqs(path = NULL, chatty = TRUE)
 file path to a folder
 }
 \description{
+Collection of helper/utility functions not intended to be directly used by end user
 Title
 }
 \examples{

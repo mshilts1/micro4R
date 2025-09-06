@@ -49,7 +49,7 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
   if (is.null(where)) {
-    where <- findUserCD()
+    where <- getwd()
     if (chatty == TRUE) {
       print(sprintf("As no argument was provided for the 'path' of your fastq files, this wrapper will assume you want to work in your current directory, %s", where))
     }
