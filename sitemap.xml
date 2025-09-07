@@ -4,6 +4,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/LICENSE.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/authors.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/index.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/checkASV.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_asvtable.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_taxa.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_wrapper.html</loc></url>
@@ -18,6 +19,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleSeqtab.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleTaxa.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/matrixify.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/packItUp.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/pipe.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/ref_db.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/tibblefy.html</loc></url>
