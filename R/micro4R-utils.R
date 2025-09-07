@@ -283,6 +283,21 @@ example_metadata <- function() {
 packItUp <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
   return(list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata))
 }
+#' Load test databases into environment without having to type so much.
+#' Because I'm lazy and got really tired of finding the exact text to copy paste
+#'
+#' @returns a list of the example training and species databases
+#' @export
+#'
+#' @examples
+#' db <- test_dbs()
+#' train <- db$train
+#' species <- db$species
+test_dbs <- function(){
+  train <- system.file("extdata/db", package = "micro4R", "EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz", mustWork = TRUE)
+  species <- system.file("extdata/db", package = "micro4R", "EXAMPLE_silva_v138.2_assignSpecies.fa.gz", mustWork = TRUE)
+  return(list("train" = train, "species" = species))
+}
 #' checker utils in this section
 #' Check your ASV count and taxonomy tables for potential issues.
 #'
@@ -292,7 +307,7 @@ packItUp <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
 #'
 #' @returns Notifies user of issues with asvtable, taxonomy table, or metadata that could cause downstream problems.
 #'
-checkASV <- function(asvtable, taxa, metadata) {
+checkASV <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
   if (!ncol(asvtable[-1]) == nrow(taxa)) {
     warning(sprintf("The number of ASVs in your ASV table doesn't match the number of ASVs in your taxonomy table."))
   }
@@ -309,6 +324,7 @@ checkASV <- function(asvtable, taxa, metadata) {
     warning(sprintf("A column called 'SampleID' wasn't found in your ASV table '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(asvtable)), deparse(substitute(asvtable))))
   }
 
+  if(!is.null(metadata)){
   if (!("SampleID" %in% colnames(metadata))) {
     warning(sprintf("A column called 'SampleID' wasn't found in your metadata object '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(metadata)), deparse(substitute(metadata))))
   }
@@ -317,5 +333,61 @@ checkASV <- function(asvtable, taxa, metadata) {
     if (nrow(merge(metadata, asvtable, by = "SampleID")) < 1) {
       warning(sprintf("After merging your metadata and ASV objects, no samples were retained. Check that the SampleIDs match in each object. For example, you may have a non-matching number of padded zeroes."))
     }
+  }
+  }
+}
+#' Check metadata file to identify potential downstream issues.
+#'
+#' @param df A data frame or tibble containing your sample metadata.
+#' @param ids The column name in your data frame that identifies the sample IDs.
+#'
+#' @returns Returns warnings or errors with your metadata object that may cause downstream problems.
+#' @export
+#' @import tibble
+#'
+#' @examples
+#' metadata <- data.frame(
+#'   SampleIDs = c("Sample1", "Sample2", "Sample3"),
+#'   Age       = c(34, 58, 21),
+#'   Health    = c("Healthy", "Sick", NA)
+#' )
+#' checkMeta(metadata, "SampleIDs")
+checkMeta <- NULL
+checkMeta1 <- function(df, ids = "SampleID") {
+  if (!is.data.frame(df) & !tibble::is_tibble(df)) {
+    warning("R does not recognize your metadata object as either a data frame or tibble. There may be unexpected downstream issues. It is recommended you convert your metadata object to a data frame or a tibble before proceeding. E.g., try as.data.frame() or tibble::as_tibble() and check if your data still looks as expected.")
+  }
+}
+
+checkMeta2 <- function(df, ids = "SampleID") {
+  if (!ids %in% colnames(df)) {
+    warning(sprintf("You indicated the variable to use for the sample IDs was %s. However, this was not found as a column name in your metadata file.", ids))
+  }
+}
+
+checkMeta3 <- function(df, ids = "SampleID") {
+  if (ids %in% colnames(df)) {
+    dups <- unique(df[duplicated(df[[ids]]), ][ids])
+    dups <- paste0(dups[[ids]], collapse = ", ")
+    if (length(unique(df[[ids]])) != nrow(df)) {
+      warning(sprintf("You indicated the variable to use for the sample IDs was %s. However, these are not all unique, and they need to be unique. Your duplicated sample ID(s) were: %s.", ids, dups))
+    }
+  }
+}
+
+checkMeta4 <- function(df, ids = "SampleID") {
+  if (sum(!stats::complete.cases(df)) > 0) {
+    warning(sprintf("As least 1 NA or empty cell was detected in %s sample(s) in your metadata object. This is not necessarily bad or wrong, but if you were not expecting this, check your metadata object again. Sample(s) %s were detected to have NAs or empty cells.", sum(!stats::complete.cases(df)), paste0(df[!stats::complete.cases(df), ][[ids]], collapse = ", ")))
+  }
+}
+
+checkMeta <- function(df, ids = "SampleID") {
+  out1 <- checkMeta1(df, ids)
+  out2 <- checkMeta2(df, ids)
+  out3 <- checkMeta3(df, ids)
+  out4 <- checkMeta4(df, ids)
+
+  if (is.null(out1) & is.null(out2) & is.null(out3) & is.null(out4)) {
+    message("No warnings or errors detected.")
   }
 }

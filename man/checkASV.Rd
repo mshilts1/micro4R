@@ -5,7 +5,7 @@
 \title{checker utils in this section
 Check your ASV count and taxonomy tables for potential issues.}
 \usage{
-checkASV(asvtable, taxa, metadata)
+checkASV(asvtable = NULL, taxa = NULL, metadata = NULL)
 }
 \arguments{
 \item{asvtable}{The ASV table}

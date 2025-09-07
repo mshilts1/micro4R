@@ -22,3 +22,20 @@ test_that("returns path visibly", {
   filepath <- system.file("extdata/f", package = "micro4R", mustWork = TRUE)
   expect_visible(whereFastqs(filepath))
 })
+
+test_that("Get a warning if NAs are detected", {
+  expect_warning(checkMeta(dplyr::starwars %>% dplyr::select(-c(films, vehicles, starships)), "name"))
+})
+
+test_that("Get a warning if your sample IDs are not all unique", {
+  expect_warning(checkMeta(dplyr::storms, "name"))
+})
+
+test_that("Get a warning if the column name you gave for the sample IDs can't be found", {
+  expect_warning(checkMeta(dplyr::storms, "nameee"))
+})
+
+test_that("No output if it passes all tests", {
+  expect_null(checkMeta(dplyr::band_members, "name"))
+})
+
