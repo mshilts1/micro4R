@@ -264,3 +264,58 @@ example_metadata <- function() {
   metadata <- tibble::as_tibble(metadata)
   return(metadata)
 }
+#' Package up your three objects (metadata, asvtable, taxonomy table) into a single list for less typing
+#'
+#' @param metadata Metadata object
+#' @param asvtable ASV count table object
+#' @param taxa Taxonomy table object
+#'
+#' @returns A list containing the above three objects
+#' @export
+#'
+#' @examples
+#' asvtable <- dada2_asvtable("example", logfile = FALSE)
+#' train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
+#' species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
+#' taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species)
+#' metadata <- example_metadata()
+#' all <- packItUp(metadata, asvtable, taxa)
+packItUp <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
+  return(list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata))
+}
+#' checker utils in this section
+#' Check your ASV count and taxonomy tables for potential issues.
+#'
+#' @param asvtable The ASV table
+#' @param taxa Its associated taxonomy table
+#' @param metadata The associated metadata table
+#'
+#' @returns Notifies user of issues with asvtable, taxonomy table, or metadata that could cause downstream problems.
+#'
+checkASV <- function(asvtable, taxa, metadata) {
+  if (!ncol(asvtable[-1]) == nrow(taxa)) {
+    warning(sprintf("The number of ASVs in your ASV table doesn't match the number of ASVs in your taxonomy table."))
+  }
+  if (ncol(asvtable[-1]) == nrow(taxa)) {
+    if (!all(colnames(asvtable[-1]) == taxa$ASV)) {
+      warning(sprintf("The names of your ASVs in your ASV table don't match the names in the taxonomy table."))
+    }
+  }
+  if (all(sapply(asvtable[-1], is.numeric)) == FALSE) {
+    warning(sprintf("In your ASV table, not all columns (other than the SampleID) were identified as numeric. Check that you don't have anything that's not a number in your ASV count columns."))
+  }
+
+  if (!("SampleID" %in% colnames(asvtable))) {
+    warning(sprintf("A column called 'SampleID' wasn't found in your ASV table '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(asvtable)), deparse(substitute(asvtable))))
+  }
+
+  if (!("SampleID" %in% colnames(metadata))) {
+    warning(sprintf("A column called 'SampleID' wasn't found in your metadata object '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(metadata)), deparse(substitute(metadata))))
+  }
+
+  if ("SampleID" %in% colnames(metadata) & "SampleID" %in% colnames(asvtable)) {
+    if (nrow(merge(metadata, asvtable, by = "SampleID")) < 1) {
+      warning(sprintf("After merging your metadata and ASV objects, no samples were retained. Check that the SampleIDs match in each object. For example, you may have a non-matching number of padded zeroes."))
+    }
+  }
+}

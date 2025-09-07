@@ -18,6 +18,7 @@ dada2_wrapper <- function(metadata = NULL, ...) {
   taxa <- dada2_taxa(asvtable, ...)
 
   asvtable <- as_tibble(asvtable, rownames = "SampleID")
+  taxa <- as_tibble(taxa, rownames = "ASV")
 
   if (is.null(metadata)) {
     return(list("asvtable" = asvtable, "taxa" = taxa))
