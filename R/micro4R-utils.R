@@ -1,8 +1,9 @@
-#' Collection of helper/utility functions not intended to be directly used by end user
-#' Title
+#' Collection of helper/utility functions not really intended to be directly used by end user
+#' Path to user's fastq file folder
 #'
 #' @param path Path to folder containing fastq files
 #' @param chatty If set to FALSE, don't print as much to console.
+#' @param return_tibble_or_path Default is 'path', but instead can have it return a tibble of the files it found. should only ever be used for troubleshooting.
 #'
 #' @returns file path to a folder
 #' @export
@@ -10,7 +11,7 @@
 #'
 #' @examples
 #' whereFastqs(".")
-whereFastqs <- function(path = NULL, chatty = TRUE) {
+whereFastqs <- function(path = NULL, chatty = TRUE, return_tibble_or_path = "path") {
   # Check if the folder exists first
   if (!file.exists(path)) {
     stop("Error: The folder you provided does not exist at the provided path.")
@@ -22,9 +23,18 @@ whereFastqs <- function(path = NULL, chatty = TRUE) {
   }
 
   files <- tibble::as_tibble(list.files(path, pattern = "\\."))
-  if (chatty == TRUE) {
+  if (chatty == TRUE & return_tibble_or_path == "tibble") {
+    return(files)
+  }
+  if (chatty == FALSE & return_tibble_or_path == "tibble") {
+    return(invisible(files))
+  }
+  if (chatty == TRUE & return_tibble_or_path != "tibble") { # if chatty is false, do nothing
     print(files)
   }
+
+
+  if(return_tibble_or_path != "tribble"){
 
   fastq_filename_patterns <- tibble::tribble(
     ~pattern,
@@ -74,6 +84,7 @@ whereFastqs <- function(path = NULL, chatty = TRUE) {
 
   if (chatty == FALSE) {
     return(invisible(path))
+  }
   }
 }
 #' A simple tibble of the names of maintained dada2-formatted taxonomy reference databases

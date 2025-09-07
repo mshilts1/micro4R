@@ -2,22 +2,24 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{whereFastqs}
 \alias{whereFastqs}
-\title{Collection of helper/utility functions not intended to be directly used by end user
-Title}
+\title{Collection of helper/utility functions not really intended to be directly used by end user
+Path to user's fastq file folder}
 \usage{
-whereFastqs(path = NULL, chatty = TRUE)
+whereFastqs(path = NULL, chatty = TRUE, return_tibble_or_path = "path")
 }
 \arguments{
 \item{path}{Path to folder containing fastq files}
 
 \item{chatty}{If set to FALSE, don't print as much to console.}
+
+\item{return_tibble_or_path}{Default is 'path', but instead can have it return a tibble of the files it found. should only ever be used for troubleshooting.}
 }
 \value{
 file path to a folder
 }
 \description{
-Collection of helper/utility functions not intended to be directly used by end user
-Title
+Collection of helper/utility functions not really intended to be directly used by end user
+Path to user's fastq file folder
 }
 \examples{
 whereFastqs(".")
