@@ -14,15 +14,16 @@
 #' @examples
 #' train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 #' species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
-#' dada2_wrapper(where = "example", train = train, species = species, logfile = FALSE)
+#' asvtable <- dada2_asvtable("example", logfile = FALSE)
+#' taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species)
 #' metadata <- example_metadata()
-#' decontam_wrapper(asvtable = asvtable, metadata = metadata, logfile = FALSE)
+#' decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
 decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...) {
   if (tibble::is_tibble(metadata)) {
     metadata <- metadata %>%
       as.data.frame() %>%
       tibble::column_to_rownames(var = "SampleID")
-    return(invisible(metadata))
+    #return(invisible(metadata))
   }
 
   ps <- phyloseq::phyloseq(phyloseq::otu_table(asvtable, taxa_are_rows = FALSE), phyloseq::sample_data(metadata), phyloseq::tax_table(taxa))
@@ -43,8 +44,7 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
   Index <- NULL
   df$Index <- seq(nrow(df))
   grDevices::pdf(sprintf("%s/dada2_out/figs/Library_sizes_pre_decontam.pdf", where))
-  print(ggplot2::ggplot(data = df, ggplot2::aes(x = .data[Index], y = .data[LibrarySize], color = .data$neg)) +
-    ggplot2::geom_point())
+  print(ggplot2::ggplot(data = df, ggplot2::aes(x = .data$Index, y = .data$LibrarySize, color = .data$neg)) +  ggplot2::geom_point())
   grDevices::dev.off()
 
   contamdf.prev <- decontam::isContaminant(ps, neg = "neg")

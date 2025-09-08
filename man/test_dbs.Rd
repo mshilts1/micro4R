@@ -2,12 +2,17 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{test_dbs}
 \alias{test_dbs}
-\title{Load test databases into environment without having to type so much}
+\title{Load test databases into environment without having to type so much.
+Because I'm lazy and got really tired of finding the exact text to copy paste}
 \usage{
 test_dbs()
 }
+\value{
+a list of the example training and species databases
+}
 \description{
-Load test databases into environment without having to type so much
+Load test databases into environment without having to type so much.
+Because I'm lazy and got really tired of finding the exact text to copy paste
 }
 \examples{
 db <- test_dbs()

@@ -30,9 +30,9 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     stop("You must provide the path to a taxonomic reference database. See here for options and more info: https://benjjneb.github.io/dada2/training.html")
   }
 
-  if (!is.matrix(asvtable)) {
-    asvtable <- matrixify(asvtable)
-  }
+ # if (!is.matrix(asvtable)) {
+#    asvtable <- matrixify(asvtable)
+#  }
 
   train_db <- ref_db(train, chatty = chatty)
 
@@ -57,8 +57,6 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     return(invisible(taxa))
     }
   }
-
-
 
   as_tibble(taxa, rownames = "ASV", .name_repair = "unique")
 

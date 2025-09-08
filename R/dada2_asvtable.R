@@ -24,6 +24,10 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
     if (chatty == TRUE) {
       print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
     }
+    if (!dir.exists(sprintf("%s/dada2_out/figs", outdir))) {
+      # If it doesn't exist, create it
+      dir.create(sprintf("%s/dada2_out/figs", outdir), recursive = TRUE) # recursive = TRUE creates parent directories if needed
+    }
   }
 
   if (where != "example" & where != "inst/extdata/f") {

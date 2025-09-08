@@ -207,6 +207,42 @@ full_example_data <- function(path = NULL) {
     print("To use this function, package 'googledrive' must be installed first. Visit https://googledrive.tidyverse.org/index.html for more information.")
   }
 }
+#' Converts tibbles, data frames, and matrices to each other as needed by the specific function
+#'
+#' @param x Tibble, data frame, or matrix in
+#' @param out What you want to conver it to out (tibble, data frame, or matrix)
+#' @param id ID column, if relevant
+#'
+#' @returns A tibble, data frame, or matrix
+converter <- function(x = NULL, out = "matrix", id = "SampleID"){
+
+  validout <- c("tibble", "data.frame", "matrix")
+  if (!out %in% validout) stop("Invalid 'out' value")
+
+  if(is_tibble(x)){
+    #print(sprintf("tibble to %s", out))
+    if(out == "matrix"){
+    x <- column_to_rownames(x, var = id)
+    x <- as.matrix(x)
+    return(invisible(x))
+    }
+    if(out != "matrix"){
+      # for now, do nothing.
+    }
+  }
+
+  if(!is_tibble(x) & is.data.frame(x)){
+    print("table")
+  }
+
+  if((!is_tibble(x) | !is.data.frame(x)) & is.matrix(x)){ # returns true only if matrix
+    print("matrix")
+  }
+
+  if(!is_tibble(x) & !is.data.frame(x) & !is.matrix(x)){
+  stop("Not a tibble, data frame, or matrix")
+  }
+}
 #' tibblefy a specific type of data frame
 #'
 #' @param x data frame you want to turn into a tibble
@@ -234,20 +270,6 @@ tibblefy <- function(x, type = "asvtable") {
 
   if (!identical(rownames(x), as.character(1:nrow(x)))) {
     x <- as_tibble(x, rownames = rownames, .name_repair = "unique")
-    return(x)
-  }
-}
-#' Turn a data frame or tibble into a matrix
-#'
-#' @param x data frame or tibble
-#'
-#' @returns a matrix
-#'
-matrixify <- function(x) {
-  if (!is.matrix(x)) {
-    rownames(x) <- x[, 1]
-    x <- x[, -1]
-    x <- as.matrix(x)
     return(x)
   }
 }

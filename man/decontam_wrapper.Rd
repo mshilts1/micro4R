@@ -24,7 +24,8 @@ Decontam
 \examples{
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
-dada2_wrapper(where = "example", train = train, species = species, logfile = FALSE)
+asvtable <- dada2_asvtable("example", logfile = FALSE)
+taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species)
 metadata <- example_metadata()
-decontam_wrapper(asvtable = asvtable, metadata = metadata, logfile = FALSE)
+decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
 }
