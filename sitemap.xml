@@ -6,6 +6,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/index.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/checkASV.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/checkMeta.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/converter.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_asvtable.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_taxa.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_wrapper.html</loc></url>
@@ -19,7 +20,6 @@
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleMeta.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleSeqtab.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleTaxa.html</loc></url>
-<url><loc>https://mshilts1.github.io/micro4R/reference/matrixify.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/packItUp.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/pipe.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/ref_db.html</loc></url>
