@@ -14,6 +14,11 @@
 #' @examples
 #' train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 #' species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
+#'
+#' # the example ASV table is too small for decontam to work properly
+#' # to get around this, we deliberately "contaminate" the ASV table with
+#' # the contaminate() command. this requires us to use the matched metadata
+#' # file created with contaminate()
 #' asvtable <- converter(contaminate()$asvtable)
 #' taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species)
 #' metadata <- contaminate()$metadata

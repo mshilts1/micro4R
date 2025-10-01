@@ -7,9 +7,9 @@
 converter(x = NULL, out = "matrix", id = "SampleID")
 }
 \arguments{
-\item{x}{Tibble, data frame, or matrix in}
+\item{x}{A tibble, data frame, or matrix that you want to convert}
 
-\item{out}{What you want to conver it to out (tibble, data frame, or matrix)}
+\item{out}{What you want to conver it to out (tibble, data_frame, or matrix)}
 
 \item{id}{ID column, if relevant}
 }

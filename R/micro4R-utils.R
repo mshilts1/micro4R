@@ -209,8 +209,8 @@ full_example_data <- function(path = NULL) {
 }
 #' Converts tibbles, data frames, and matrices to each other as needed by the specific function
 #'
-#' @param x Tibble, data frame, or matrix in
-#' @param out What you want to conver it to out (tibble, data frame, or matrix)
+#' @param x A tibble, data frame, or matrix that you want to convert
+#' @param out What you want to conver it to out (tibble, data_frame, or matrix)
 #' @param id ID column, if relevant
 #'
 #' @returns A tibble, data frame, or matrix
@@ -221,32 +221,63 @@ full_example_data <- function(path = NULL) {
 #'
 converter <- function(x = NULL, out = "matrix", id = "SampleID"){
 
+  # quietly correct common possible typos
+
+  if(out == "data_frame" | out == "df"){
+    out <- "data.frame"
+  }
+
+  if(out == "tbl_df" | out == "tbl"){
+    out <- "tibble"
+  }
+
+  if(out == "array"){
+    out <- "matrix"
+  }
+
   validout <- c("tibble", "data.frame", "matrix")
   if (!out %in% validout) stop("Invalid 'out' value")
 
-  if(is_tibble(x)){
+  if(!tibble::is_tibble(x) & !is.data.frame(x) & !is.matrix(x)){
+    stop("Input object is not a tibble, data frame, or matrix.")
+  }
+
+  if(tibble::is_tibble(x)){
     #print(sprintf("tibble to %s", out))
     if(out == "matrix"){
-    x <- column_to_rownames(x, var = id)
-    x <- as.matrix(x)
+      if(id %in% names(x)) {
+      x <- column_to_rownames(x, var = id)
+      x <- as.matrix(x)
+      return(invisible(x))
+      }
+      if(!id %in% names(x)){
+        stop(sprintf("'id' column %s was not found in your input object.", id))
+      }
+    }
+
+    if(out == "data.frame"){
+    x <- as.data.frame(x)
     return(invisible(x))
     }
-    if(out != "matrix"){
-      # for now, do nothing.
+
+    if(out == "tibble"){
+    print("You requested to turn a tibble into a tibble, so the code is doing nothing.")
     }
   }
 
-  if(!is_tibble(x) & is.data.frame(x)){
-    print("table")
+  if(!tibble::is_tibble(x) & is.data.frame(x)){
+    print("table in")
+    if(out == "matrix"){
+      x <- column_to_rownames(x, var = id)
+      x <- as.matrix(x)
+      return(invisible(x))
+    }
   }
 
-  if((!is_tibble(x) | !is.data.frame(x)) & is.matrix(x)){ # returns true only if matrix
-    print("matrix")
+  if((!tibble::is_tibble(x) | !is.data.frame(x)) & is.matrix(x)){ # returns true only if matrix
+    print("matrix in")
   }
 
-  if(!is_tibble(x) & !is.data.frame(x) & !is.matrix(x)){
-  stop("Not a tibble, data frame, or matrix")
-  }
 }
 #' tibblefy a specific type of data frame. NOT REALLY WORKING CURRENTLY
 #'
