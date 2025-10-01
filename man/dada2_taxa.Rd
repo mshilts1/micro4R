@@ -36,7 +36,7 @@ A table of taxonomic assigments
 dada2 taxa
 }
 \examples{
-asvtable <- dada2_asvtable(where = "inst/extdata/f", logfile = FALSE)
+asvtable <- dada2_asvtable(example = TRUE)
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
 dada2_taxa(asvtable = asvtable, train = train, species = species)

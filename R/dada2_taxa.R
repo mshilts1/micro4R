@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-#' asvtable <- dada2_asvtable(where = "inst/extdata/f", logfile = FALSE)
+#' asvtable <- dada2_asvtable(example = TRUE)
 #' train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 #' species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
 #' dada2_taxa(asvtable = asvtable, train = train, species = species)
@@ -22,11 +22,17 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   #  tax_db <- ref_db(db)
   # }
 
-  if (is.null(asvtable)) {
+  if (example == TRUE){
+    asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE)
+    train <- test_dbs()$train
+    species <- test_dbs()$species
+  }
+
+  if (example == FALSE & is.null(asvtable)) {
     stop("You must provide an ASV count table. Typically, this would be the output of dada2_wrapper.")
   }
 
-  if (is.null(train)) {
+  if (example == FALSE & is.null(train)) {
     stop("You must provide the path to a taxonomic reference database. See here for options and more info: https://benjjneb.github.io/dada2/training.html")
   }
 

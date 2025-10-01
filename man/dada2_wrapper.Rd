@@ -4,9 +4,11 @@
 \alias{dada2_wrapper}
 \title{dada2 wrapper}
 \usage{
-dada2_wrapper(metadata = NULL, ...)
+dada2_wrapper(example = FALSE, metadata = NULL, ...)
 }
 \arguments{
+\item{example}{Set to TRUE to run an example}
+
 \item{metadata}{OPTIONAL. Can pass your associated metadata object to this function so it packages it all up for you for downstream steps}
 
 \item{...}{Allows passing of arguments to nested functions}
@@ -18,7 +20,5 @@ a list of dada2 ASV table and taxonomy table (and metadata, optionally)
 dada2 wrapper
 }
 \examples{
-train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
-species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
-dada2_wrapper(where = "example", train = train, species = species, logfile = FALSE)
+dada2_wrapper(example = TRUE)
 }

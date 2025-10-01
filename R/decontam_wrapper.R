@@ -14,7 +14,7 @@
 #' @examples
 #' train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 #' species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
-#' asvtable <- dada2_asvtable("example", logfile = FALSE)
+#' asvtable <- dada2_asvtable(example = TRUE)
 #' taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species)
 #' metadata <- example_metadata()
 #' decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)

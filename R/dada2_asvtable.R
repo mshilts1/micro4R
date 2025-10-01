@@ -1,12 +1,13 @@
 #' dada2 workflow to generate ASV table
 #'
-#' @param where Path to your fastq files. Run `dada2_asvtable(path = "example")` if you want to run the example data.
+#' @param where Path to your fastq files.
 #' @param patternF Pattern of the forward/R1 reads. Default is Illumina standard.
 #' @param patternR Pattern of the reverse/R2 reads. Default is Illumina standard
 #' @param multi Should multithreading be done? Can use this to set to TRUE or FALSE for entire wrapper.
 #' @param ... Allows passing of arguments to nested functions
 #' @param chatty How chatty should code be? Default is TRUE, but set to FALSE if you don't want so much text going to the console.
 #' @param logfile Write a logfile to user's computer. Default is TRUE
+#' @param example Set to TRUE to run example
 #'
 #' @returns dada2 ASV table
 #' @export
@@ -16,10 +17,25 @@
 #' @import grDevices
 #'
 #' @examples
-#' dada2_asvtable("example", logfile = FALSE)
-dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, ...) {
+#' dada2_asvtable(example = TRUE, logfile = FALSE)
+dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, ...) {
 
-  if (where == "example" | where == "inst/extdata/f") {
+  if(example == TRUE){
+    logfile <- FALSE
+  }
+
+  if(example == TRUE & !is.null(where)){
+    stop("You can either run with example = TRUE or set a path to your fastq files with 'where'. You cannot do both.")
+  }
+
+  if (example == FALSE & is.null(where)) {
+    where <- getwd()
+    if (chatty == TRUE) {
+      print(sprintf("As no argument was provided for the 'path' of your fastq files, this wrapper will assume you want to work in your current directory, %s", where))
+    }
+  }
+
+      if(example == TRUE) {
     outdir <- tempdir()
     if (chatty == TRUE) {
       print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
@@ -30,7 +46,8 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
     }
   }
 
-  if (where != "example" & where != "inst/extdata/f") {
+
+  if (example == FALSE) {
     if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
       # If it doesn't exist, create it
       dir.create(sprintf("%s/dada2_out/figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
@@ -40,10 +57,10 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
   if(logfile){
   functionname <- as.character(sys.call()[[1]])
   log_file_conn <- NULL
-  if (where == "example" | where == "inst/extdata/f") {
+  if (example == TRUE) {
   log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", outdir, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
   }
-  if (where != "example" & where != "inst/extdata/f") {
+  if (example == FALSE) {
   log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", where, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
   }
   sink(log_file_conn, split = TRUE)
@@ -52,18 +69,13 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
 
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
-  if (is.null(where)) {
-    where <- getwd()
-    if (chatty == TRUE) {
-      print(sprintf("As no argument was provided for the 'path' of your fastq files, this wrapper will assume you want to work in your current directory, %s", where))
-    }
-  }
 
-  if (where != "example" & where != "inst/extdata/f") {
+
+  if (example == FALSE) {
     whereFastqs(where, chatty = chatty)
   }
 
-  if (where == "example" | where == "inst/extdata/f") {
+  if (example == TRUE) {
     outdir <- tempdir()
     if (chatty == TRUE) {
       print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
@@ -71,12 +83,12 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
   }
 
 
-  if (where == "example" | where == "inst/extdata/f") {
+  if (example == TRUE) {
     fnFs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R1_001.fastq.gz", full.names = TRUE)
     fnRs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R2_001.fastq.gz", full.names = TRUE)
   }
 
-  if (where != "example" & where != "inst/extdata/f") {
+  if (example == FALSE) {
     fnFs <- sort(list.files(where, pattern = patternF, full.names = TRUE))
     fnRs <- sort(list.files(where, pattern = patternR, full.names = TRUE))
     if (rlang::is_empty(fnFs)) {
@@ -89,12 +101,12 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
 
   sample.names <- gsub(patternF, "", basename(fnFs)) # create simplified sample names by stripping out the forward read pattern specified by user. *should* match reverse reads, unless something really weird going on with file names.
 
-  if (where != "example" & where != "inst/extdata/f") {
+  if (example == FALSE) {
     filtFs <- file.path(where, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
     filtRs <- file.path(where, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
 
-  if (where == "example" | where == "inst/extdata/f") {
+  if (example == TRUE) {
     filtFs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
     filtRs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
@@ -109,7 +121,7 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
   errF <- dada2::learnErrors(filtFs, multithread = multi, verbose = chatty)
   errR <- dada2::learnErrors(filtRs, multithread = multi, verbose = chatty)
 
-  if (where != "example" & where != "inst/extdata/f") { # create some dada2 figs
+  if (example == FALSE) { # create some dada2 figs
 
     if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
       # If it doesn't exist, create it
@@ -141,7 +153,7 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
   derepFs <- dada2::derepFastq(filtFs, verbose = chatty)
   derepRs <- dada2::derepFastq(filtRs, verbose = chatty)
 
-  if (where != "example" & where != "inst/extdata/f") {
+  if (example == FALSE) {
     names(derepFs) <- sample.names[exists]
     names(derepRs) <- sample.names[exists]
   }
@@ -176,12 +188,12 @@ dada2_asvtable <- function(where = NULL, patternF = "_R1_001.fastq.gz", patternR
   seqtab.nochim.tibble <- as_tibble(seqtab, rownames = "SampleID")
   track.tibble <- as_tibble(track, rownames = "SampleID")
 
-  if (where != "example" & where != "inst/extdata/f") {
+  if (example == FALSE) {
     write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", where), row.names = FALSE)
     write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/seqtab.nochim.csv", where), row.names = FALSE)
   }
 
-  if (where == "example" | where == "inst/extdata/f") {
+  if (example == TRUE) {
     write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
     write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/asvtable.csv", outdir), row.names = FALSE)
     on.exit(unlink(outdir), add = TRUE)

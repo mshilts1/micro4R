@@ -6,6 +6,7 @@
 \usage{
 dada2_asvtable(
   where = NULL,
+  example = FALSE,
   patternF = "_R1_001.fastq.gz",
   patternR = "_R2_001.fastq.gz",
   multi = FALSE,
@@ -15,7 +16,9 @@ dada2_asvtable(
 )
 }
 \arguments{
-\item{where}{Path to your fastq files. Run \code{dada2_asvtable(path = "example")} if you want to run the example data.}
+\item{where}{Path to your fastq files.}
+
+\item{example}{Set to TRUE to run example}
 
 \item{patternF}{Pattern of the forward/R1 reads. Default is Illumina standard.}
 
@@ -36,5 +39,5 @@ dada2 ASV table
 dada2 workflow to generate ASV table
 }
 \examples{
-dada2_asvtable("example", logfile = FALSE)
+dada2_asvtable(example = TRUE, logfile = FALSE)
 }

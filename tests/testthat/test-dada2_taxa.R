@@ -1,4 +1,4 @@
-asvtable <- dada2_asvtable("example", logfile = FALSE, chatty = FALSE)
+asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE, chatty = FALSE)
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
 taxa <- dada2_taxa(asvtable = asvtable, train = train, species = species)

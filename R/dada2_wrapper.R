@@ -2,20 +2,38 @@
 #'
 #' @param ... Allows passing of arguments to nested functions
 #' @param metadata OPTIONAL. Can pass your associated metadata object to this function so it packages it all up for you for downstream steps
+#' @param example Set to TRUE to run an example
 #'
 #' @returns a list of dada2 ASV table and taxonomy table (and metadata, optionally)
 #' @export
 #'
 #' @examples
-#' train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
-#' species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
-#' dada2_wrapper(where = "example", train = train, species = species, logfile = FALSE)
-dada2_wrapper <- function(metadata = NULL, ...) {
+#' dada2_wrapper(example = TRUE)
+dada2_wrapper <- function(example = FALSE, metadata = NULL, ...) {
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
-  asvtable <- dada2_asvtable(...)
+  if(example == TRUE){
+    metadata <- example_metadata()
+  }
+
+  if(example == TRUE){
+  asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE, ...)
+  }
+
+  if(example == FALSE){
+    asvtable <- dada2_asvtable(example = FALSE, ...)
+  }
   # return(asvtable)
-  taxa <- dada2_taxa(asvtable, ...)
+
+  if(example == TRUE){
+    taxa <- dada2_taxa(example = TRUE, ...)
+  }
+
+  if(example == FALSE){
+    taxa <- dada2_taxa(example = FALSE, ...)
+  }
+
+
 
   asvtable <- as_tibble(asvtable, rownames = "SampleID")
   taxa <- as_tibble(taxa, rownames = "ASV")
