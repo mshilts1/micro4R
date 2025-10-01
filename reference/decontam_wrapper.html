@@ -68,6 +68,11 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">train</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"</span></span></span>
 <span class="r-in"><span><span class="va">species</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the example ASV table is too small for decontam to work properly</span></span></span>
+<span class="r-in"><span><span class="co"># to get around this, we deliberately "contaminate" the ASV table with</span></span></span>
+<span class="r-in"><span><span class="co"># the contaminate() command. this requires us to use the matched metadata</span></span></span>
+<span class="r-in"><span><span class="co"># file created with contaminate()</span></span></span>
 <span class="r-in"><span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="converter.html">converter</a></span><span class="op">(</span><span class="fu"><a href="contaminate.html">contaminate</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">asvtable</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="dada2_taxa.html">dada2_taxa</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">asvtable</span>, train <span class="op">=</span> <span class="va">train</span>, species <span class="op">=</span> <span class="va">species</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstrating purposes. DO NOT use them with your real data."</span>
