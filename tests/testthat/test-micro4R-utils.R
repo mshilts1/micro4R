@@ -38,4 +38,3 @@ test_that("Get a warning if the column name you gave for the sample IDs can't be
 test_that("No output if it passes all tests", {
   expect_null(checkMeta(dplyr::band_members, "name"))
 })
-

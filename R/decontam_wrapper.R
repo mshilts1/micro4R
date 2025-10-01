@@ -28,7 +28,7 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
     metadata <- metadata %>%
       as.data.frame() %>%
       tibble::column_to_rownames(var = "SampleID")
-    #return(invisible(metadata))
+    # return(invisible(metadata))
   }
 
   ps <- phyloseq::phyloseq(phyloseq::otu_table(asvtable, taxa_are_rows = FALSE), phyloseq::sample_data(metadata), phyloseq::tax_table(taxa))
@@ -49,7 +49,8 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
   Index <- NULL
   df$Index <- seq(nrow(df))
   grDevices::pdf(sprintf("%s/dada2_out/figs/Library_sizes_pre_decontam.pdf", where))
-  print(ggplot2::ggplot(data = df, ggplot2::aes(x = .data$Index, y = .data$LibrarySize, color = .data$neg)) +  ggplot2::geom_point())
+  print(ggplot2::ggplot(data = df, ggplot2::aes(x = .data$Index, y = .data$LibrarySize, color = .data$neg)) +
+    ggplot2::geom_point())
   grDevices::dev.off()
 
   contamdf.prev <- decontam::isContaminant(ps, neg = "neg")
@@ -65,24 +66,26 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
     ps.pa <- transform_sample_counts(ps, function(abund) 1 * (abund > 0))
 
     ps.pa.neg <- prune_samples(sample_data(ps.pa)$neg == TRUE, ps.pa)
-    ps.pa.pos <- prune_samples(sample_data(ps.pa)$neg== FALSE, ps.pa)
+    ps.pa.pos <- prune_samples(sample_data(ps.pa)$neg == FALSE, ps.pa)
     print(ps.pa.neg)
-    df.pa <- data.frame(pa.pos=taxa_sums(ps.pa.pos), pa.neg=taxa_sums(ps.pa.neg), contaminant=contamdf.prev$contaminant)
+    df.pa <- data.frame(pa.pos = taxa_sums(ps.pa.pos), pa.neg = taxa_sums(ps.pa.neg), contaminant = contamdf.prev$contaminant)
 
-    #pdf("Prevalence in positive and negative samples.pdf")
-    #ggplot(data=df.pa, aes(x=pa.neg, y=pa.pos, color=contaminant)) + geom_point() + xlab("Prevalence (Negative Controls)") + ylab("Prevalence (True Samples)")
+    # pdf("Prevalence in positive and negative samples.pdf")
+    # ggplot(data=df.pa, aes(x=pa.neg, y=pa.pos, color=contaminant)) + geom_point() + xlab("Prevalence (Negative Controls)") + ylab("Prevalence (True Samples)")
     # prune contaminant ASVs
     ps.noncontam <- prune_taxa(!contamdf.prev$contaminant, ps)
-    seqtab.nochim.noncontam = as(otu_table(ps.noncontam), "matrix")
+    seqtab.nochim.noncontam <- as(otu_table(ps.noncontam), "matrix")
 
-    if(taxa_are_rows(ps.noncontam)){seqtab.nochim.noncontam <- t(seqtab.nochim.noncontam)}
-    seqtab.nochim.noncontam.df = as.data.frame(seqtab.nochim.noncontam)
+    if (taxa_are_rows(ps.noncontam)) {
+      seqtab.nochim.noncontam <- t(seqtab.nochim.noncontam)
+    }
+    seqtab.nochim.noncontam.df <- as.data.frame(seqtab.nochim.noncontam)
 
-    #write.csv(seqtab.nochim.noncontam.df, file="seqtab.nochim.noncontam.csv")
+    # write.csv(seqtab.nochim.noncontam.df, file="seqtab.nochim.noncontam.csv")
 
-    taxa.noncontam = as(tax_table(ps.noncontam), "matrix")
-    taxa.noncontam.df = as.data.frame(taxa.noncontam)
-    #write.csv(taxa.noncontam.df, file="taxa.noncontam.csv")
+    taxa.noncontam <- as(tax_table(ps.noncontam), "matrix")
+    taxa.noncontam.df <- as.data.frame(taxa.noncontam)
+    # write.csv(taxa.noncontam.df, file="taxa.noncontam.csv")
 
     return(list("asvtable" = seqtab.nochim.noncontam.df, "taxa" = taxa.noncontam.df, "metadata" = metadata))
   }

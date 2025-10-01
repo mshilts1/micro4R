@@ -19,19 +19,18 @@
 #' @examples
 #' dada2_asvtable(example = TRUE, logfile = FALSE)
 dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, ...) {
-
-  if(!is.null(where)){
-  if(where == "inst/extdata/f"){
-    example <- TRUE
-    where <- NULL
+  if (!is.null(where)) {
+    if (where == "inst/extdata/f") {
+      example <- TRUE
+      where <- NULL
+    }
   }
-  }
 
-  if(example == TRUE){
+  if (example == TRUE) {
     logfile <- FALSE
   }
 
-  if(example == TRUE & !is.null(where)){
+  if (example == TRUE & !is.null(where)) {
     stop("You can either run with example = TRUE or set a path to your fastq files with 'where'. You cannot do both.")
   }
 
@@ -42,7 +41,7 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
     }
   }
 
-      if(example == TRUE) {
+  if (example == TRUE) {
     outdir <- tempdir()
     if (chatty == TRUE) {
       print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
@@ -61,17 +60,17 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
     }
   }
 
-  if(logfile){
-  functionname <- as.character(sys.call()[[1]])
-  log_file_conn <- NULL
-  if (example == TRUE) {
-  log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", outdir, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
-  }
-  if (example == FALSE) {
-  log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", where, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
-  }
-  sink(log_file_conn, split = TRUE)
-  print(sprintf("Run with function %s started at %s", functionname, Sys.time()))
+  if (logfile) {
+    functionname <- as.character(sys.call()[[1]])
+    log_file_conn <- NULL
+    if (example == TRUE) {
+      log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", outdir, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
+    }
+    if (example == FALSE) {
+      log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", where, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
+    }
+    sink(log_file_conn, split = TRUE)
+    print(sprintf("Run with function %s started at %s", functionname, Sys.time()))
   }
 
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
@@ -216,9 +215,9 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
     return(invisible(seqtab.nochim))
   }
 
-  if(logfile){
-  print(sprintf("Run with function %s ended at %s", functionname, Sys.time()))
-  on.exit(sink(), add = TRUE)
-  on.exit(close(log_file_conn), add = TRUE)
+  if (logfile) {
+    print(sprintf("Run with function %s ended at %s", functionname, Sys.time()))
+    on.exit(sink(), add = TRUE)
+    on.exit(close(log_file_conn), add = TRUE)
   }
 }

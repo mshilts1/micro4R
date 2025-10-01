@@ -22,7 +22,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   #  tax_db <- ref_db(db)
   # }
 
-  if (example == TRUE){
+  if (example == TRUE) {
     asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE)
     train <- test_dbs()$train
     species <- test_dbs()$species
@@ -36,15 +36,15 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     stop("You must provide the path to a taxonomic reference database. See here for options and more info: https://benjjneb.github.io/dada2/training.html")
   }
 
- # if (!is.matrix(asvtable)) {
-#    asvtable <- matrixify(asvtable)
-#  }
+  # if (!is.matrix(asvtable)) {
+  #    asvtable <- matrixify(asvtable)
+  #  }
 
   train_db <- ref_db(train, chatty = chatty)
 
   if (chatty == TRUE) {
-  taxa <- dada2::assignTaxonomy(seqs = asvtable, refFasta = train_db, multithread = multi, verbose = chatty)
-  return(taxa)
+    taxa <- dada2::assignTaxonomy(seqs = asvtable, refFasta = train_db, multithread = multi, verbose = chatty)
+    return(taxa)
   }
 
   if (chatty == FALSE) {
@@ -60,7 +60,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
       return(taxa)
     }
     if (chatty == FALSE) {
-    return(invisible(taxa))
+      return(invisible(taxa))
     }
   }
 

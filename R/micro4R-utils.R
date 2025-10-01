@@ -34,57 +34,56 @@ whereFastqs <- function(path = NULL, chatty = TRUE, return_tibble_or_path = "pat
   }
 
 
-  if(return_tibble_or_path != "tribble"){
+  if (return_tibble_or_path != "tribble") {
+    fastq_filename_patterns <- tibble::tribble(
+      ~pattern,
+      "fastq",
+      "fq",
+      "R1",
+      "R2"
+    )
 
-  fastq_filename_patterns <- tibble::tribble(
-    ~pattern,
-    "fastq",
-    "fq",
-    "R1",
-    "R2"
-  )
+    files <- files %>%
+      dplyr::mutate(
+        fastq = stringr::str_count(.data$value, regex("fastq", ignore_case = TRUE)),
+        fq = stringr::str_count(.data$value, regex("fq", ignore_case = TRUE)),
+        R1 = stringr::str_count(.data$value, regex("R1", ignore_case = TRUE)),
+        R2 = stringr::str_count(.data$value, regex("R2", ignore_case = TRUE)),
+      ) %>%
+      rowwise() %>%
+      dplyr::mutate(any_fq = sum(c_across(c(.data$fastq, .data$fq)))) %>%
+      ungroup()
 
-  files <- files %>%
-    dplyr::mutate(
-      fastq = stringr::str_count(.data$value, regex("fastq", ignore_case = TRUE)),
-      fq = stringr::str_count(.data$value, regex("fq", ignore_case = TRUE)),
-      R1 = stringr::str_count(.data$value, regex("R1", ignore_case = TRUE)),
-      R2 = stringr::str_count(.data$value, regex("R2", ignore_case = TRUE)),
-    ) %>%
-    rowwise() %>%
-    dplyr::mutate(any_fq = sum(c_across(c(.data$fastq, .data$fq)))) %>%
-    ungroup()
+    fastq_sum <- files %>%
+      summarise(total_value = sum(.data$any_fq)) %>%
+      as.numeric()
+    r1_sum <- files %>%
+      summarise(total_value = sum(.data$R1)) %>%
+      as.numeric()
+    r2_sum <- files %>%
+      summarise(total_value = sum(.data$R2)) %>%
+      as.numeric()
 
-  fastq_sum <- files %>%
-    summarise(total_value = sum(.data$any_fq)) %>%
-    as.numeric()
-  r1_sum <- files %>%
-    summarise(total_value = sum(.data$R1)) %>%
-    as.numeric()
-  r2_sum <- files %>%
-    summarise(total_value = sum(.data$R2)) %>%
-    as.numeric()
+    if (r1_sum == r2_sum & r1_sum * 2 == fastq_sum) {
+      print(sprintf("The total number of potential FASTQ files detected in the directory was %s, and the number of potential forward reads and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum))
+    }
 
-  if (r1_sum == r2_sum & r1_sum * 2 == fastq_sum) {
-    print(sprintf("The total number of potential FASTQ files detected in the directory was %s, and the number of potential forward reads and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum))
-  }
+    if (r1_sum != r2_sum) {
+      print(sprintf("CAUTION: the number of forward reads and reverse reads does not appear to match! The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you! If you're sure everything is OK, then carry on.", fastq_sum, r1_sum, r2_sum))
+    }
 
-  if (r1_sum != r2_sum) {
-    print(sprintf("CAUTION: the number of forward reads and reverse reads does not appear to match! The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you! If you're sure everything is OK, then carry on.", fastq_sum, r1_sum, r2_sum))
-  }
-
-  if (r1_sum * 2 != fastq_sum | r2_sum * 2 != fastq_sum) {
-    print(sprintf("CAUTION: the number of total reads detected is not double the number of either forward or reverse reads. The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s, and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum, r2_sum))
-  }
+    if (r1_sum * 2 != fastq_sum | r2_sum * 2 != fastq_sum) {
+      print(sprintf("CAUTION: the number of total reads detected is not double the number of either forward or reverse reads. The total number of potential FASTQ files detected in the directory was %s, the number of potential forward reads was %s, and reverse reads was %s. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!", fastq_sum, r1_sum, r2_sum))
+    }
 
 
-  if (chatty == TRUE) {
-    return(path)
-  }
+    if (chatty == TRUE) {
+      return(path)
+    }
 
-  if (chatty == FALSE) {
-    return(invisible(path))
-  }
+    if (chatty == FALSE) {
+      return(invisible(path))
+    }
   }
 }
 #' A simple tibble of the names of maintained dada2-formatted taxonomy reference databases
@@ -219,65 +218,63 @@ full_example_data <- function(path = NULL) {
 #' @examples
 #' converter(contaminate()$asvtable)
 #'
-converter <- function(x = NULL, out = "matrix", id = "SampleID"){
-
+converter <- function(x = NULL, out = "matrix", id = "SampleID") {
   # quietly correct common possible typos
 
-  if(out == "data_frame" | out == "df"){
+  if (out == "data_frame" | out == "df") {
     out <- "data.frame"
   }
 
-  if(out == "tbl_df" | out == "tbl"){
+  if (out == "tbl_df" | out == "tbl") {
     out <- "tibble"
   }
 
-  if(out == "array"){
+  if (out == "array") {
     out <- "matrix"
   }
 
   validout <- c("tibble", "data.frame", "matrix")
   if (!out %in% validout) stop("Invalid 'out' value")
 
-  if(!tibble::is_tibble(x) & !is.data.frame(x) & !is.matrix(x)){
+  if (!tibble::is_tibble(x) & !is.data.frame(x) & !is.matrix(x)) {
     stop("Input object is not a tibble, data frame, or matrix.")
   }
 
-  if(tibble::is_tibble(x)){
-    #print(sprintf("tibble to %s", out))
-    if(out == "matrix"){
-      if(id %in% names(x)) {
-      x <- column_to_rownames(x, var = id)
-      x <- as.matrix(x)
-      return(invisible(x))
+  if (tibble::is_tibble(x)) {
+    # print(sprintf("tibble to %s", out))
+    if (out == "matrix") {
+      if (id %in% names(x)) {
+        x <- column_to_rownames(x, var = id)
+        x <- as.matrix(x)
+        return(invisible(x))
       }
-      if(!id %in% names(x)){
+      if (!id %in% names(x)) {
         stop(sprintf("'id' column %s was not found in your input object.", id))
       }
     }
 
-    if(out == "data.frame"){
-    x <- as.data.frame(x)
-    return(invisible(x))
+    if (out == "data.frame") {
+      x <- as.data.frame(x)
+      return(invisible(x))
     }
 
-    if(out == "tibble"){
-    print("You requested to turn a tibble into a tibble, so the code is doing nothing.")
+    if (out == "tibble") {
+      print("You requested to turn a tibble into a tibble, so the code is doing nothing.")
     }
   }
 
-  if(!tibble::is_tibble(x) & is.data.frame(x)){
+  if (!tibble::is_tibble(x) & is.data.frame(x)) {
     print("table in")
-    if(out == "matrix"){
+    if (out == "matrix") {
       x <- column_to_rownames(x, var = id)
       x <- as.matrix(x)
       return(invisible(x))
     }
   }
 
-  if((!tibble::is_tibble(x) | !is.data.frame(x)) & is.matrix(x)){ # returns true only if matrix
+  if ((!tibble::is_tibble(x) | !is.data.frame(x)) & is.matrix(x)) { # returns true only if matrix
     print("matrix in")
   }
-
 }
 #' tibblefy a specific type of data frame. NOT REALLY WORKING CURRENTLY
 #'
@@ -337,7 +334,9 @@ contaminate <- function() {
 
   asvtable <- dplyr::full_join(example_metadata(), asvtable, by = "SampleID")
 
-  row_to_modify <- asvtable %>% dplyr::filter(.data$neg == TRUE) %>% dplyr::mutate(TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG = 1000)
+  row_to_modify <- asvtable %>%
+    dplyr::filter(.data$neg == TRUE) %>%
+    dplyr::mutate(TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG = 1000)
 
   new_negs <- row_to_modify %>%
     dplyr::slice(rep(1:n(), times = c(3, 5))) %>%
@@ -347,7 +346,7 @@ contaminate <- function() {
     dplyr::filter(.data$neg != TRUE) %>%
     dplyr::bind_rows(row_to_modify) %>%
     dplyr::bind_rows(new_negs)
-    #dplyr::select(-c("LabID", "SampleType", "host_age", "host_sex", "Host_disease", "neg"))
+  # dplyr::select(-c("LabID", "SampleType", "host_age", "host_sex", "Host_disease", "neg"))
 
   metadata <- asvtable %>% dplyr::select(c(colnames(example_metadata())))
   asvtable <- asvtable %>% dplyr::select(-c("LabID", "SampleType", "host_age", "host_sex", "Host_disease", "neg"))
@@ -383,7 +382,7 @@ packItUp <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
 #' db <- test_dbs()
 #' train <- db$train
 #' species <- db$species
-test_dbs <- function(){
+test_dbs <- function() {
   train <- system.file("extdata/db", package = "micro4R", "EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz", mustWork = TRUE)
   species <- system.file("extdata/db", package = "micro4R", "EXAMPLE_silva_v138.2_assignSpecies.fa.gz", mustWork = TRUE)
   return(list("train" = train, "species" = species))
@@ -414,16 +413,16 @@ checkASV <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
     warning(sprintf("A column called 'SampleID' wasn't found in your ASV table '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(asvtable)), deparse(substitute(asvtable))))
   }
 
-  if(!is.null(metadata)){
-  if (!("SampleID" %in% colnames(metadata))) {
-    warning(sprintf("A column called 'SampleID' wasn't found in your metadata object '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(metadata)), deparse(substitute(metadata))))
-  }
-
-  if ("SampleID" %in% colnames(metadata) & "SampleID" %in% colnames(asvtable)) {
-    if (nrow(merge(metadata, asvtable, by = "SampleID")) < 1) {
-      warning(sprintf("After merging your metadata and ASV objects, no samples were retained. Check that the SampleIDs match in each object. For example, you may have a non-matching number of padded zeroes."))
+  if (!is.null(metadata)) {
+    if (!("SampleID" %in% colnames(metadata))) {
+      warning(sprintf("A column called 'SampleID' wasn't found in your metadata object '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(metadata)), deparse(substitute(metadata))))
     }
-  }
+
+    if ("SampleID" %in% colnames(metadata) & "SampleID" %in% colnames(asvtable)) {
+      if (nrow(merge(metadata, asvtable, by = "SampleID")) < 1) {
+        warning(sprintf("After merging your metadata and ASV objects, no samples were retained. Check that the SampleIDs match in each object. For example, you may have a non-matching number of padded zeroes."))
+      }
+    }
   }
 }
 #' Check metadata file to identify potential downstream issues.

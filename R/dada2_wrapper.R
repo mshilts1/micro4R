@@ -12,24 +12,24 @@
 dada2_wrapper <- function(example = FALSE, metadata = NULL, ...) {
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
-  if(example == TRUE){
+  if (example == TRUE) {
     metadata <- example_metadata()
   }
 
-  if(example == TRUE){
-  asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE, ...)
+  if (example == TRUE) {
+    asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE, ...)
   }
 
-  if(example == FALSE){
+  if (example == FALSE) {
     asvtable <- dada2_asvtable(example = FALSE, ...)
   }
   # return(asvtable)
 
-  if(example == TRUE){
+  if (example == TRUE) {
     taxa <- dada2_taxa(example = TRUE, ...)
   }
 
-  if(example == FALSE){
+  if (example == FALSE) {
     taxa <- dada2_taxa(example = FALSE, ...)
   }
 
