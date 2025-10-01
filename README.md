@@ -22,7 +22,7 @@ microbiome research at the bench and had to
 [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif)
 to myself how to process and analyze “big data”. I’ve spent a ton of
 time poring over and experimenting with \[others’ code\]UPDATE URL, and
-want to pass it on. \# micro4R
+want to pass it on.
 <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
 
 Likely, the ideal person to benefit from `micro4R` would be a bench
@@ -30,9 +30,9 @@ scientist without much formal statistics or bioinformatics training.
 Fair warning, if you already have a strong stats/informatics background,
 this may not be of much use for you!
 
-This package does not create any brand new functionality and was built
-on the great work of \[others\]UPDATE URL. Much of what it does can be
-accomplished with other packages, such as
+This package does not create any brand new functionality and is
+essentially a wrapper of existing tools \[others\]UPDATE URL. Much of
+what it does can be accomplished with other packages, such as
 [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html),
 [QIIME 2](https://qiime2.org), and
 [MicrobiomeAnalyst](https://www.microbiomeanalyst.ca). One of these may
@@ -68,8 +68,8 @@ available [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).
 
 ### Making the ASV count and taxonomy tables
 
-If you don’t know what an ASV (Amplicon Sequence Variant) is, please
-read [here](https://benjjneb.github.io/dada2/index.html) first.
+If you don’t know what an ASV (Amplicon Sequence Variant) is, please go
+[here](https://benjjneb.github.io/dada2/index.html) first.
 
 The first thing we’ll do on these files is run `dada2_asvtable()`, which
 is essentially a wrapper to generate an ASV count table by following a
@@ -88,7 +88,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpeAdsY8/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpIyRPAG/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -125,12 +125,26 @@ tibble::as_tibble(asvtable, rownames = "SampleID")
 #> #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG <int>, …
 ```
 
-We now have an ASV table, which is a bunch of literal DNA sequences and
-the count of each that was detected for each sample. Since you’re
-(probably) not a computer, a string of hundreds of nucletotides is
-likely not something you can make much sense of by yourself. The next
-step will take those nucleotide sequences and compare them against a
-database (or two) of sequences with known taxonomy:
+This is basically just a count table of the number of ASVs detected in
+each sample.
+
+Let’s look what the column names (AKA the names of the ASVs) look like:
+
+``` r
+colnames(asvtable)
+#> [1] "TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG" 
+#> [2] "TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG" 
+#> [3] "TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG"
+#> [4] "TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG" 
+#> [5] "TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG" 
+#> [6] "TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG"
+```
+
+Our ASVs are by default just named after their literal DNA sequences.
+Since you’re (probably?) not a computer, a string of hundreds of
+nucletotides is likely not something you can make much sense of by
+yourself. The next step will take those nucleotide sequences and compare
+them against a database (or two) of sequences with known taxonomy:
 
 ``` r
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz" # set training database
@@ -147,17 +161,18 @@ as the “training set of reference sequences with known taxonomy”.
 path to a specifically formatted species assignment database. (Read more
 [here](https://benjjneb.github.io/dada2/assign.html#species-assignment).)
 
-**The two databases used in the example here are comically small and
-artificial subsamples of the real SILVA databases, and should only ever
-be used for testing and demonstration purposes!** You’ll definitely need
-to download and use the real
+**CAUTION: The two databases used in the example here are comically
+small and artificial subsamples of the real SILVA databases, and should
+only ever be used for testing and demonstration purposes!** You’ll
+definitely need to download and use the real
 [databases](https://benjjneb.github.io/dada2/training.html) for your
 actual data!
 
 There are many options for taxonomic databases you can use; the major
 players are SILVA, RDP, GreenGenes, and UNITE. Please go
 [here](https://benjjneb.github.io/dada2/training.html) for details and
-links. I tend to usually use the SILVA databases, but you don’t have to!
+links. I tend to usually prefer the SILVA databases, but you don’t have
+to!
 
 Let’s take a look at the taxonomy assignment table:
 
@@ -170,6 +185,10 @@ Let’s take a look at the taxonomy assignment table:
     #> 4 TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCG… Bacter… Actin… Acti… Myco… Coryn… Cory…
     #> 5 TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Carno… Dolo…
     #> 6 TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Strep… Stre…
+
+It’s a bit squished, but you can see this information is more
+human-friendly here. Each ASV has been giving a taxonomic assignment,
+down to species-level when possible.
 
 ### Sample metadata
 
@@ -191,7 +210,7 @@ metadata
 #> 7 SAMPLED_5348-MS-1_381-T… CTRL… positive …       NA <NA>     <NA>         FALSE
 ```
 
-Let’s look at the ‘SampleID’ field, which are what they sound like, and
+Let’s look at the ‘SampleID’ field, which is what is sound like, and
 uniquely identifies each sample:
 
 ``` r
@@ -207,11 +226,12 @@ metadata$SampleID
 
 The first thing you may notice is the ‘SampleIDs’ are the kinds of IDs
 that only a computer could love. For my standard workflow, I like to
-keep the SampleIDs as the FASTQ file names for full transparency and so
-I can always easy go back and track down the original FASTQ ID.
+keep the SampleIDs as the FASTQ file names because they will by default
+automatically match the SampleIDs generated with dada2_asvtable().
 
-That’s why there’s also a ‘LabID’, which is an ID that could have been
-used all through specimen processing, and is much more human-friendly.
+In this example, there is also a ‘LabID’ field, which is an ID that may
+have been used all through specimen processing, and is much more
+human-friendly:
 
 ``` r
 metadata$LabID
@@ -219,13 +239,17 @@ metadata$LabID
 #> [5] "CTRL_neg_ext"  "CTRL_neg_pcr"  "CTRL_pos_pcr"
 ```
 
-What kind of information you’ll need here is highly dependent on your
-study, but there’s some data that we need to have for the optional (but
-highly recommended!) processing of your ASV table through
-[decontam](https://github.com/benjjneb/decontam). Most importantly,
-`decontam` needs to know which samples are your negative controls. Don’t
-have any negative controls? You won’t be able to run `decontam`, and I
-highly recommend you include some next time!
+You must have a column called ‘SampleID’, and those IDs must exactly
+match between your metadata and ASV count table objects. But otherwise,
+you’re free to name your samples whatever you want.
+
+What kind of information you’ll need to have in your metadata object is
+HIGHLY dependent on your study, but there’s some information that we
+must have for the optional (but highly recommended!) processing of your
+ASV table through [decontam](https://github.com/benjjneb/decontam). Most
+importantly, `decontam` needs to know which samples are your negative
+controls. Don’t have any negative controls? You won’t be able to run
+`decontam`, and I strongly recommend you include some next time!
 
 ``` r
 # add decontam code next

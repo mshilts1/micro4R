@@ -26,11 +26,11 @@ Microbiome data analysis tools for R
 
 
 
-The goal of `micro4R` was to create an R package for microbiome data processing with a low barrier to entry. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code]UPDATE URL, and want to pass it on.     # micro4R <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>         
+The goal of `micro4R` was to create an R package for microbiome data processing with a low barrier to entry. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code]UPDATE URL, and want to pass it on.     <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>         
 
 Likely, the ideal person to benefit from `micro4R` would be a bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!            
 
-This package does not create any brand new functionality and was built on the great work of [others]UPDATE URL. Much of what it does can be accomplished with other packages, such as [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html), [QIIME 2](https://qiime2.org), and [MicrobiomeAnalyst](https://www.microbiomeanalyst.ca). One of these may be better for your purposes, and I'd encourage anyone new to the field to explore multiple tools!    
+This package does not create any brand new functionality and is essentially a wrapper of existing tools [others]UPDATE URL. Much of what it does can be accomplished with other packages, such as [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html), [QIIME 2](https://qiime2.org), and [MicrobiomeAnalyst](https://www.microbiomeanalyst.ca). One of these may be better for your purposes, and I'd encourage anyone new to the field to explore multiple tools!    
 
 
 
@@ -54,7 +54,7 @@ Included with the package is an extremely, unnaturally tiny toy example to demon
 
 ### Making the ASV count and taxonomy tables
 
-If you don't know what an ASV (Amplicon Sequence Variant) is, please read [here](https://benjjneb.github.io/dada2/index.html) first.    
+If you don't know what an ASV (Amplicon Sequence Variant) is, please go [here](https://benjjneb.github.io/dada2/index.html) first.    
 
 The first thing we'll do on these files is run `dada2_asvtable()`, which is essentially a wrapper to generate an ASV count table by following a workflow similar to the [dada2 tutorial](https://benjjneb.github.io/dada2/tutorial.html). 
 
@@ -79,8 +79,15 @@ Let's take a quick look at what this asvtable looks like (using the `tibble::as_
 tibble::as_tibble(asvtable, rownames = "SampleID")
 ```
 
+This is basically just a count table of the number of ASVs detected in each sample.         
 
-We now have an ASV table, which is a bunch of literal DNA sequences and the count of each that was detected for each sample. Since you're (probably) not a computer, a string of hundreds of nucletotides is likely not something you can make much sense of by yourself. The next step will take those nucleotide sequences and compare them against a database (or two) of sequences with known taxonomy: 
+Let's look what the column names (AKA the names of the ASVs) look like:
+
+```{r example2.1}
+colnames(asvtable)
+```
+
+Our ASVs are by default just named after their literal DNA sequences. Since you're (probably?) not a computer, a string of hundreds of nucletotides is likely not something you can make much sense of by yourself. The next step will take those nucleotide sequences and compare them against a database (or two) of sequences with known taxonomy: 
 
 ```{r example3}
 train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz" # set training database
@@ -93,9 +100,9 @@ There are two databases that we're using for taxonomic assignment here:
 1. 'train' needs to be the path to whatever database you'd like to use as the "training set of reference sequences with known taxonomy".   
 2. 'species' is OPTIONAL. If you'd like to use this option, provide the path to a specifically formatted species assignment database. (Read more [here](https://benjjneb.github.io/dada2/assign.html#species-assignment).)
 
-**The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!** You'll definitely need to download and use the real [databases](https://benjjneb.github.io/dada2/training.html) for your actual data!       
+**CAUTION: The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!** You'll definitely need to download and use the real [databases](https://benjjneb.github.io/dada2/training.html) for your actual data!       
 
-There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go [here](https://benjjneb.github.io/dada2/training.html) for details and links. I tend to usually use the SILVA databases, but you don't have to!
+There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go [here](https://benjjneb.github.io/dada2/training.html) for details and links. I tend to usually prefer the SILVA databases, but you don't have to!
 
 ```{r example3.1, echo = FALSE}
 # taxa <- tibble::as_tibble(taxa, rownames = "ASV")
@@ -107,6 +114,7 @@ Let's take a look at the taxonomy assignment table:
 tibble::as_tibble(taxa, rownames = "ASV")
 ```
 
+It's a bit squished, but you can see this information is more human-friendly here. Each ASV has been giving a taxonomic assignment, down to species-level when possible.    
 
 ### Sample metadata
 
@@ -118,21 +126,23 @@ metadata <- example_metadata()
 metadata
 ```
 
-Let's look at the 'SampleID' field, which are what they sound like, and uniquely identifies each sample:
+Let's look at the 'SampleID' field, which is what is sound like, and uniquely identifies each sample:
 
 ```{r example 4.1}
 metadata$SampleID
 ```
 
-The first thing you may notice is the 'SampleIDs' are the kinds of IDs that only a computer could love. For my standard workflow, I like to keep the SampleIDs as the FASTQ file names for full transparency and so I can always easy go back and track down the original FASTQ ID. 
+The first thing you may notice is the 'SampleIDs' are the kinds of IDs that only a computer could love. For my standard workflow, I like to keep the SampleIDs as the FASTQ file names because they will by default automatically match the SampleIDs generated with dada2_asvtable().     
 
-That's why there's also a 'LabID', which is an ID that could have been used all through specimen processing, and is much more human-friendly. 
+In this example, there is also a 'LabID' field, which is an ID that may have been used all through specimen processing, and is much more human-friendly: 
 
 ```{r example 4.2}
 metadata$LabID
 ```
 
-What kind of information you'll need here is highly dependent on your study, but there's some data that we need to have for the optional (but highly recommended!) processing of your ASV table through [decontam](https://github.com/benjjneb/decontam). Most importantly, `decontam` needs to know which samples are your negative controls. Don't have any negative controls? You won't be able to run `decontam`, and I highly recommend you include some next time!  
+You must have a column called 'SampleID', and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you're free to name your samples whatever you want.
+
+What kind of information you'll need to have in your metadata object is HIGHLY dependent on your study, but there's some information that we must have for the optional (but highly recommended!) processing of your ASV table through [decontam](https://github.com/benjjneb/decontam). Most importantly, `decontam` needs to know which samples are your negative controls. Don't have any negative controls? You won't be able to run `decontam`, and I strongly recommend you include some next time!  
 
 
 ```{r example5}
