@@ -2,7 +2,7 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{tibblefy}
 \alias{tibblefy}
-\title{tibblefy a specific type of data frame}
+\title{tibblefy a specific type of data frame. NOT REALLY WORKING CURRENTLY}
 \usage{
 tibblefy(x, type = "asvtable")
 }
@@ -15,5 +15,5 @@ tibblefy(x, type = "asvtable")
 a tibble
 }
 \description{
-tibblefy a specific type of data frame
+tibblefy a specific type of data frame. NOT REALLY WORKING CURRENTLY
 }

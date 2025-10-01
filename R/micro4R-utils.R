@@ -214,6 +214,11 @@ full_example_data <- function(path = NULL) {
 #' @param id ID column, if relevant
 #'
 #' @returns A tibble, data frame, or matrix
+#' @export
+#'
+#' @examples
+#' converter(contaminate()$asvtable)
+#'
 converter <- function(x = NULL, out = "matrix", id = "SampleID"){
 
   validout <- c("tibble", "data.frame", "matrix")
@@ -243,7 +248,7 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID"){
   stop("Not a tibble, data frame, or matrix")
   }
 }
-#' tibblefy a specific type of data frame
+#' tibblefy a specific type of data frame. NOT REALLY WORKING CURRENTLY
 #'
 #' @param x data frame you want to turn into a tibble
 #' @param type asvtable or taxa
@@ -285,6 +290,38 @@ example_metadata <- function() {
   metadata <- read.csv(file = filepath, header = TRUE)
   metadata <- tibble::as_tibble(metadata)
   return(metadata)
+}
+#' "Contaminate" the example ASV table so decontam can run
+#'
+#' @returns An artificially "contaminated" ASV table
+#' @export
+#'
+#' @examples
+#' contaminated_asvtable <- contaminate()
+contaminate <- function() {
+  filepath <- system.file("extdata/objects", package = "micro4R", "asvtable.csv", mustWork = TRUE)
+  asvtable <- read.csv(file = filepath, header = TRUE)
+  asvtable <- tibble::as_tibble(asvtable)
+  # SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001 and SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001 are the negative controls
+
+  asvtable <- dplyr::full_join(example_metadata(), asvtable, by = "SampleID")
+
+  row_to_modify <- asvtable %>% dplyr::filter(.data$neg == TRUE) %>% dplyr::mutate(TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG = 1000)
+
+  new_negs <- row_to_modify %>%
+    dplyr::slice(rep(1:n(), times = c(3, 5))) %>%
+    dplyr::mutate(SampleID = c("FakeNeg1", "FakeNeg2", "FakeNeg3", "FakeNeg4", "FakeNeg5", "FakeNeg6", "FakeNeg7", "FakeNeg8"))
+
+  asvtable <- asvtable %>%
+    dplyr::filter(.data$neg != TRUE) %>%
+    dplyr::bind_rows(row_to_modify) %>%
+    dplyr::bind_rows(new_negs)
+    #dplyr::select(-c("LabID", "SampleType", "host_age", "host_sex", "Host_disease", "neg"))
+
+  metadata <- asvtable %>% dplyr::select(c(colnames(example_metadata())))
+  asvtable <- asvtable %>% dplyr::select(-c("LabID", "SampleType", "host_age", "host_sex", "Host_disease", "neg"))
+
+  return(list("asvtable" = asvtable, "metadata" = metadata))
 }
 #' Package up your three objects (metadata, asvtable, taxonomy table) into a single list for less typing
 #'

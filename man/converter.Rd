@@ -19,3 +19,7 @@ A tibble, data frame, or matrix
 \description{
 Converts tibbles, data frames, and matrices to each other as needed by the specific function
 }
+\examples{
+converter(contaminate()$asvtable)
+
+}

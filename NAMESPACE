@@ -2,6 +2,8 @@
 
 export("%>%")
 export(checkMeta)
+export(contaminate)
+export(converter)
 export(dada2_asvtable)
 export(dada2_taxa)
 export(dada2_wrapper)
