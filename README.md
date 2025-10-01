@@ -16,16 +16,16 @@ coverage](https://codecov.io/gh/mshilts1/micro4R/graph/badge.svg)](https://app.c
 [![R-CMD-check](https://github.com/mshilts1/micro4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mshilts1/micro4R/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of `micro4R` was to create an R package with a low barrier to
-entry. I started my career in microbiome research at the bench and had
-to
+The goal of `micro4R` was to create an R package for microbiome data
+processing with a low barrier to entry. I started my career in
+microbiome research at the bench and had to
 [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif)
 to myself how to process and analyze “big data”. I’ve spent a ton of
 time poring over and experimenting with \[others’ code\]UPDATE URL, and
 want to pass it on. \# micro4R
 <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>
 
-Likely, the ideal candidate to benefit from `micro4R` would be a bench
+Likely, the ideal person to benefit from `micro4R` would be a bench
 scientist without much formal statistics or bioinformatics training.
 Fair warning, if you already have a strong stats/informatics background,
 this may not be of much use for you!
@@ -37,7 +37,7 @@ accomplished with other packages, such as
 [QIIME 2](https://qiime2.org), and
 [MicrobiomeAnalyst](https://www.microbiomeanalyst.ca). One of these may
 be better for your purposes, and I’d encourage anyone new to the field
-to explore multiple tools.
+to explore multiple tools!
 
 ## Installation
 
@@ -62,11 +62,14 @@ I’ll run through the smallest and simplest possible use case below. For
 more detailed help and documentation, please explore the vignettes
 *(TBA)*.
 
-Included with the package is an extremely tiny toy example to
-demonstrate its major functionality, using subsampled publicly available
-[data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).
+Included with the package is an extremely, unnaturally tiny toy example
+to demonstrate its major functionality, using subsampled publicly
+available [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).
 
 ### Making the ASV count and taxonomy tables
+
+If you don’t know what an ASV (Amplicon Sequence Variant) is, please
+read [here](https://benjjneb.github.io/dada2/index.html) first.
 
 The first thing we’ll do on these files is run `dada2_asvtable()`, which
 is essentially a wrapper to generate an ASV count table by following a
@@ -85,18 +88,18 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpFRR39Y/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpeAdsY8/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
 
 If you’re running this with your own data, set ‘where’ to the path of
 the folder where your FASTQ files are stored. If you leave it empty
-(e.g., run `dada2_asvtable()`), it will default to your current working
-directory. (‘chatty’ was set to FALSE because tons of information gets
-printed to the console otherwise; I’d recommend setting it to TRUE (the
-default) when you’re processing data for real, as the information is
-useful, but just too much here.)
+(e.g., run `dada2_asvtable()`), it will default to searching in your
+current working directory. (‘chatty’ was set to FALSE because tons of
+information gets printed to the console otherwise; I’d recommend setting
+it to TRUE (the default) when you’re processing data for real, as the
+information is useful, but just too much here.)
 
 Let’s take a quick look at what this asvtable looks like (using the
 `tibble::as_tibble()` function so it prints more nicely):
@@ -154,7 +157,7 @@ actual data!
 There are many options for taxonomic databases you can use; the major
 players are SILVA, RDP, GreenGenes, and UNITE. Please go
 [here](https://benjjneb.github.io/dada2/training.html) for details and
-links. I tend to usually use the SILVA databases, but you don’t have to.
+links. I tend to usually use the SILVA databases, but you don’t have to!
 
 Let’s take a look at the taxonomy assignment table:
 
@@ -188,10 +191,33 @@ metadata
 #> 7 SAMPLED_5348-MS-1_381-T… CTRL… positive …       NA <NA>     <NA>         FALSE
 ```
 
+Let’s look at the ‘SampleID’ field, which are what they sound like, and
+uniquely identifies each sample:
+
+``` r
+metadata$SampleID
+#> [1] "SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001"
+#> [2] "SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001"
+#> [3] "SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001"
+#> [4] "SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001"
+#> [5] "SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001"
+#> [6] "SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001"
+#> [7] "SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001"
+```
+
 The first thing you may notice is the ‘SampleIDs’ are the kinds of IDs
 that only a computer could love. For my standard workflow, I like to
 keep the SampleIDs as the FASTQ file names for full transparency and so
 I can always easy go back and track down the original FASTQ ID.
+
+That’s why there’s also a ‘LabID’, which is an ID that could have been
+used all through specimen processing, and is much more human-friendly.
+
+``` r
+metadata$LabID
+#> [1] "participant01" "participant02" "participant03" "participant04"
+#> [5] "CTRL_neg_ext"  "CTRL_neg_pcr"  "CTRL_pos_pcr"
+```
 
 What kind of information you’ll need here is highly dependent on your
 study, but there’s some data that we need to have for the optional (but
