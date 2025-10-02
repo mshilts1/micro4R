@@ -87,7 +87,7 @@
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpiGThuf/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpSZrWjH/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to searching in your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
@@ -197,6 +197,32 @@ s &lt;- sticker(image_path, package=“micro4R”, p_size=15, p_family = “Comf
 RStudio Version 2025.05.1+513 (2025.05.1+513) macOS Sequoia Version 15.6.1</p>
 </div>
 </div>
+</div>
+<div class="section level1">
+<h1 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
+</h1>
+<p>As mentioned above, I could not have done any of this without the benefit of what the work of others. These tools below were especially important:</p>
+<ul>
+<li>
+<a href="https://mothur.org" class="external-link">mothur</a><br>
+</li>
+<li>
+<a href="https://qiime2.org" class="external-link">qiime</a><br>
+</li>
+<li>
+<a href="https://github.com/andreyto/mgsat" class="external-link">mgsat</a><br>
+</li>
+<li>maaslin<a href="https://huttenhower.sph.harvard.edu/maaslin/" class="external-link">2</a>/<a href="https://huttenhower.sph.harvard.edu/maaslin3/" class="external-link">3</a><br>
+</li>
+<li><a href="https://cran.r-project.org/web/packages/vegan/index.html" class="external-link">vegan</a></li>
+<li>
+<a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a>, especially <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> and <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a>. In addition to these packages, Hadley Wickham and team have written several extremely helpful <a href="https://hadley.nz" class="external-link">guides and tutorials</a> on data science.</li>
+<li><a href="https://callahanlab.cvm.ncsu.edu/software/" class="external-link">dada2 and decontam</a></li>
+<li>
+<a href="https://hbiostat.org" class="external-link">Suite from Dr. Frank Harrell</a>, especially <a href="https://cran.r-project.org/web/packages/rms/index.html" class="external-link">rms</a> and <a href="https://cran.r-project.org/web/packages/Hmisc/index.html" class="external-link">Hmisc</a>.</li>
+<li>Colleague and physician-scientist <a href="https://pediatrics.vumc.org/person/christian-rosas-salazar-md-mph" class="external-link">Dr. Christian Rosas-Salazar</a> is talented at many things, but has an especial knack for creating figures that are both beautiful and informative.</li>
+</ul>
+<p>More acknowledgements and more details to be added later</p>
 </div>
 
 
