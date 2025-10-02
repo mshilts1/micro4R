@@ -31,8 +31,10 @@ Fair warning, if you already have a strong stats/informatics background,
 this may not be of much use for you!
 
 This package does not create any brand new functionality and is
-essentially a wrapper of existing tools \[others\]UPDATE URL. Much of
-what it does can be accomplished with other packages, such as
+essentially inspired by and/or a wrapper of existing tools
+[others](https://github.com/mshilts1/micro4R?tab=readme-ov-file#acknowledgements)
+have already created. Much of what it does can be accomplished with
+other packages, such as
 [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html),
 [QIIME 2](https://qiime2.org), and
 [MicrobiomeAnalyst](https://www.microbiomeanalyst.ca). One of these may
@@ -58,13 +60,15 @@ pak::pak("mshilts1/micro4R")
 
 ## Example
 
-I’ll run through the smallest and simplest possible use case below. For
+I’ll run through a very small and simple possible use case below. For
 more detailed help and documentation, please explore the vignettes
 *(TBA)*.
 
 Included with the package is an extremely, unnaturally tiny toy example
 to demonstrate its major functionality, using subsampled publicly
-available [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992).
+available [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992)
+that I generated along with many
+[colleagues](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/).
 
 ### Making the ASV count and taxonomy tables
 
@@ -88,7 +92,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpSZrWjH/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpIrNexx/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
