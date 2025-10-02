@@ -26,7 +26,7 @@ Microbiome data analysis tools for R
 
 
 
-The goal of `micro4R` was to create an R package for microbiome data processing with a low barrier to entry. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code]UPDATE URL, and want to pass it on.     <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>         
+The goal of `micro4R` was to create an R package for microbiome data processing with a low barrier to entry. I started my career in microbiome research at the bench and had to [ELI5](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif) to myself how to process and analyze "big data". I've spent a ton of time poring over and experimenting with [others' code](https://github.com/mshilts1/micro4R?tab=readme-ov-file#acknowledgements), and want to pass it on.     <a href="https://mshilts1.github.io/micro4R/"><img src="man/figures/logo.png" align="right" height="139" alt="micro4R website" /></a>         
 
 Likely, the ideal person to benefit from `micro4R` would be a bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!            
 
@@ -50,7 +50,7 @@ pak::pak("mshilts1/micro4R")
 
 I'll run through a very small and simple possible use case below. For more detailed help and documentation, please explore the vignettes *(TBA)*.   
 
-Included with the package is an extremely, unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992) that I generated along with many [colleagues](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/).   
+Included with the package is an extremely and unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available nasal swab 16S microbiome [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992) that I generated along with many [colleagues](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/).   
 
 ### Making the ASV count and taxonomy tables
 
@@ -102,7 +102,7 @@ There are two databases that we're using for taxonomic assignment here:
 
 **CAUTION: The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!** You'll definitely need to download and use the real [databases](https://benjjneb.github.io/dada2/training.html) for your actual data!       
 
-There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go [here](https://benjjneb.github.io/dada2/training.html) for details and links. I tend to usually prefer the SILVA databases, but you don't have to!
+There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go [here](https://benjjneb.github.io/dada2/training.html) for details and links. I usually prefer the SILVA databases, but you don't have to!
 
 ```{r example3.1, echo = FALSE}
 # taxa <- tibble::as_tibble(taxa, rownames = "ASV")
@@ -132,23 +132,45 @@ Let's look at the 'SampleID' field, which is what is sound like, and uniquely id
 metadata$SampleID
 ```
 
-The first thing you may notice is the 'SampleIDs' are the kinds of IDs that only a computer could love. For my standard workflow, I like to keep the SampleIDs as the FASTQ file names because they will by default automatically match the SampleIDs generated with dada2_asvtable().     
+The first thing you may notice is the 'SampleIDs' here are the kinds of IDs that only a computer could love. For my standard workflow, I like to keep the SampleIDs as the FASTQ file names because they will by default automatically match the SampleIDs generated with dada2_asvtable().     
 
-In this example, there is also a 'LabID' field, which is an ID that may have been used all through specimen processing, and is much more human-friendly: 
+In this example, there is also a 'LabID' field, which is an ID that could have been used all through specimen processing, as it is much more human-friendly: 
 
 ```{r example 4.2}
 metadata$LabID
 ```
 
-You must have a column called 'SampleID', and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you're free to name your samples whatever you want.
+To seemlessly use this package, you MUST have a column called 'SampleID', and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you're free to name your samples whatever you want.
 
-What kind of information you'll need to have in your metadata object is HIGHLY dependent on your study, but there's some information that we must have for the optional (but highly recommended!) processing of your ASV table through [decontam](https://github.com/benjjneb/decontam). Most importantly, `decontam` needs to know which samples are your negative controls.    
+What kind of information you'll need to have in your metadata object is HIGHLY dependent on your study, but there's some information that we must have for the optional (but highly recommended!) processing of your ASV table through [decontam](https://github.com/benjjneb/decontam).    
+
+What does `decontam` need to know?    
+1. To use the "prevalence" method: which samples are the negative controls.    
+2. To use the "frequency" method: the DNA concentration in each sample prior to sequencing.    
+3. Both the above, if you want to use both/either of the "prevalence" and "frequency" methods.    
 
 Don't have any negative controls? You won't be able to run `decontam`, and I strongly recommend you include some next time! Both negative and positive controls are very important! Read more here: ^[1](https://pubmed.ncbi.nlm.nih.gov/25387460/),^ ^[2](https://pubmed.ncbi.nlm.nih.gov/27239228/),^ ^[3](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y),^ ^[4](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z),^ ^[5](https://journals.asm.org/doi/10.1128/msystems.00062-16)^  
 
+In our example data, we only are able to use the "prevalence" method, because we know which samples were negative controls, and which were not. That information is in our column called "neg":
+```{r example 4.3}
+metadata$neg
+```
 
+Next, let's run the `decontam_wrapper()` on the example data we've generated so far:
 ```{r example5}
-# add decontam code next
+decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
+```
+
+You'll see a message that "No contaminants were detected. Exiting function." With real data, you should not expect to ever see this message. Our example data set is just too small for `decontam` to work properly.     
+
+So that I can demostrate `decontam` working, we'll deliberately "contaminate" the ASV table with the contaminate() command. All we're doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls. This data is even more fake and made up than previously! The command `contaminate()` will simultaneously create a matched metdata object with the additional made up negative controls.
+
+```{r example5.1}
+
+contaminated_asvtable <- converter(contaminate()$asvtable)
+taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = species) # we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.
+contaminated_metadata <- contaminate()$metadata
+decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = contaminated_metadata, logfile = FALSE)
 ```
 ___
 
