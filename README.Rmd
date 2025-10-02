@@ -142,7 +142,9 @@ metadata$LabID
 
 You must have a column called 'SampleID', and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you're free to name your samples whatever you want.
 
-What kind of information you'll need to have in your metadata object is HIGHLY dependent on your study, but there's some information that we must have for the optional (but highly recommended!) processing of your ASV table through [decontam](https://github.com/benjjneb/decontam). Most importantly, `decontam` needs to know which samples are your negative controls. Don't have any negative controls? You won't be able to run `decontam`, and I strongly recommend you include some next time!  
+What kind of information you'll need to have in your metadata object is HIGHLY dependent on your study, but there's some information that we must have for the optional (but highly recommended!) processing of your ASV table through [decontam](https://github.com/benjjneb/decontam). Most importantly, `decontam` needs to know which samples are your negative controls.    
+
+Don't have any negative controls? You won't be able to run `decontam`, and I strongly recommend you include some next time! Both negative and positive controls are very important! Read more here: ^[1](https://pubmed.ncbi.nlm.nih.gov/25387460/),^ ^[2](https://pubmed.ncbi.nlm.nih.gov/27239228/),^ ^[3](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y),^ ^[4](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z),^ ^[5](https://journals.asm.org/doi/10.1128/msystems.00062-16)^  
 
 
 ```{r example5}

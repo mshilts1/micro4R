@@ -2,7 +2,7 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{contaminate}
 \alias{contaminate}
-\title{"Contaminate" the example ASV table so decontam can run}
+\title{"Contaminate" the example ASV table so decontam can run in example}
 \usage{
 contaminate()
 }
@@ -10,7 +10,7 @@ contaminate()
 An artificially "contaminated" ASV table
 }
 \description{
-"Contaminate" the example ASV table so decontam can run
+"Contaminate" the example ASV table so decontam can run in example
 }
 \examples{
 contaminated_asvtable <- contaminate()

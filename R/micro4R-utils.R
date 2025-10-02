@@ -236,6 +236,7 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
   validout <- c("tibble", "data.frame", "matrix")
   if (!out %in% validout) stop("Invalid 'out' value")
 
+  # tibble converter
   if (!tibble::is_tibble(x) & !is.data.frame(x) & !is.matrix(x)) {
     stop("Input object is not a tibble, data frame, or matrix.")
   }
@@ -263,20 +264,65 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
     }
   }
 
+  # data frame converter
   if (!tibble::is_tibble(x) & is.data.frame(x)) {
-    print("table in")
+    # print("table in")
+    if (out == "data.frame") {
+      print("You requested to turn a data frame into a data frame, so the code is doing nothing.")
+    }
+
     if (out == "matrix") {
-      x <- column_to_rownames(x, var = id)
-      x <- as.matrix(x)
+      if (id %in% names(x)) {
+        x <- column_to_rownames(x, var = id)
+        x <- as.matrix(x)
+        return(invisible(x))
+      }
+      if (!id %in% names(x)) {
+        stop(sprintf("'id' column '%s' was not found in your input object.", id))
+      }
+    }
+
+    if (out == "tibble") {
+      x <- tibble::as_tibble(x)
       return(invisible(x))
     }
   }
 
+  # matrix converter
   if ((!tibble::is_tibble(x) | !is.data.frame(x)) & is.matrix(x)) { # returns true only if matrix
-    print("matrix in")
+    # print("matrix in")
+    if (out == "matrix") {
+      print("You requested to turn a matrix into a matrix, so the code is doing nothing.")
+    }
+
+    if (out == "tibble") {
+      if (identical(rownames(x), as.character(1:nrow(x)))) {
+        x <- as_tibble(x, .name_repair = "unique")
+        return(invisible(x))
+      }
+
+      if (!identical(rownames(x), as.character(1:nrow(x)))) {
+        x <- as_tibble(x, rownames = id, .name_repair = "unique")
+        return(invisible(x))
+      }
+    }
+
+    if (out == "data.frame") {
+      if (identical(rownames(x), as.character(1:nrow(x)))) {
+        x <- as_tibble(x, .name_repair = "unique")
+        x <- as.data.frame(x)
+        return(invisible(x))
+      }
+
+      if (!identical(rownames(x), as.character(1:nrow(x)))) {
+        x <- as_tibble(x, rownames = id, .name_repair = "unique")
+        x <- as.data.frame(x)
+        return(invisible(x))
+      }
+    }
   }
 }
-#' tibblefy a specific type of data frame. NOT REALLY WORKING CURRENTLY
+#' tibblefy a specific type of data frame. DEPRECATED. use converter() instead
 #'
 #' @param x data frame you want to turn into a tibble
 #' @param type asvtable or taxa
@@ -319,7 +365,7 @@ example_metadata <- function() {
   metadata <- tibble::as_tibble(metadata)
   return(metadata)
 }
-#' "Contaminate" the example ASV table so decontam can run
+#' "Contaminate" the example ASV table so decontam can run in example
 #'
 #' @returns An artificially "contaminated" ASV table
 #' @export
@@ -336,7 +382,7 @@ contaminate <- function() {
 
   row_to_modify <- asvtable %>%
     dplyr::filter(.data$neg == TRUE) %>%
-    dplyr::mutate(TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG = 1000)
+    dplyr::mutate(TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG = 10)
 
   new_negs <- row_to_modify %>%
     dplyr::slice(rep(1:n(), times = c(3, 5))) %>%

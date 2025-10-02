@@ -88,7 +88,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpIyRPAG/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpiGThuf/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -248,8 +248,16 @@ HIGHLY dependent on your study, but there’s some information that we
 must have for the optional (but highly recommended!) processing of your
 ASV table through [decontam](https://github.com/benjjneb/decontam). Most
 importantly, `decontam` needs to know which samples are your negative
-controls. Don’t have any negative controls? You won’t be able to run
-`decontam`, and I strongly recommend you include some next time!
+controls.
+
+Don’t have any negative controls? You won’t be able to run `decontam`,
+and I strongly recommend you include some next time! Both negative and
+positive controls are very important! Read more here:
+<sup>[1](https://pubmed.ncbi.nlm.nih.gov/25387460/),</sup>
+<sup>[2](https://pubmed.ncbi.nlm.nih.gov/27239228/),</sup>
+<sup>[3](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y),</sup>
+<sup>[4](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z),</sup>
+<sup>[5](https://journals.asm.org/doi/10.1128/msystems.00062-16)</sup>
 
 ``` r
 # add decontam code next
