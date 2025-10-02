@@ -87,6 +87,6 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
     taxa.noncontam.df <- as.data.frame(taxa.noncontam)
     # write.csv(taxa.noncontam.df, file="taxa.noncontam.csv")
 
-    return(list("asvtable" = seqtab.nochim.noncontam.df, "taxa" = taxa.noncontam.df, "metadata" = metadata))
+    return(invisible(list("asvtable" = seqtab.nochim.noncontam.df, "taxa" = taxa.noncontam.df, "metadata" = metadata)))
   }
 }

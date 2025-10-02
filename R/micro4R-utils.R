@@ -170,7 +170,7 @@ ref_db <- function(db, chatty = TRUE) {
     print("Your reference taxonomic database is suspected to be one of the UNITE all eukaryotes databases. If that does not seem correct to you, please check!")
   }
   if ((grepl("EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz", filename) | grepl("EXAMPLE_silva_v138.2_assignSpecies.fa.gz", filename)) & chatty == TRUE) {
-    print("You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstrating purposes. DO NOT use them with your real data.")
+    print("CAUTION: You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstration purposes. DO NOT use them with your real data.")
   }
   if (!grepl("^silva_.*fa.gz$", filename) & !grepl("^rdp_.*trainset.fa.gz$", filename) & !grepl("^gg2_.*trainset.fa.gz$", filename) & !grepl("^sh_general_release_all_.*tgz", filename) & !grepl("EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz", filename) & !grepl("EXAMPLE_silva_v138.2_assignSpecies.fa.gz", filename)) {
     print("The file name of your reference database did not match any of the known maintained dada2-formatted taxonomic databases. This does not mean your database is wrong! Just that it's not on my known list. Check below to see the names of all known databases:")

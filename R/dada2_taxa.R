@@ -1,6 +1,6 @@
 #' dada2 taxa
 #'
-#' @param asvtable A file containging your sequences; most commonly the ASV table output from dada2.
+#' @param asvtable A file containing your sequences; most commonly the ASV table output from dada2.
 #' @param train Path to database that you'd like to use for taxonomic assignment.
 #' @param species OPTIONAL: path to database if you'd like to use assignSpecies() function
 #' @param chatty Set to FALSE for less text to print to screen

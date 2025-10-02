@@ -15,7 +15,7 @@ dada2_taxa(
 )
 }
 \arguments{
-\item{asvtable}{A file containging your sequences; most commonly the ASV table output from dada2.}
+\item{asvtable}{A file containing your sequences; most commonly the ASV table output from dada2.}
 
 \item{train}{Path to database that you'd like to use for taxonomic assignment.}
 

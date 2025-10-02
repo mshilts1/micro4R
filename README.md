@@ -94,7 +94,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpGKb2sS/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpnEFMmq/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -192,8 +192,8 @@ Let’s take a look at the taxonomy assignment table:
     #> 6 TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Strep… Stre…
 
 It’s a bit squished, but you can see this information is more
-human-friendly here. Each ASV has been giving a taxonomic assignment,
-down to species-level when possible.
+human-friendly here. Each ASV has been given a taxonomic assignment the
+lowest taxonomic level the taxonomy assigner was confident of.
 
 ### Sample metadata
 
@@ -259,8 +259,8 @@ What does `decontam` need to know?
 controls.  
 2. To use the “frequency” method: the DNA concentration in each sample
 prior to sequencing.  
-3. Both the above, if you want to use both/either of the “prevalence”
-and “frequency” methods.
+3. To use both/either of the “prevalence” and “frequency” methods, you
+need all the above.
 
 Don’t have any negative controls? You won’t be able to run `decontam`,
 and I strongly recommend you include some next time! Both negative and
@@ -273,7 +273,8 @@ positive controls are very important! Read more here:
 
 In our example data, we only are able to use the “prevalence” method,
 because we know which samples were negative controls, and which were
-not. That information is in our column called “neg”:
+not. That information is in our column called “neg”, where TRUE means it
+was a negative control:
 
 ``` r
 metadata$neg
@@ -296,23 +297,23 @@ decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile 
 #> [1] "No contaminants were detected. Exiting function."
 ```
 
-You’ll see a message that “No contaminants were detected. Exiting
-function.” With real data, you should not expect to ever see this
-message. Our example data set is just too small for `decontam` to work
-properly.
+You’ll see several messages, including one at the bottom that tells us
+“No contaminants were detected. Exiting function.” With real data, you
+should not expect to ever see this message. Our example data set is just
+too stupidly small for `decontam` to work properly.
 
 So that I can demostrate `decontam` working, we’ll deliberately
-“contaminate” the ASV table with the contaminate() command. All we’re
+“contaminate” the ASV table with the `contaminate()` command. All we’re
 doing is artificially adding counts to one of the ASVs, and throwing in
 a few more negative controls. This data is even more fake and made up
-than previously! The command `contaminate()` will simultaneously create
-a matched metdata object with the additional made up negative controls.
+than it was previously! The command `contaminate()` will also
+simultaneously create a matched metadata object with the additional made
+up negative controls.
 
 ``` r
-
 contaminated_asvtable <- converter(contaminate()$asvtable)
 taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = species) # we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.
-#> [1] "You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstrating purposes. DO NOT use them with your real data."
+#> [1] "CAUTION: You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstration purposes. DO NOT use them with your real data."
 #> Finished processing reference fasta.
 contaminated_metadata <- contaminate()$metadata
 decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = contaminated_metadata, logfile = FALSE)
@@ -324,175 +325,6 @@ decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = conta
 #> otu_table()   OTU Table:         [ 6 taxa and 10 samples ]
 #> sample_data() Sample Data:       [ 10 samples by 6 sample variables ]
 #> tax_table()   Taxonomy Table:    [ 6 taxa by 6 taxonomic ranks ]
-#> $asvtable
-#>                                                   TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG
-#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                            35
-#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                             0
-#> FakeNeg1                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg2                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg3                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg4                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg5                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg6                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg7                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg8                                                                                                                                                                                                                                                                                                      0
-#>                                                   TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG
-#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                              0
-#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                              0
-#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                             12
-#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                              6
-#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001                                                                                                                                                                                                                                                              0
-#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                              0
-#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                              0
-#> FakeNeg1                                                                                                                                                                                                                                                                                                       0
-#> FakeNeg2                                                                                                                                                                                                                                                                                                       0
-#> FakeNeg3                                                                                                                                                                                                                                                                                                       0
-#> FakeNeg4                                                                                                                                                                                                                                                                                                       0
-#> FakeNeg5                                                                                                                                                                                                                                                                                                       0
-#> FakeNeg6                                                                                                                                                                                                                                                                                                       0
-#> FakeNeg7                                                                                                                                                                                                                                                                                                       0
-#> FakeNeg8                                                                                                                                                                                                                                                                                                       0
-#>                                                   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG
-#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                            13
-#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                             0
-#> FakeNeg1                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg2                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg3                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg4                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg5                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg6                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg7                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg8                                                                                                                                                                                                                                                                                                      0
-#>                                                   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG
-#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                            13
-#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                             0
-#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                             0
-#> FakeNeg1                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg2                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg3                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg4                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg5                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg6                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg7                                                                                                                                                                                                                                                                                                      0
-#> FakeNeg8                                                                                                                                                                                                                                                                                                      0
-#>                                                   TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG
-#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001                                                                                                                                                                                                                                                            0
-#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001                                                                                                                                                                                                                                                            0
-#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001                                                                                                                                                                                                                                                            3
-#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001                                                                                                                                                                                                                                                            0
-#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001                                                                                                                                                                                                                                                            0
-#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001                                                                                                                                                                                                                                                            0
-#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001                                                                                                                                                                                                                                                            0
-#> FakeNeg1                                                                                                                                                                                                                                                                                                     0
-#> FakeNeg2                                                                                                                                                                                                                                                                                                     0
-#> FakeNeg3                                                                                                                                                                                                                                                                                                     0
-#> FakeNeg4                                                                                                                                                                                                                                                                                                     0
-#> FakeNeg5                                                                                                                                                                                                                                                                                                     0
-#> FakeNeg6                                                                                                                                                                                                                                                                                                     0
-#> FakeNeg7                                                                                                                                                                                                                                                                                                     0
-#> FakeNeg8                                                                                                                                                                                                                                                                                                     0
-#> 
-#> $taxa
-#>                                                                                                                                                                                                                                                                 Kingdom
-#> TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG  Bacteria
-#> TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG Bacteria
-#> TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG  Bacteria
-#> TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG  Bacteria
-#> TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG   Bacteria
-#>                                                                                                                                                                                                                                                                        Phylum
-#> TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG  Pseudomonadota
-#> TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG Actinomycetota
-#> TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG  Actinomycetota
-#> TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG       Bacillota
-#> TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG        Bacillota
-#>                                                                                                                                                                                                                                                                              Class
-#> TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG  Gammaproteobacteria
-#> TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG      Actinobacteria
-#> TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG       Actinobacteria
-#> TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG              Bacilli
-#> TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG               Bacilli
-#>                                                                                                                                                                                                                                                                           Order
-#> TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG  Enterobacterales
-#> TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG  Mycobacteriales
-#> TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG   Mycobacteriales
-#> TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG   Lactobacillales
-#> TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG    Lactobacillales
-#>                                                                                                                                                                                                                                                                            Family
-#> TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG  Enterobacteriaceae
-#> TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG Corynebacteriaceae
-#> TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG  Corynebacteriaceae
-#> TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG   Carnobacteriaceae
-#> TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG     Streptococcaceae
-#>                                                                                                                                                                                                                                                                          Genus
-#> TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG       Klebsiella
-#> TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG Corynebacterium
-#> TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG  Corynebacterium
-#> TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG   Dolosigranulum
-#> TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG     Streptococcus
-#> 
-#> $metadata
-#>                                                           LabID
-#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001 participant01
-#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001 participant02
-#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001 participant03
-#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001 participant04
-#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001  CTRL_pos_pcr
-#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001  CTRL_neg_ext
-#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001  CTRL_neg_pcr
-#> FakeNeg1                                           CTRL_neg_ext
-#> FakeNeg2                                           CTRL_neg_ext
-#> FakeNeg3                                           CTRL_neg_ext
-#> FakeNeg4                                           CTRL_neg_pcr
-#> FakeNeg5                                           CTRL_neg_pcr
-#> FakeNeg6                                           CTRL_neg_pcr
-#> FakeNeg7                                           CTRL_neg_pcr
-#> FakeNeg8                                           CTRL_neg_pcr
-#>                                                         SampleType host_age
-#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001     Homo sapiens       33
-#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001     Homo sapiens       25
-#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001     Homo sapiens       27
-#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001     Homo sapiens       26
-#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001 positive control       NA
-#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001 negative control       NA
-#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001 negative control       NA
-#> FakeNeg1                                          negative control       NA
-#> FakeNeg2                                          negative control       NA
-#> FakeNeg3                                          negative control       NA
-#> FakeNeg4                                          negative control       NA
-#> FakeNeg5                                          negative control       NA
-#> FakeNeg6                                          negative control       NA
-#> FakeNeg7                                          negative control       NA
-#> FakeNeg8                                          negative control       NA
-#>                                                   host_sex Host_disease   neg
-#> SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001   female      healthy FALSE
-#> SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001     male      healthy FALSE
-#> SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001     male     COVID-19 FALSE
-#> SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001   female     COVID-19 FALSE
-#> SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001     <NA>         <NA> FALSE
-#> SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001     <NA>         <NA>  TRUE
-#> SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001     <NA>         <NA>  TRUE
-#> FakeNeg1                                              <NA>         <NA>  TRUE
-#> FakeNeg2                                              <NA>         <NA>  TRUE
-#> FakeNeg3                                              <NA>         <NA>  TRUE
-#> FakeNeg4                                              <NA>         <NA>  TRUE
-#> FakeNeg5                                              <NA>         <NA>  TRUE
-#> FakeNeg6                                              <NA>         <NA>  TRUE
-#> FakeNeg7                                              <NA>         <NA>  TRUE
-#> FakeNeg8                                              <NA>         <NA>  TRUE
 ```
 
 ------------------------------------------------------------------------

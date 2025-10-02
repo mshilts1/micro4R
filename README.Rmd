@@ -114,7 +114,7 @@ Let's take a look at the taxonomy assignment table:
 tibble::as_tibble(taxa, rownames = "ASV")
 ```
 
-It's a bit squished, but you can see this information is more human-friendly here. Each ASV has been giving a taxonomic assignment, down to species-level when possible.    
+It's a bit squished, but you can see this information is more human-friendly here. Each ASV has been given a taxonomic assignment the lowest taxonomic level the taxonomy assigner was confident of.    
 
 ### Sample metadata
 
@@ -147,11 +147,11 @@ What kind of information you'll need to have in your metadata object is HIGHLY d
 What does `decontam` need to know?    
 1. To use the "prevalence" method: which samples are the negative controls.    
 2. To use the "frequency" method: the DNA concentration in each sample prior to sequencing.    
-3. Both the above, if you want to use both/either of the "prevalence" and "frequency" methods.    
+3. To use both/either of the "prevalence" and "frequency" methods, you need all the above.    
 
 Don't have any negative controls? You won't be able to run `decontam`, and I strongly recommend you include some next time! Both negative and positive controls are very important! Read more here: ^[1](https://pubmed.ncbi.nlm.nih.gov/25387460/),^ ^[2](https://pubmed.ncbi.nlm.nih.gov/27239228/),^ ^[3](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y),^ ^[4](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z),^ ^[5](https://journals.asm.org/doi/10.1128/msystems.00062-16)^  
 
-In our example data, we only are able to use the "prevalence" method, because we know which samples were negative controls, and which were not. That information is in our column called "neg":
+In our example data, we only are able to use the "prevalence" method, because we know which samples were negative controls, and which were not. That information is in our column called "neg", where TRUE means it was a negative control:
 ```{r example 4.3}
 metadata$neg
 ```
@@ -161,12 +161,11 @@ Next, let's run the `decontam_wrapper()` on the example data we've generated so 
 decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
 ```
 
-You'll see a message that "No contaminants were detected. Exiting function." With real data, you should not expect to ever see this message. Our example data set is just too small for `decontam` to work properly.     
+You'll see several messages, including one at the bottom that tells us "No contaminants were detected. Exiting function." With real data, you should not expect to ever see this message. Our example data set is just too stupidly small for `decontam` to work properly.     
 
-So that I can demostrate `decontam` working, we'll deliberately "contaminate" the ASV table with the contaminate() command. All we're doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls. This data is even more fake and made up than previously! The command `contaminate()` will simultaneously create a matched metdata object with the additional made up negative controls.
+So that I can demostrate `decontam` working, we'll deliberately "contaminate" the ASV table with the `contaminate()` command. All we're doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls. This data is even more fake and made up than it was previously! The command `contaminate()` will also simultaneously create a matched metadata object with the additional made up negative controls.
 
 ```{r example5.1}
-
 contaminated_asvtable <- converter(contaminate()$asvtable)
 taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = species) # we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.
 contaminated_metadata <- contaminate()$metadata
