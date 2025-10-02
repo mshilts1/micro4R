@@ -56,7 +56,7 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
   contamdf.prev <- decontam::isContaminant(ps, neg = "neg")
 
   if (all(!contamdf.prev$contaminant)) {
-    print("No contaminants were detected. Existing function.")
+    print("No contaminants were detected. Exiting function.")
   }
 
   if (any(contamdf.prev$contaminant)) {
