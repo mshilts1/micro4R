@@ -60,7 +60,7 @@
 
 <p>The goal of <code>micro4R</code> was to create an R package for microbiome data processing with a low barrier to entry. I started my career in microbiome research at the bench and had to <a href="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif" class="external-link">ELI5</a> to myself how to process and analyze “big data”. I’ve spent a ton of time poring over and experimenting with [others’ code]UPDATE URL, and want to pass it on. <a href="https://mshilts1.github.io/micro4R/"><img src="reference/figures/logo.png" align="right" height="139" alt="micro4R website"></a></p>
 <p>Likely, the ideal person to benefit from <code>micro4R</code> would be a bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!</p>
-<p>This package does not create any brand new functionality and is essentially a wrapper of existing tools [others]UPDATE URL. Much of what it does can be accomplished with other packages, such as <a href="https://bioconductor.org/packages/release/bioc/html/phyloseq.html" class="external-link">phyloseq</a>, <a href="https://qiime2.org" class="external-link">QIIME 2</a>, and <a href="https://www.microbiomeanalyst.ca" class="external-link">MicrobiomeAnalyst</a>. One of these may be better for your purposes, and I’d encourage anyone new to the field to explore multiple tools!</p>
+<p>This package does not create any brand new functionality and is essentially inspired by and/or a wrapper of existing tools <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#acknowledgements" class="external-link">others</a> have already created. Much of what it does can be accomplished with other packages, such as <a href="https://bioconductor.org/packages/release/bioc/html/phyloseq.html" class="external-link">phyloseq</a>, <a href="https://qiime2.org" class="external-link">QIIME 2</a>, and <a href="https://www.microbiomeanalyst.ca" class="external-link">MicrobiomeAnalyst</a>. One of these may be better for your purposes, and I’d encourage anyone new to the field to explore multiple tools!</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -73,8 +73,8 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>I’ll run through the smallest and simplest possible use case below. For more detailed help and documentation, please explore the vignettes <em>(TBA)</em>.</p>
-<p>Included with the package is an extremely, unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992" class="external-link">data</a>.</p>
+<p>I’ll run through a very small and simple possible use case below. For more detailed help and documentation, please explore the vignettes <em>(TBA)</em>.</p>
+<p>Included with the package is an extremely, unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992" class="external-link">data</a> that I generated along with many <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/" class="external-link">colleagues</a>.</p>
 <div class="section level3">
 <h3 id="making-the-asv-count-and-taxonomy-tables">Making the ASV count and taxonomy tables<a class="anchor" aria-label="anchor" href="#making-the-asv-count-and-taxonomy-tables"></a>
 </h3>
@@ -87,7 +87,7 @@
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpSZrWjH/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpIrNexx/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to searching in your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
