@@ -67,7 +67,7 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
 
     ps.pa.neg <- prune_samples(sample_data(ps.pa)$neg == TRUE, ps.pa)
     ps.pa.pos <- prune_samples(sample_data(ps.pa)$neg == FALSE, ps.pa)
-    print(ps.pa.neg)
+    #print(ps.pa.neg)
     df.pa <- data.frame(pa.pos = taxa_sums(ps.pa.pos), pa.neg = taxa_sums(ps.pa.neg), contaminant = contamdf.prev$contaminant)
 
     # pdf("Prevalence in positive and negative samples.pdf")

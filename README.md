@@ -94,7 +94,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpnEFMmq/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpy8zLiW/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -299,16 +299,16 @@ decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile 
 
 You’ll see several messages, including one at the bottom that tells us
 “No contaminants were detected. Exiting function.” With real data, you
-should not expect to ever see this message. Our example data set is just
-too stupidly small for `decontam` to work properly.
+should not expect to ever see this message. Our example data set was
+just too stupidly small for `decontam` to work properly.
 
-So that I can demostrate `decontam` working, we’ll deliberately
-“contaminate” the ASV table with the `contaminate()` command. All we’re
-doing is artificially adding counts to one of the ASVs, and throwing in
-a few more negative controls. This data is even more fake and made up
-than it was previously! The command `contaminate()` will also
-simultaneously create a matched metadata object with the additional made
-up negative controls.
+So that I can demonstrate `decontam` actually doing something, we’ll
+deliberately “contaminate” the ASV table with the `contaminate()`
+command. All we’re doing is artificially adding counts to one of the
+ASVs, and throwing in a few more negative controls for good measure.
+This data is even more fake and made up than it was previously! The
+command `contaminate()` will also simultaneously create a matched
+metadata object with the additional made up negative controls.
 
 ``` r
 contaminated_asvtable <- converter(contaminate()$asvtable)
@@ -316,15 +316,22 @@ taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = sp
 #> [1] "CAUTION: You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstration purposes. DO NOT use them with your real data."
 #> Finished processing reference fasta.
 contaminated_metadata <- contaminate()$metadata
-decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = contaminated_metadata, logfile = FALSE)
+decontaminated <- decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = contaminated_metadata, logfile = FALSE)
 #> Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :
 #> Removed 1 samples with zero total counts (or frequency).
 #> Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :
 #> Removed 1 samples with zero total counts (or frequency).
-#> phyloseq-class experiment-level object
-#> otu_table()   OTU Table:         [ 6 taxa and 10 samples ]
-#> sample_data() Sample Data:       [ 10 samples by 6 sample variables ]
-#> tax_table()   Taxonomy Table:    [ 6 taxa by 6 taxonomic ranks ]
+```
+
+The object “decontaminated” contains a list of the… decontaminated… ASV
+table, taxa table, and for our convenience also includes the metadata
+table.
+
+``` r
+dim(taxa)
+#> [1] 6 6
+dim(decontaminated$taxa)
+#> [1] 5 6
 ```
 
 ------------------------------------------------------------------------

@@ -161,15 +161,22 @@ Next, let's run the `decontam_wrapper()` on the example data we've generated so 
 decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
 ```
 
-You'll see several messages, including one at the bottom that tells us "No contaminants were detected. Exiting function." With real data, you should not expect to ever see this message. Our example data set is just too stupidly small for `decontam` to work properly.     
+You'll see several messages, including one at the bottom that tells us "No contaminants were detected. Exiting function." With real data, you should not expect to ever see this message. Our example data set was just too stupidly small for `decontam` to work properly.     
 
-So that I can demostrate `decontam` working, we'll deliberately "contaminate" the ASV table with the `contaminate()` command. All we're doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls. This data is even more fake and made up than it was previously! The command `contaminate()` will also simultaneously create a matched metadata object with the additional made up negative controls.
+So that I can demonstrate `decontam` actually doing something, we'll deliberately "contaminate" the ASV table with the `contaminate()` command. All we're doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls for good measure. This data is even more fake and made up than it was previously! The command `contaminate()` will also simultaneously create a matched metadata object with the additional made up negative controls.
 
 ```{r example5.1}
 contaminated_asvtable <- converter(contaminate()$asvtable)
 taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = species) # we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.
 contaminated_metadata <- contaminate()$metadata
-decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = contaminated_metadata, logfile = FALSE)
+decontaminated <- decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = contaminated_metadata, logfile = FALSE)
+```
+
+The object "decontaminated" contains a list of the... decontaminated... ASV table, taxa table, and for our convenience also includes the metadata table.
+
+```{r example 5.2}
+dim(taxa)
+dim(decontaminated$taxa)
 ```
 ___
 
