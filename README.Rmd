@@ -142,6 +142,8 @@ metadata$LabID
 
 To seemlessly use this package, you MUST have a column called 'SampleID', and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you're free to name your samples whatever you want.
 
+### Bioinformatic decontamination
+
 What kind of information you'll need to have in your metadata object is HIGHLY dependent on your study, but there's some information that we must have for the optional (but highly recommended!) processing of your ASV table through [decontam](https://github.com/benjjneb/decontam).    
 
 What does `decontam` need to know?    
@@ -167,17 +169,23 @@ So that I can demonstrate `decontam` actually doing something, we'll deliberatel
 
 ```{r example5.1}
 contaminated_asvtable <- converter(contaminate()$asvtable)
-taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = species) # we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.
+contaminated_taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = species) # we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.
 contaminated_metadata <- contaminate()$metadata
-decontaminated <- decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = contaminated_metadata, logfile = FALSE)
+decontaminated <- decontam_wrapper(asvtable = contaminated_asvtable, taxa = contaminated_taxa, metadata = contaminated_metadata, logfile = FALSE)
 ```
 
 The object "decontaminated" contains a list of the... decontaminated... ASV table, taxa table, and for our convenience also includes the metadata table.
 
 ```{r example 5.2}
-dim(taxa)
+dim(contaminated_taxa)
 dim(decontaminated$taxa)
+
+dim(contaminated_asvtable)
+dim(decontaminated$asvtable)
 ```
+
+The decontaminated version of both the ASV and taxa tables have one fewer ASV than the originals, as I artifically added a bunch of counts to one of the ASVs to the contaminated version of the ASV table. `decontam` rightfully thinks that ASV is likely a background contaminant due to its prevalence in the negative controls, and has now removed it, to make our data cleaner and more reliable. Why is this so important?^[Due to the nature of 16S microbiome profiling (and similar strategies), it is very susceptible to contamination from background bacteria. Bacteria (and their DNA) are everywhere--including all over us, our equipment, and in our reagents--and  can survive in all sorts of harsh environmental conditions. With 16S amplicon sequencing, we're deliberately enriching for all bacterial DNA, in a semi-universal way. Your first goal should be to improve your lab technique as much as possible to minimize concerns about contamination, but no matter how awesome you and your team are, you may still get some contamination! That's why tools like decontam, which attempt to bioinformatically remove potential contaminants, are so useful.]
+
 ___
 
 

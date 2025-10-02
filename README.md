@@ -94,7 +94,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpy8zLiW/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpwpwU65/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -249,6 +249,8 @@ To seemlessly use this package, you MUST have a column called
 ASV count table objects. But otherwise, you’re free to name your samples
 whatever you want.
 
+### Bioinformatic decontamination
+
 What kind of information you’ll need to have in your metadata object is
 HIGHLY dependent on your study, but there’s some information that we
 must have for the optional (but highly recommended!) processing of your
@@ -312,11 +314,11 @@ metadata object with the additional made up negative controls.
 
 ``` r
 contaminated_asvtable <- converter(contaminate()$asvtable)
-taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = species) # we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.
+contaminated_taxa <- dada2_taxa(asvtable = contaminated_asvtable, train = train, species = species) # we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.
 #> [1] "CAUTION: You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstration purposes. DO NOT use them with your real data."
 #> Finished processing reference fasta.
 contaminated_metadata <- contaminate()$metadata
-decontaminated <- decontam_wrapper(asvtable = contaminated_asvtable, taxa = taxa, metadata = contaminated_metadata, logfile = FALSE)
+decontaminated <- decontam_wrapper(asvtable = contaminated_asvtable, taxa = contaminated_taxa, metadata = contaminated_metadata, logfile = FALSE)
 #> Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :
 #> Removed 1 samples with zero total counts (or frequency).
 #> Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :
@@ -328,11 +330,24 @@ table, taxa table, and for our convenience also includes the metadata
 table.
 
 ``` r
-dim(taxa)
+dim(contaminated_taxa)
 #> [1] 6 6
 dim(decontaminated$taxa)
 #> [1] 5 6
+
+dim(contaminated_asvtable)
+#> [1] 15  6
+dim(decontaminated$asvtable)
+#> [1] 15  5
 ```
+
+The decontaminated version of both the ASV and taxa tables have one
+fewer ASV than the originals, as I artifically added a bunch of counts
+to one of the ASVs to the contaminated version of the ASV table.
+`decontam` rightfully thinks that ASV is likely a background contaminant
+due to its prevalence in the negative controls, and has now removed it,
+to make our data cleaner and more reliable. Why is this so
+important?[^1]
 
 ------------------------------------------------------------------------
 
@@ -352,7 +367,7 @@ If you’d like to run through this the full fastq files can be downloaded
 from SRA or as a zipped bolus
 [here](https://drive.google.com/file/d/1NOvmsxFxWb1Vigq8rdb5SCfLLNu-Qjy8/view?usp=sharing)
 
-Here is some body text that needs a footnote.[^1]
+Here is some body text that needs a footnote.[^2]
 
 - logo made by me using artwork from [Canva](https://www.canva.com/)
   (©[iconbunny11](https://www.canva.com/p/id/BAClqvm1MBE/)) followed by
@@ -397,4 +412,17 @@ important:
 
 More acknowledgements and more details to be added later
 
-[^1]: This is the content of the footnote.
+[^1]: Due to the nature of 16S microbiome profiling (and similar
+    strategies), it is very susceptible to contamination from background
+    bacteria. Bacteria (and their DNA) are everywhere–including all over
+    us, our equipment, and in our reagents–and can survive in all sorts
+    of harsh environmental conditions. With 16S amplicon sequencing,
+    we’re deliberately enriching for all bacterial DNA, in a
+    semi-universal way. Your first goal should be to improve your lab
+    technique as much as possible to minimize concerns about
+    contamination, but no matter how awesome you and your team are, you
+    may still get some contamination! That’s why tools like decontam,
+    which attempt to bioinformatically remove potential contaminants,
+    are so useful.
+
+[^2]: This is the content of the footnote.
