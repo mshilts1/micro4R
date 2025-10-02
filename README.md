@@ -88,7 +88,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpiGThuf/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpSZrWjH/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -298,5 +298,32 @@ s_height = .5, p_color = “black”, h_fill = “\#6ed5f5”, h_color=
 built R 4.5.1  
 RStudio Version 2025.05.1+513 (2025.05.1+513) macOS Sequoia Version
 15.6.1
+
+# Acknowledgements
+
+As mentioned above, I could not have done any of this without the
+benefit of what the work of others. These tools below were especially
+important:
+
+- [mothur](https://mothur.org)  
+- [qiime](https://qiime2.org)  
+- [mgsat](https://github.com/andreyto/mgsat)  
+- maaslin[2](https://huttenhower.sph.harvard.edu/maaslin/)/[3](https://huttenhower.sph.harvard.edu/maaslin3/)  
+- [vegan](https://cran.r-project.org/web/packages/vegan/index.html)
+- [tidyverse](https://tidyverse.tidyverse.org), especially
+  [dplyr](https://dplyr.tidyverse.org) and
+  [ggplot2](https://ggplot2.tidyverse.org). In addition to these
+  packages, Hadley Wickham and team have written several extremely
+  helpful [guides and tutorials](https://hadley.nz) on data science.
+- [dada2 and decontam](https://callahanlab.cvm.ncsu.edu/software/)
+- [Suite from Dr. Frank Harrell](https://hbiostat.org), especially
+  [rms](https://cran.r-project.org/web/packages/rms/index.html) and
+  [Hmisc](https://cran.r-project.org/web/packages/Hmisc/index.html).
+- Colleague and physician-scientist [Dr. Christian
+  Rosas-Salazar](https://pediatrics.vumc.org/person/christian-rosas-salazar-md-mph)
+  is talented at many things, but has an especial knack for creating
+  figures that are both beautiful and informative.
+
+More acknowledgements and more details to be added later
 
 [^1]: This is the content of the footnote.
