@@ -329,10 +329,12 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
 #'
 #' @param x data frame you want to turn into a tibble
 #' @param type asvtable or taxa
+#' @importFrom lifecycle deprecate_warn
 #'
 #' @returns a tibble
 #'
 tibblefy <- function(x, type = "asvtable") {
+  lifecycle::deprecate_warn("0.0.0.9000", "tibblefy()", "converter()")
   if (type != "asvtable" & type != "taxa") {
     stop("Valid options for type are either 'asvtable' or 'taxa'.")
   }
@@ -572,6 +574,7 @@ checkMeta4 <- function(df, ids = "SampleID") {
 }
 
 checkMeta <- function(df, ids = "SampleID") {
+  lifecycle::deprecate_warn("0.0.0.9000", "checkMeta()", "checkAll()")
   out1 <- checkMeta1(df, ids)
   out2 <- checkMeta2(df, ids)
   out3 <- checkMeta3(df, ids)
