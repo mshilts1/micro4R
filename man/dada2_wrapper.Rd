@@ -4,12 +4,22 @@
 \alias{dada2_wrapper}
 \title{dada2 wrapper}
 \usage{
-dada2_wrapper(example = FALSE, metadata = NULL, ...)
+dada2_wrapper(
+  example = FALSE,
+  metadata = NULL,
+  listargs = FALSE,
+  full.wrapper = FALSE,
+  ...
+)
 }
 \arguments{
 \item{example}{Set to TRUE to run an example}
 
 \item{metadata}{OPTIONAL. Can pass your associated metadata object to this function so it packages it all up for you for downstream steps}
+
+\item{listargs}{List passed arguments. Using only for troubleshooting during development; shouldn't have any use to end user}
+
+\item{full.wrapper}{TRUE by default, but must be sent to FALSE when using dada2_decontam_wrapper as otherwise metadata objects collide}
 
 \item{...}{Allows passing of arguments to nested functions}
 }

@@ -16,7 +16,7 @@ decontam_wrapper(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
 \item{...}{allow arguments to be passed to nested functions}
 }
 \value{
-asvtable with potential contaminants removed
+asvtable, taxa table, and metadata with potential contaminants removed
 }
 \description{
 Decontam

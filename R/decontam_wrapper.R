@@ -5,7 +5,7 @@
 #' @param metadata metadata
 #' @param ... allow arguments to be passed to nested functions
 #'
-#' @returns asvtable with potential contaminants removed
+#' @returns asvtable, taxa table, and metadata with potential contaminants removed
 #' @export
 #' @import decontam
 #' @import phyloseq
@@ -24,6 +24,8 @@
 #' metadata <- contaminate()$metadata
 #' decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
 decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...) {
+  passed_args <- list(...)
+
   if (tibble::is_tibble(metadata)) {
     metadata <- metadata %>%
       as.data.frame() %>%
