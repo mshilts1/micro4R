@@ -21,3 +21,8 @@ Notifies user of issues with asvtable, taxonomy table, or metadata that could ca
 checker utils in this section
 Check your ASV count and taxonomy tables for potential issues.
 }
+\examples{
+out <- dada2_wrapper(example = TRUE)
+checkASV(asvtable = out$asvtable, taxa = out$taxa, metadata = out$metadata)
+
+}

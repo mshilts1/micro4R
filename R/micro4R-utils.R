@@ -260,7 +260,8 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
     }
 
     if (out == "tibble") {
-      print("You requested to turn a tibble into a tibble, so the code is doing nothing.")
+      #print("You requested to turn a tibble into a tibble, so the code is doing nothing.")\
+      return(invisible(x))
     }
   }
 
@@ -268,7 +269,8 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
   if (!tibble::is_tibble(x) & is.data.frame(x)) {
     # print("table in")
     if (out == "data.frame") {
-      print("You requested to turn a data frame into a data frame, so the code is doing nothing.")
+      #print("You requested to turn a data frame into a data frame, so the code is doing nothing.")
+      return(invisible(x))
     }
 
     if (out == "matrix") {
@@ -292,7 +294,8 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
   if ((!tibble::is_tibble(x) | !is.data.frame(x)) & is.matrix(x)) { # returns true only if matrix
     # print("matrix in")
     if (out == "matrix") {
-      print("You requested to turn a matrix into a matrix, so the code is doing nothing.")
+      #print("You requested to turn a matrix into a matrix, so the code is doing nothing.")
+      return(invisible(x))
     }
 
     if (out == "tibble") {
@@ -433,6 +436,31 @@ test_dbs <- function() {
   species <- system.file("extdata/db", package = "micro4R", "EXAMPLE_silva_v138.2_assignSpecies.fa.gz", mustWork = TRUE)
   return(list("train" = train, "species" = species))
 }
+#' Simple function to check for a column called SampleID
+#'
+#' @param df Your ASV table or metadata object
+#'
+#' @returns Your ASV table or metadata object with your sample IDs column named 'SampleID'
+#' @export
+#'
+#' @examples
+#' checkSampleID(example_metadata())
+checkSampleID <- function(df) {
+  if (!("SampleID" %in% colnames(df))) {
+    user_input <- readline(sprintf("A column called 'SampleID' was not detected. What is the column name that you're using as your sample IDs? "))
+    if (!(user_input %in% colnames(df))) stop(sprintf("Column '%s' wasn't found in your data. Look for typos.", user_input))
+    user_answer <- readline(sprintf("Is it OK to change column name '%s' to 'SampleID'? y/n: ", user_input))
+    if (user_answer != "y") print("OK, no change made since you did not press y.")
+    if (user_answer == "y") {
+      df <- df %>% rename(SampleID = user_input)
+      return(df)
+    }
+  }
+
+  if ("SampleID" %in% colnames(df)) {
+    sprintf("Looks good")
+  }
+}
 #' checker utils in this section
 #' Check your ASV count and taxonomy tables for potential issues.
 #'
@@ -441,8 +469,20 @@ test_dbs <- function() {
 #' @param metadata The associated metadata table
 #'
 #' @returns Notifies user of issues with asvtable, taxonomy table, or metadata that could cause downstream problems.
+#' @export
+#'
+#' @examples
+#' out <- dada2_wrapper(example = TRUE)
+#' checkASV(asvtable = out$asvtable, taxa = out$taxa, metadata = out$metadata)
 #'
 checkASV <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
+
+  asvtable <- converter(asvtable, out = "tibble")
+  taxa <- converter(taxa, out = "tibble", id = "ASV")
+  if(!is.null(metadata)){
+  metadata <- converter(metadata, out = "tibble")
+  }
+
   if (!ncol(asvtable[-1]) == nrow(taxa)) {
     warning(sprintf("The number of ASVs in your ASV table doesn't match the number of ASVs in your taxonomy table."))
   }
@@ -461,7 +501,7 @@ checkASV <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
 
   if (!is.null(metadata)) {
     if (!("SampleID" %in% colnames(metadata))) {
-      warning(sprintf("A column called 'SampleID' wasn't found in your metadata object '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(metadata)), deparse(substitute(metadata))))
+      warning(sprintf("A column called 'SampleID' was not found in your metadata object '%s'. It's recommended to run checkSampleID(%s) first.", deparse(substitute(metadata)), deparse(substitute(metadata))))
     }
 
     if ("SampleID" %in% colnames(metadata) & "SampleID" %in% colnames(asvtable)) {
@@ -470,6 +510,8 @@ checkASV <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
       }
     }
   }
+
+  print("No errors or warnings identified.")
 }
 #' Check metadata file to identify potential downstream issues.
 #'

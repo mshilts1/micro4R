@@ -70,24 +70,29 @@ will be demonstrated below.
 2.  Get the data from the sequencing core. [Go
     ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-2-sequencing)  
 3.  Process the data through [dada2](https://benjjneb.github.io/dada2/)
-    then
-    [decontam](https://benjjneb.github.io/decontam/vignettes/decontam_intro.html)
-    to generate a cleaned [ASV (amplicon sequencing variant) count table
-    and its associated taxonomy
-    table](https://www.nature.com/articles/nmeth.3869). [Go
+    to generate an amplicon sequence variant (ASV) table and its
+    associated taxonomy table. [Go
     ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-3-data-processing)  
 4.  Create a “metadata” file with pertinent information on the samples
     and controls in your run. [Go
     ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-4-metadata)
-5.  Bioinformatically remove suspected contaminants [Go ↓]().  
+5.  Use
+    [decontam](https://benjjneb.github.io/decontam/vignettes/decontam_intro.html)
+    to bioinformatically remove suspected contaminants. [Go
+    ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-5-bioinformatic-decontamination).  
 6.  Do some basic sanity checking on the metadata, ASV, and taxonomy
-    objects. [Go ↓]()  
+    objects. [Go
+    ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-6-sanity-check)  
 7.  Check the quality of the sequencing data by examining both the
     positive and negative controls, and additionally how the controls
-    compare to your real samples. [Go ↓]()  
-8.  Alpha diversity (vegan).  
-9.  Beta diversity (vegan).  
-10. Differential abundance (maaslin3).
+    compare to your real samples. [Go
+    ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-7-quality-check)  
+8.  Alpha diversity (vegan). [Go
+    ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-8-alpha-diversity)  
+9.  Beta diversity (vegan). [Go
+    ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-9-beta-diversity)  
+10. Differential abundance (maaslin3). [Go
+    ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-10-additional-analysis)
 
 ## Example
 
@@ -150,7 +155,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpi2dRcG/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpGNNfgw/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -422,7 +427,20 @@ for every PCR master mix batch.\]
 
 ### Step 6: Sanity Check
 
+``` r
+checkASV(asvtable = asvtable, taxa = taxa, metadata = metadata)
+#> [1] "No errors or warnings identified."
+```
+
 ### Step 7: Quality Check
+
+Since we’re done with the basic sanity checks, now we can do an actual
+more interesting quality check of our data.
+
+As mentioned numerious times, lab positive and negative controls are
+VERY important and should be included at minimum in every single
+sequencing run. If you haven’t included either of these, you won’t be
+able to do the full quality checks here.
 
 ### Step 8: Alpha diversity
 
