@@ -75,17 +75,19 @@
 </h2>
 <p>I’ve listed the steps that I usually take with 16S data, some of which will be demonstrated below.</p>
 <ol style="list-style-type: decimal">
-<li>Do the lab work to extract DNA, make libraries, submit for sequencing, etc. <a href="https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-1-the-lab-work" class="external-link">Go ↓</a><br>
+<li>Do the lab work to extract DNA, make libraries, submit for sequencing, etc. <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-1-the-lab-work" class="external-link">Go ↓</a><br>
 </li>
-<li>Get the data from the sequencing core. <a href="https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-2-sequencing" class="external-link">Go ↓</a><br>
+<li>Get the data from the sequencing core. <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-2-sequencing" class="external-link">Go ↓</a><br>
 </li>
-<li>Process the data through <a href="https://benjjneb.github.io/dada2/" class="external-link">dada2</a> then <a href="https://benjjneb.github.io/decontam/vignettes/decontam_intro.html" class="external-link">decontam</a> to generate a cleaned <a href="https://www.nature.com/articles/nmeth.3869" class="external-link">ASV (amplicon sequencing variant) count table and its associated taxonomy table</a>. <a href="%E2%86%93">Go ↓</a><br>
+<li>Process the data through <a href="https://benjjneb.github.io/dada2/" class="external-link">dada2</a> then <a href="https://benjjneb.github.io/decontam/vignettes/decontam_intro.html" class="external-link">decontam</a> to generate a cleaned <a href="https://www.nature.com/articles/nmeth.3869" class="external-link">ASV (amplicon sequencing variant) count table and its associated taxonomy table</a>. <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-3-data-processing" class="external-link">Go ↓</a><br>
 </li>
-<li>Create a “metadata” file with pertinent information on the samples and controls in your run. <a href="https://github.com/extrasmallwinnie/micromeg/?tab=readme-ov-file#metadata" class="external-link">Go to example ↓</a>
+<li>Create a “metadata” file with pertinent information on the samples and controls in your run. <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-4-metadata" class="external-link">Go to example ↓</a>
 </li>
-<li>Do some basic sanity checking on the metadata, ASV, and taxonomy objects. <a href="https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-5-sanity-check" class="external-link">Go ↓</a><br>
+<li>Bioinformatically remove suspected contaminants <a href="">Go to example ↓</a>.<br>
 </li>
-<li>Check the quality of the sequencing data by examining both the positive and negative controls, and additionally how the controls compare to your real samples. <a href="https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-6-quality-check" class="external-link">Go ↓</a><br>
+<li>Do some basic sanity checking on the metadata, ASV, and taxonomy objects. <a href="">Go ↓</a><br>
+</li>
+<li>Check the quality of the sequencing data by examining both the positive and negative controls, and additionally how the controls compare to your real samples. <a href="">Go ↓</a><br>
 </li>
 <li>Alpha diversity (vegan).<br>
 </li>
@@ -122,7 +124,7 @@
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpTOTpTn/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpoRZg0z/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to searching in your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
