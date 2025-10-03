@@ -66,28 +66,29 @@ will be demonstrated below.
 
 1.  Do the lab work to extract DNA, make libraries, submit for
     sequencing, etc. [Go
-    ↓](https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-1-the-lab-work)  
+    ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-1-the-lab-work)  
 2.  Get the data from the sequencing core. [Go
-    ↓](https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-2-sequencing)  
+    ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-2-sequencing)  
 3.  Process the data through [dada2](https://benjjneb.github.io/dada2/)
     then
     [decontam](https://benjjneb.github.io/decontam/vignettes/decontam_intro.html)
     to generate a cleaned [ASV (amplicon sequencing variant) count table
     and its associated taxonomy
-    table](https://www.nature.com/articles/nmeth.3869). [Go ↓](↓)  
+    table](https://www.nature.com/articles/nmeth.3869). [Go
+    ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-3-data-processing)  
 4.  Create a “metadata” file with pertinent information on the samples
     and controls in your run. [Go to example
-    ↓](https://github.com/extrasmallwinnie/micromeg/?tab=readme-ov-file#metadata)
-5.  Do some basic sanity checking on the metadata, ASV, and taxonomy
-    objects. [Go
-    ↓](https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-5-sanity-check)  
-6.  Check the quality of the sequencing data by examining both the
+    ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-4-metadata)
+5.  Bioinformatically remove suspected contaminants [Go to example
+    ↓]().  
+6.  Do some basic sanity checking on the metadata, ASV, and taxonomy
+    objects. [Go ↓]()  
+7.  Check the quality of the sequencing data by examining both the
     positive and negative controls, and additionally how the controls
-    compare to your real samples. [Go
-    ↓](https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-6-quality-check)  
-7.  Alpha diversity (vegan).  
-8.  Beta diversity (vegan).  
-9.  Differential abundance (maaslin3).
+    compare to your real samples. [Go ↓]()  
+8.  Alpha diversity (vegan).  
+9.  Beta diversity (vegan).  
+10. Differential abundance (maaslin3).
 
 ## Example
 
@@ -150,7 +151,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpTOTpTn/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpoRZg0z/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
