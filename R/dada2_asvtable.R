@@ -205,8 +205,8 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
     on.exit(unlink(outdir), add = TRUE)
   }
 
-  #tibblefy(seqtab.nochim, type = "asvtable")
-  #converter(seqtab.nochim, out = "tibble")
+  # tibblefy(seqtab.nochim, type = "asvtable")
+  # converter(seqtab.nochim, out = "tibble")
 
   if (chatty == TRUE) {
     return(seqtab.nochim)

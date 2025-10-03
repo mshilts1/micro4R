@@ -64,7 +64,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     }
   }
 
-  #as_tibble(taxa, rownames = "ASV", .name_repair = "unique")
+  # as_tibble(taxa, rownames = "ASV", .name_repair = "unique")
   taxa_tbl <- converter(taxa, out = "tibble", id = "ASV")
 
   #  if (where == "example" | where == "inst/extdata/f") {

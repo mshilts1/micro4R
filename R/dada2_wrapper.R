@@ -14,42 +14,42 @@
 dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, full.wrapper = FALSE, ...) {
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
-  if(listargs == TRUE){
+  if (listargs == TRUE) {
     print(passed_args)
   }
 
-  if(listargs == FALSE){
-  if (example == TRUE) {
-    metadata <- example_metadata()
-  }
+  if (listargs == FALSE) {
+    if (example == TRUE & full.wrapper == FALSE) {
+      metadata <- example_metadata()
+    }
 
-  if (example == TRUE) {
-    asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE, ...)
-  }
-  if (example == TRUE) {
-    taxa <- dada2_taxa(example = TRUE, ...)
-  }
+    if (example == TRUE) {
+      asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE, ...)
+    }
+    if (example == TRUE) {
+      taxa <- dada2_taxa(example = TRUE, ...)
+    }
 
-  if (example == FALSE) {
-    asvtable <- dada2_asvtable(example = FALSE, ...)
-    #return(invisible(asvtable))
-  }
+    if (example == FALSE) {
+      asvtable <- dada2_asvtable(example = FALSE, ...)
+      # return(invisible(asvtable))
+    }
 
-  if (example == FALSE) {
-    taxa <- dada2_taxa(asvtable = asvtable, example = FALSE, ...)
-    #return(invisible(taxa))
-  }
+    if (example == FALSE) {
+      taxa <- dada2_taxa(asvtable = asvtable, example = FALSE, ...)
+      # return(invisible(taxa))
+    }
 
-  asvtable <- as_tibble(asvtable, rownames = "SampleID")
-  taxa <- as_tibble(taxa, rownames = "ASV")
+    asvtable <- as_tibble(asvtable, rownames = "SampleID")
+    taxa <- as_tibble(taxa, rownames = "ASV")
 
-  if (is.null(metadata) | full.wrapper == TRUE) {
-    checkASV(asvtable = asvtable, taxa = taxa)
-    return(list("asvtable" = asvtable, "taxa" = taxa))
-  }
-  if (!is.null(metadata) | full.wrapper == FALSE) {
-    checkASV(asvtable = asvtable, taxa = taxa, metadata = metadata)
-    return(list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata))
-  }
+    if (is.null(metadata) | full.wrapper == TRUE) {
+      checkASV(asvtable = asvtable, taxa = taxa)
+      return(list("asvtable" = asvtable, "taxa" = taxa))
+    }
+    if (!is.null(metadata) | full.wrapper == FALSE) {
+      checkASV(asvtable = asvtable, taxa = taxa, metadata = metadata)
+      return(list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata))
+    }
   }
 }
