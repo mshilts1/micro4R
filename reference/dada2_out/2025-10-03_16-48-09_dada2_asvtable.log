@@ -1,0 +1,11 @@
+[1] "Run with function dada2_asvtable started at 2025-10-03 16:48:09.356984"
+[38;5;246m# A tibble: 6 × 1[39m
+  value              
+  [3m[38;5;246m<chr>[39m[23m              
+[38;5;250m1[39m checkASV.html      
+[38;5;250m2[39m checkMeta.html     
+[38;5;250m3[39m contaminate.html   
+[38;5;250m4[39m converter.html     
+[38;5;250m5[39m dada2_asvtable.html
+[38;5;250m6[39m index.html         
+[1] "The total number of potential FASTQ files detected in the directory was 0, and the number of potential forward reads and reverse reads was 0. Please note that this is only performing simple pattern matching to look for standard Illumina-named files, and is only provided as a simple sanity check for you!"
