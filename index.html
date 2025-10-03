@@ -125,7 +125,7 @@
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpGNNfgw/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpcFQo4D/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to searching in your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
@@ -274,7 +274,8 @@
 <h3 id="step-6-sanity-check">Step 6: Sanity Check<a class="anchor" aria-label="anchor" href="#step-6-sanity-check"></a>
 </h3>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/checkASV.html">checkASV</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">asvtable</span>, taxa <span class="op">=</span> <span class="va">taxa</span>, metadata <span class="op">=</span> <span class="va">metadata</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/checkAll.html">checkAll</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">asvtable</span>, taxa <span class="op">=</span> <span class="va">taxa</span>, metadata <span class="op">=</span> <span class="va">metadata</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "As least 1 NA or empty cell was detected in 3 sample(s) in your metadata object. This is not necessarily bad or wrong, but if you were not expecting this, check your metadata object again. Sample(s) SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001, SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001, SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001 were detected to have NAs or empty cells."</span></span>
 <span><span class="co">#&gt; [1] "No errors or warnings identified."</span></span></code></pre></div>
 </div>
 <div class="section level3">
