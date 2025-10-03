@@ -155,7 +155,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpGNNfgw/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpcFQo4D/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -428,7 +428,8 @@ for every PCR master mix batch.\]
 ### Step 6: Sanity Check
 
 ``` r
-checkASV(asvtable = asvtable, taxa = taxa, metadata = metadata)
+checkAll(asvtable = asvtable, taxa = taxa, metadata = metadata)
+#> [1] "As least 1 NA or empty cell was detected in 3 sample(s) in your metadata object. This is not necessarily bad or wrong, but if you were not expecting this, check your metadata object again. Sample(s) SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001, SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001, SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001 were detected to have NAs or empty cells."
 #> [1] "No errors or warnings identified."
 ```
 

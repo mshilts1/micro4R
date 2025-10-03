@@ -44,11 +44,11 @@ dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, fu
     taxa <- as_tibble(taxa, rownames = "ASV")
 
     if (is.null(metadata) | full.wrapper == TRUE) {
-      checkASV(asvtable = asvtable, taxa = taxa)
+      checkAll(asvtable = asvtable, taxa = taxa)
       return(list("asvtable" = asvtable, "taxa" = taxa))
     }
     if (!is.null(metadata) & full.wrapper == FALSE) {
-      checkASV(asvtable = asvtable, taxa = taxa, metadata = metadata)
+      checkAll(asvtable = asvtable, taxa = taxa, metadata = metadata)
       return(list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata))
     }
   }

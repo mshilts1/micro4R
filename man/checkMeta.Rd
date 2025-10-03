@@ -2,7 +2,7 @@
 % Please edit documentation in R/micro4R-utils.R
 \name{checkMeta}
 \alias{checkMeta}
-\title{Check metadata file to identify potential downstream issues.}
+\title{Check metadata file to identify potential downstream issues. DEPRECATED}
 \usage{
 checkMeta(df, ids = "SampleID")
 }
@@ -15,7 +15,7 @@ checkMeta(df, ids = "SampleID")
 Returns warnings or errors with your metadata object that may cause downstream problems.
 }
 \description{
-Check metadata file to identify potential downstream issues.
+Check metadata file to identify potential downstream issues. DEPRECATED
 }
 \examples{
 metadata <- data.frame(

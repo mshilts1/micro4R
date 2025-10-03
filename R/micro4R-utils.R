@@ -462,20 +462,21 @@ checkSampleID <- function(df) {
   }
 }
 #' checker utils in this section
-#' Check your ASV count and taxonomy tables for potential issues.
+#' Check your ASV count and taxonomy tables, and optionall metadata, for potential issues.
 #'
 #' @param asvtable The ASV table
 #' @param taxa Its associated taxonomy table
 #' @param metadata The associated metadata table
+#' @param ids SampleIDs
 #'
 #' @returns Notifies user of issues with asvtable, taxonomy table, or metadata that could cause downstream problems.
 #' @export
 #'
 #' @examples
 #' out <- dada2_wrapper(example = TRUE)
-#' checkASV(asvtable = out$asvtable, taxa = out$taxa, metadata = out$metadata)
+#' checkAll(asvtable = out$asvtable, taxa = out$taxa, metadata = out$metadata)
 #'
-checkASV <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
+checkAll <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ids = "SampleID") {
 
   asvtable <- converter(asvtable, out = "tibble")
   taxa <- converter(taxa, out = "tibble", id = "ASV")
@@ -509,11 +510,23 @@ checkASV <- function(asvtable = NULL, taxa = NULL, metadata = NULL) {
         warning(sprintf("After merging your metadata and ASV objects, no samples were retained. Check that the SampleIDs match in each object. For example, you may have a non-matching number of padded zeroes."))
       }
     }
+
+    if (ids %in% colnames(metadata)) {
+      dups <- unique(metadata[duplicated(metadata[[ids]]), ][ids])
+      dups <- paste0(dups[[ids]], collapse = ", ")
+      if (length(unique(metadata[[ids]])) != nrow(metadata)) {
+        warning(sprintf("You indicated the variable to use for the sample IDs was %s. However, these are not all unique, and they need to be unique. Your duplicated sample ID(s) were: %s.", ids, dups))
+      }
+    }
+
+    if (sum(!stats::complete.cases(metadata)) > 0) {
+      print(sprintf("As least 1 NA or empty cell was detected in %s sample(s) in your metadata object. This is not necessarily bad or wrong, but if you were not expecting this, check your metadata object again. Sample(s) %s were detected to have NAs or empty cells.", sum(!stats::complete.cases(metadata)), paste0(metadata[!stats::complete.cases(metadata), ][[ids]], collapse = ", ")))
+    }
   }
 
   print("No errors or warnings identified.")
 }
-#' Check metadata file to identify potential downstream issues.
+#' Check metadata file to identify potential downstream issues. DEPRECATED
 #'
 #' @param df A data frame or tibble containing your sample metadata.
 #' @param ids The column name in your data frame that identifies the sample IDs.

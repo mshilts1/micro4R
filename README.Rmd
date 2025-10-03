@@ -219,7 +219,7 @@ However, no matter how amazing you (or your colleagues) are in the lab, you'll p
 ### Step 6: Sanity Check
 
 ```{r example 6.0}
-checkASV(asvtable = asvtable, taxa = taxa, metadata = metadata)
+checkAll(asvtable = asvtable, taxa = taxa, metadata = metadata)
 ```
 
 ### Step 7: Quality Check
