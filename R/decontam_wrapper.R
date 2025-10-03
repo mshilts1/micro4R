@@ -60,7 +60,7 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
   contamdf.prev <- decontam::isContaminant(ps, neg = "neg")
 
   if (all(!contamdf.prev$contaminant)) {
-    print("No contaminants were detected. Returning your original ASV and taxa tables.")
+    print("No contaminants were detected. Exiting function and returning your original ASV and taxa tables.")
     return(invisible(list("asvtable" = converter(asvtable, out = "tibble"), "taxa" = converter(taxa, out = "tibble", id = "ASV"), "metadata" = metadata_orig)))
   }
 

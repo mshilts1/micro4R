@@ -94,7 +94,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpwpwU65/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpfAS7ov/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -296,13 +296,14 @@ decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile 
 #> Removed 3 samples with zero total counts (or frequency).
 #> Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :
 #> Some batches have very few (<=4) samples.
-#> [1] "No contaminants were detected. Exiting function."
+#> [1] "No contaminants were detected. Exiting function and returning your original ASV and taxa tables."
 ```
 
 You’ll see several messages, including one at the bottom that tells us
-“No contaminants were detected. Exiting function.” With real data, you
+“No contaminants were detected. Exiting function and returning your
+original ASV and taxa tables.” With real data with proper controls, you
 should not expect to ever see this message. Our example data set was
-just too stupidly small for `decontam` to work properly.
+just too stupidly small for `decontam` to work properly!
 
 So that I can demonstrate `decontam` actually doing something, we’ll
 deliberately “contaminate” the ASV table with the `contaminate()`
@@ -330,15 +331,15 @@ table, taxa table, and for our convenience also includes the metadata
 table.
 
 ``` r
-dim(contaminated_taxa)
-#> [1] 6 6
-dim(decontaminated$taxa)
-#> [1] 5 6
+nrow(contaminated_taxa) # number of rows corresponds to number of ASVs
+#> [1] 6
+nrow(decontaminated$taxa)
+#> [1] 5
 
-dim(contaminated_asvtable)
-#> [1] 15  6
-dim(decontaminated$asvtable)
-#> [1] 15  5
+ncol(contaminated_asvtable) # number of columns corresponds to number of ASVs
+#> [1] 6
+ncol(decontaminated$asvtable)
+#> [1] 5
 ```
 
 The decontaminated version of both the ASV and taxa tables have one
