@@ -71,14 +71,49 @@
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"mshilts1/micro4R"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="my-usual-workflow">My Usual Workflow<a class="anchor" aria-label="anchor" href="#my-usual-workflow"></a>
+</h2>
+<p>I’ve listed the steps that I usually take with 16S data, some of which will be demonstrated below.</p>
+<ol style="list-style-type: decimal">
+<li>Do the lab work to extract DNA, make libraries, submit for sequencing, etc. <a href="https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-1-the-lab-work" class="external-link">Go ↓</a><br>
+</li>
+<li>Get the data from the sequencing core. <a href="https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-2-sequencing" class="external-link">Go ↓</a><br>
+</li>
+<li>Process the data through <a href="https://benjjneb.github.io/dada2/" class="external-link">dada2</a> then <a href="https://benjjneb.github.io/decontam/vignettes/decontam_intro.html" class="external-link">decontam</a> to generate a cleaned <a href="https://www.nature.com/articles/nmeth.3869" class="external-link">ASV (amplicon sequencing variant) count table and its associated taxonomy table</a>. <a href="%E2%86%93">Go ↓</a><br>
+</li>
+<li>Create a “metadata” file with pertinent information on the samples and controls in your run. <a href="https://github.com/extrasmallwinnie/micromeg/?tab=readme-ov-file#metadata" class="external-link">Go to example ↓</a>
+</li>
+<li>Do some basic sanity checking on the metadata, ASV, and taxonomy objects. <a href="https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-5-sanity-check" class="external-link">Go ↓</a><br>
+</li>
+<li>Check the quality of the sequencing data by examining both the positive and negative controls, and additionally how the controls compare to your real samples. <a href="https://github.com/extrasmallwinnie/micromeg?tab=readme-ov-file#step-6-quality-check" class="external-link">Go ↓</a><br>
+</li>
+<li>Alpha diversity (vegan).<br>
+</li>
+<li>Beta diversity (vegan).<br>
+</li>
+<li>Differential abundance (maaslin3).</li>
+</ol>
+</div>
+<div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>I’ll run through a very small and simple possible use case below. For more detailed help and documentation, please explore the vignettes <em>(TBA)</em>.</p>
-<p>Included with the package is an extremely and unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available nasal swab 16S microbiome <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992" class="external-link">data</a> that I generated along with many <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/" class="external-link">colleagues</a>.</p>
 <div class="section level3">
-<h3 id="making-the-asv-count-and-taxonomy-tables">Making the ASV count and taxonomy tables<a class="anchor" aria-label="anchor" href="#making-the-asv-count-and-taxonomy-tables"></a>
+<h3 id="step-1-the-lab-work">Step 1: the lab work<a class="anchor" aria-label="anchor" href="#step-1-the-lab-work"></a>
 </h3>
-<p>If you don’t know what an ASV (Amplicon Sequence Variant) is, please go <a href="https://benjjneb.github.io/dada2/index.html" class="external-link">here</a> first.</p>
+<p>I’m not going to get into much detail here. More TBA. Both negative and positive controls are very important! Why, and what are those? Read more here: <sup><a href="https://pubmed.ncbi.nlm.nih.gov/25387460/" class="external-link">1</a>,</sup><sup><a href="https://pubmed.ncbi.nlm.nih.gov/27239228/" class="external-link">2</a>,</sup><sup><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y" class="external-link">3</a>,</sup><sup><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z" class="external-link">4</a>,</sup><sup><a href="https://journals.asm.org/doi/10.1128/msystems.00062-16" class="external-link">5</a></sup></p>
+</div>
+<div class="section level3">
+<h3 id="step-2-sequencing">Step 2: Sequencing<a class="anchor" aria-label="anchor" href="#step-2-sequencing"></a>
+</h3>
+<p>You’ll need to follow your own desired protocol to perform the sequencing, and get the data back.</p>
+<p>Included with the package is an extremely and unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available nasal swab 16S microbiome sequencing <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992" class="external-link">data</a> that I generated along with many <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/" class="external-link">colleagues</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="step-3-data-processing">Step 3: Data processing<a class="anchor" aria-label="anchor" href="#step-3-data-processing"></a>
+</h3>
+<p>The files received from the sequencer will most likely be FASTQ files. These are files with DNA sequences generated by the sequencer along with quality score information (what the Q in FASTQ is for). In the age of next-generation sequencing, you could easily get millions of these sequences per each sequencing run. Our poor human brains can’t really comprehend or do anything with this data as it is. So what we’re going to do is process this data to eventually turn it into two tables that we humans can make sense of and analyze.</p>
+<p>We’re going to use the R package <code>dada2</code> to turn the FASTQ files into matching amplicon sequence variant (ASV) count and taxonomy tables. If you don’t know what an ASV is, please go <a href="https://benjjneb.github.io/dada2/index.html" class="external-link">here</a> first.</p>
 <p>The first thing we’ll do on these files is run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>, which is essentially a wrapper to generate an ASV count table by following a workflow similar to the <a href="https://benjjneb.github.io/dada2/tutorial.html" class="external-link">dada2 tutorial</a>.</p>
 <p>This function can take a number of arguments, but the most important one is ‘where’, which is the path to the folder where your FASTQ files are located.</p>
 <p>For demonstration purposes, it’s been set to the relative path of the example FASTQ files that are included with the package:</p>
@@ -87,7 +122,7 @@
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpfAS7ov/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpTOTpTn/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to searching in your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
@@ -145,7 +180,7 @@
 <p>It’s a bit squished, but you can see this information is more human-friendly here. Each ASV has been given a taxonomic assignment the lowest taxonomic level the taxonomy assigner was confident of.</p>
 </div>
 <div class="section level3">
-<h3 id="sample-metadata">Sample metadata<a class="anchor" aria-label="anchor" href="#sample-metadata"></a>
+<h3 id="step-4-metadata">Step 4: Metadata<a class="anchor" aria-label="anchor" href="#step-4-metadata"></a>
 </h3>
 <p>Next, we need to load in some metadata about our samples.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -248,7 +283,7 @@ RStudio Version 2025.05.1+513 (2025.05.1+513) macOS Sequoia Version 15.6.1</p>
 <div class="section level1">
 <h1 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
 </h1>
-<p>As mentioned above, I could not have done any of this without the benefit of what the work of others. These tools below were especially important:</p>
+<p>As mentioned above, I could not have done any of this without the benefit of what the work of others. These tools below were especially important, as they were either extremely influential in helping me learn how to do these analyses, and/or are directly used here:</p>
 <ul>
 <li>
 <a href="https://mothur.org" class="external-link">mothur</a><br>
