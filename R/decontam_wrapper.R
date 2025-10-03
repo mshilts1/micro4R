@@ -26,6 +26,8 @@
 decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...) {
   passed_args <- list(...)
 
+  metadata_orig <- metadata
+
   if (tibble::is_tibble(metadata)) {
     metadata <- metadata %>%
       as.data.frame() %>%
@@ -58,7 +60,8 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
   contamdf.prev <- decontam::isContaminant(ps, neg = "neg")
 
   if (all(!contamdf.prev$contaminant)) {
-    print("No contaminants were detected. Exiting function.")
+    print("No contaminants were detected. Returning your original ASV and taxa tables.")
+    return(invisible(list("asvtable" = converter(asvtable, out = "tibble"), "taxa" = converter(taxa, out = "tibble", id = "ASV"), "metadata" = metadata_orig)))
   }
 
   if (any(contamdf.prev$contaminant)) {
@@ -89,6 +92,6 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
     taxa.noncontam.df <- as.data.frame(taxa.noncontam)
     # write.csv(taxa.noncontam.df, file="taxa.noncontam.csv")
 
-    return(invisible(list("asvtable" = seqtab.nochim.noncontam.df, "taxa" = taxa.noncontam.df, "metadata" = metadata)))
+    return(invisible(list("asvtable" = seqtab.nochim.noncontam.df, "taxa" = taxa.noncontam.df, "metadata" = metadata_orig)))
   }
 }

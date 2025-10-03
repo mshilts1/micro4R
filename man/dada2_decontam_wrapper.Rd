@@ -4,9 +4,11 @@
 \alias{dada2_decontam_wrapper}
 \title{Wrapper of entire dada2/decontam process}
 \usage{
-dada2_decontam_wrapper(passedargs = FALSE, ...)
+dada2_decontam_wrapper(example = FALSE, passedargs = FALSE, ...)
 }
 \arguments{
+\item{example}{Set to TRUE to run example}
+
 \item{passedargs}{List passed arguments. Using only for troubleshooting during development; shouldn't have any use to end user}
 
 \item{...}{Arguments to pass to nested functions}

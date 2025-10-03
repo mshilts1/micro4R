@@ -47,7 +47,7 @@ dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, fu
       checkASV(asvtable = asvtable, taxa = taxa)
       return(list("asvtable" = asvtable, "taxa" = taxa))
     }
-    if (!is.null(metadata) | full.wrapper == FALSE) {
+    if (!is.null(metadata) & full.wrapper == FALSE) {
       checkASV(asvtable = asvtable, taxa = taxa, metadata = metadata)
       return(list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata))
     }

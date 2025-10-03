@@ -2,6 +2,7 @@
 #'
 #' @param ... Arguments to pass to nested functions
 #' @param passedargs List passed arguments. Using only for troubleshooting during development; shouldn't have any use to end user
+#' @param example Set to TRUE to run example
 #'
 #' @returns A list of the new ASV table, taxa table, and metadata object
 #' @export
@@ -16,8 +17,9 @@ dada2_decontam_wrapper <- function(example = FALSE, passedargs = FALSE, ...) {
   }
 
   if (passedargs == FALSE) {
+
     if (example == TRUE) {
-      dada2_out <- dada2_wrapper(full.wrapper = TRUE, ...)
+      dada2_out <- dada2_wrapper(example = TRUE, full.wrapper = TRUE, ...)
       asvtable <- converter(dada2_out$asvtable)
       taxa <- converter(dada2_out$taxa, id = "ASV")
       # metadata <- NULL
@@ -26,6 +28,21 @@ dada2_decontam_wrapper <- function(example = FALSE, passedargs = FALSE, ...) {
       all <- list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata)
     }
 
-    decontam_out <- decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, ...)
+    if (example == FALSE) {
+      dada2_out <- dada2_wrapper(full.wrapper = TRUE, ...)
+      asvtable <- converter(dada2_out$asvtable)
+      taxa <- converter(dada2_out$taxa, id = "ASV")
+      # metadata <- NULL
+      # metadata <- dada2_out$metadata
+      # metadata <- example_metadata()
+      all <- list("asvtable" = asvtable, "taxa" = taxa)
+    }
+
+    if (example == TRUE) {
+    decontam_out <- decontam_wrapper(asvtable = all$asvtable, taxa = all$taxa, metadata = all$metadata, ...)
+    }
+    if (example == FALSE) {
+      decontam_out <- decontam_wrapper(asvtable = all$asvtable, taxa = all$taxa, ...)
+    }
   }
 }
