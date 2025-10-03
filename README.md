@@ -77,10 +77,9 @@ will be demonstrated below.
     table](https://www.nature.com/articles/nmeth.3869). [Go
     ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-3-data-processing)  
 4.  Create a “metadata” file with pertinent information on the samples
-    and controls in your run. [Go to example
+    and controls in your run. [Go
     ↓](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-4-metadata)
-5.  Bioinformatically remove suspected contaminants [Go to example
-    ↓]().  
+5.  Bioinformatically remove suspected contaminants [Go ↓]().  
 6.  Do some basic sanity checking on the metadata, ASV, and taxonomy
     objects. [Go ↓]()  
 7.  Check the quality of the sequencing data by examining both the
@@ -151,7 +150,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpoRZg0z/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpi2dRcG/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -306,7 +305,7 @@ To seemlessly use this package, you MUST have a column called
 ASV count table objects. But otherwise, you’re free to name your samples
 whatever you want.
 
-### Bioinformatic decontamination
+### Step 5: Bioinformatic Decontamination
 
 What kind of information you’ll need to have in your metadata object is
 HIGHLY dependent on your study, but there’s some information that we
@@ -405,7 +404,31 @@ to one of the ASVs to the contaminated version of the ASV table.
 `decontam` rightfully thinks that ASV is likely a background contaminant
 due to its prevalence in the negative controls, and has now removed it,
 to make our data cleaner and more reliable. Why is this so
-important?[^1]
+important?^\[Negative controls are especially important with 16S data
+due the nature of the process: 1) bacteria and their DNA are ubiquitous
+and can live even in environments hostile to most other life, 2) the PCR
+protocol deliberately enriches for all bacteria in a semi-universal way.
+This means the data can be extremely susceptible to contamination. The
+details of this are out of the scope of this document, but your FIRST
+step should be improving your lab methods to reduce contamination
+potential as much as possible.
+
+However, no matter how amazing you (or your colleagues) are in the lab,
+you’ll probably still have at least some contamination. That’s where the
+negative controls come in. I would recommend having at least one
+negative extraction control (e.g., extract some ultraclean water or
+sample buffer) per every extraction batch, and a PCR negative control
+for every PCR master mix batch.\]
+
+### Step 6: Sanity Check
+
+### Step 7: Quality Check
+
+### Step 8: Alpha diversity
+
+### Step 9: Beta diversity
+
+### Step 10: Additional analysis
 
 ------------------------------------------------------------------------
 
@@ -425,7 +448,7 @@ If you’d like to run through this the full fastq files can be downloaded
 from SRA or as a zipped bolus
 [here](https://drive.google.com/file/d/1NOvmsxFxWb1Vigq8rdb5SCfLLNu-Qjy8/view?usp=sharing)
 
-Here is some body text that needs a footnote.[^2]
+Here is some body text that needs a footnote.[^1]
 
 - logo made by me using artwork from [Canva](https://www.canva.com/)
   (©[iconbunny11](https://www.canva.com/p/id/BAClqvm1MBE/)) followed by
@@ -471,17 +494,4 @@ how to do these analyses, and/or are directly used here:
 
 More acknowledgements and more details to be added later
 
-[^1]: Due to the nature of 16S microbiome profiling (and similar
-    strategies), it is very susceptible to contamination from background
-    bacteria. Bacteria (and their DNA) are everywhere–including all over
-    us, our equipment, and in our reagents–and can survive in all sorts
-    of harsh environmental conditions. With 16S amplicon sequencing,
-    we’re deliberately enriching for all bacterial DNA, in a
-    semi-universal way. Your first goal should be to improve your lab
-    technique as much as possible to minimize concerns about
-    contamination, but no matter how awesome you and your team are, you
-    may still get some contamination! That’s why tools like decontam,
-    which attempt to bioinformatically remove potential contaminants,
-    are so useful.
-
-[^2]: This is the content of the footnote.
+[^1]: This is the content of the footnote.
