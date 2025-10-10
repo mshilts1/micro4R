@@ -35,6 +35,10 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
     # return(invisible(metadata))
   }
 
+  if(tibble::has_rownames(metadata) == FALSE){
+    metadata <- metadata %>% tibble::column_to_rownames(var = "SampleID")
+  }
+
   ps <- phyloseq::phyloseq(phyloseq::otu_table(asvtable, taxa_are_rows = FALSE), phyloseq::sample_data(metadata), phyloseq::tax_table(taxa))
 
   df <- as.data.frame(sample_data(ps))

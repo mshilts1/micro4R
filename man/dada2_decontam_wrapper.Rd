@@ -4,12 +4,28 @@
 \alias{dada2_decontam_wrapper}
 \title{Wrapper of entire dada2/decontam process}
 \usage{
-dada2_decontam_wrapper(example = FALSE, passedargs = FALSE, ...)
+dada2_decontam_wrapper(
+  example = FALSE,
+  path = NULL,
+  train_db = NULL,
+  species_db = NULL,
+  metadata_obj = NULL,
+  passedargs = FALSE,
+  ...
+)
 }
 \arguments{
 \item{example}{Set to TRUE to run example}
 
-\item{passedargs}{List passed arguments. Using only for troubleshooting during development; shouldn't have any use to end user}
+\item{path}{path to your fastq files}
+
+\item{train_db}{path to your training reference database}
+
+\item{species_db}{path to your species database. OPTIONAL}
+
+\item{metadata_obj}{your metadata object}
+
+\item{passedargs}{List passed arguments. Using only for troubleshooting during development; not expected to have any use to end user}
 
 \item{...}{Arguments to pass to nested functions}
 }
