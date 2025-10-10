@@ -23,11 +23,14 @@ whereFastqs <- function(path = NULL, chatty = TRUE, return_tibble_or_path = "pat
   }
 
   files <- tibble::as_tibble(list.files(path, pattern = "\\."))
-  if (chatty == TRUE & return_tibble_or_path == "tibble") {
+  if(return_tibble_or_path == "tibble"){
+    files <- files %>% dplyr::rename(SampleID = .data$value) %>% dplyr::filter(stringr::str_detect(.data$SampleID, "R1"))
+    if (chatty == TRUE) {
     return(files)
-  }
-  if (chatty == FALSE & return_tibble_or_path == "tibble") {
+    }
+    if (chatty == FALSE) {
     return(invisible(files))
+  }
   }
   if (chatty == TRUE & return_tibble_or_path != "tibble") { # if chatty is false, do nothing
     print(files)
