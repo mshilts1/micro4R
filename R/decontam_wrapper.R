@@ -35,9 +35,11 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
     # return(invisible(metadata))
   }
 
-  if(tibble::has_rownames(metadata) == FALSE){
+  if(is.data.frame(metadata) & tibble::has_rownames(metadata) == FALSE){
     metadata <- metadata %>% tibble::column_to_rownames(var = "SampleID")
   }
+
+  print(sprintf("CLASS OF METADATA IS %s", class(metadata)))
 
   ps <- phyloseq::phyloseq(phyloseq::otu_table(asvtable, taxa_are_rows = FALSE), phyloseq::sample_data(metadata), phyloseq::tax_table(taxa))
 
@@ -90,11 +92,11 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
     }
     seqtab.nochim.noncontam.df <- as.data.frame(seqtab.nochim.noncontam)
 
-    # write.csv(seqtab.nochim.noncontam.df, file="seqtab.nochim.noncontam.csv")
+     write.csv(seqtab.nochim.noncontam.df, file="seqtab.nochim.noncontam.csv")
 
     taxa.noncontam <- as(tax_table(ps.noncontam), "matrix")
     taxa.noncontam.df <- as.data.frame(taxa.noncontam)
-    # write.csv(taxa.noncontam.df, file="taxa.noncontam.csv")
+     write.csv(taxa.noncontam.df, file="taxa.noncontam.csv")
 
     return(invisible(list("asvtable" = seqtab.nochim.noncontam.df, "taxa" = taxa.noncontam.df, "metadata" = metadata_orig)))
   }

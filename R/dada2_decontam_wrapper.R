@@ -58,7 +58,7 @@ dada2_decontam_wrapper <- function(example = FALSE, path = NULL, train_db = NULL
     }
 
     if (example == FALSE) {
-      dada2_out <- dada2_wrapper(where = path, train = train_db, species = species_db, metadata = metadata_obj, full.wrapper = TRUE, ...)
+      dada2_out <- dada2_wrapper(where = path, train = train_db, species = species_db, metadata = metadata_obj)#, full.wrapper = TRUE, ...)
       asvtable <- converter(dada2_out$asvtable)
       taxa <- converter(dada2_out$taxa, id = "ASV")
       # metadata <- NULL
@@ -71,6 +71,8 @@ dada2_decontam_wrapper <- function(example = FALSE, path = NULL, train_db = NULL
     decontam_out <- decontam_wrapper(asvtable = all$asvtable, taxa = all$taxa, metadata = all$metadata, ...)
     }
     if (example == FALSE) {
+      print(all)
+      print(all$metadata)
       decontam_out <- decontam_wrapper(asvtable = all$asvtable, taxa = all$taxa, metadata = all$metadata, ...)
     }
   }
