@@ -23,14 +23,16 @@ whereFastqs <- function(path = NULL, chatty = TRUE, return_tibble_or_path = "pat
   }
 
   files <- tibble::as_tibble(list.files(path, pattern = "\\."))
-  if(return_tibble_or_path == "tibble"){
-    files <- files %>% dplyr::rename(SampleID = .data$value) %>% dplyr::filter(stringr::str_detect(.data$SampleID, "R1"))
+  if (return_tibble_or_path == "tibble") {
+    files <- files %>%
+      dplyr::rename(SampleID = .data$value) %>%
+      dplyr::filter(stringr::str_detect(.data$SampleID, "R1"))
     if (chatty == TRUE) {
-    return(files)
+      return(files)
     }
     if (chatty == FALSE) {
-    return(invisible(files))
-  }
+      return(invisible(files))
+    }
   }
   if (chatty == TRUE & return_tibble_or_path != "tibble") { # if chatty is false, do nothing
     print(files)
@@ -263,7 +265,7 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
     }
 
     if (out == "tibble") {
-      #print("You requested to turn a tibble into a tibble, so the code is doing nothing.")\
+      # print("You requested to turn a tibble into a tibble, so the code is doing nothing.")\
       return(invisible(x))
     }
   }
@@ -272,7 +274,7 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
   if (!tibble::is_tibble(x) & is.data.frame(x)) {
     # print("table in")
     if (out == "data.frame") {
-      #print("You requested to turn a data frame into a data frame, so the code is doing nothing.")
+      # print("You requested to turn a data frame into a data frame, so the code is doing nothing.")
       return(invisible(x))
     }
 
@@ -297,7 +299,7 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
   if ((!tibble::is_tibble(x) | !is.data.frame(x)) & is.matrix(x)) { # returns true only if matrix
     # print("matrix in")
     if (out == "matrix") {
-      #print("You requested to turn a matrix into a matrix, so the code is doing nothing.")
+      # print("You requested to turn a matrix into a matrix, so the code is doing nothing.")
       return(invisible(x))
     }
 
@@ -482,11 +484,10 @@ checkSampleID <- function(df) {
 #' checkAll(asvtable = out$asvtable, taxa = out$taxa, metadata = out$metadata)
 #'
 checkAll <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ids = "SampleID") {
-
   asvtable <- converter(asvtable, out = "tibble")
   taxa <- converter(taxa, out = "tibble", id = "ASV")
-  if(!is.null(metadata)){
-  metadata <- converter(metadata, out = "tibble")
+  if (!is.null(metadata)) {
+    metadata <- converter(metadata, out = "tibble")
   }
 
   if (!ncol(asvtable[-1]) == nrow(taxa)) {
