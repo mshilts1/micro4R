@@ -234,6 +234,8 @@ As mentioned numerous times, lab positive and negative controls are VERY importa
 
 ### Step 8: Alpha diversity
 
+
+
 ### Step 9: Beta diversity
 
 ### Step 10: Additional analysis
