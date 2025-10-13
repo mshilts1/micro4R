@@ -60,7 +60,7 @@
 
 <p>The goal of <code>micro4R</code> was to create an R package for microbiome data processing with a low barrier to entry. I started my career in microbiome research at the bench and had to <a href="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3hrYzg1a2I2eGtuNWIwYTRqNDMzNGE0cWlkNGE5OXB4ZHV1YXY4dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WsNbxuFkLi3IuGI9NU/giphy.gif" class="external-link">ELI5</a> to myself how to process and analyze “big data”. I’ve spent a ton of time poring over and experimenting with <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#acknowledgements" class="external-link">others’ code</a>, and want to pass it on. <a href="https://mshilts1.github.io/micro4R/"><img src="reference/figures/logo.png" align="right" height="139" alt="micro4R website"></a></p>
 <p>Likely, the ideal person to benefit from <code>micro4R</code> would be a bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!</p>
-<p>This package does not create any brand new functionality and is essentially inspired by and/or a wrapper of existing tools <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#acknowledgements" class="external-link">others</a> have already created. Much of what it does can be accomplished with other packages, such as <a href="https://bioconductor.org/packages/release/bioc/html/phyloseq.html" class="external-link">phyloseq</a>, <a href="https://qiime2.org" class="external-link">QIIME 2</a>, and <a href="https://www.microbiomeanalyst.ca" class="external-link">MicrobiomeAnalyst</a>. One of these may be better for your purposes, and I’d encourage anyone new to the field to explore multiple tools!</p>
+<p>This package does not create any brand new functionality and is essentially a wrapper of and/or inspired by existing tools <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#acknowledgements" class="external-link">others</a> have already created. Much of what it does can be accomplished with other packages, such as <a href="https://bioconductor.org/packages/release/bioc/html/phyloseq.html" class="external-link">phyloseq</a>, <a href="https://qiime2.org" class="external-link">QIIME 2</a>, and <a href="https://www.microbiomeanalyst.ca" class="external-link">MicrobiomeAnalyst</a>. One of these may be better for your purposes, and I’d encourage anyone new to the field to explore multiple tools!</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -73,7 +73,7 @@
 <div class="section level2">
 <h2 id="my-usual-workflow">My Usual Workflow<a class="anchor" aria-label="anchor" href="#my-usual-workflow"></a>
 </h2>
-<p>I’ve listed the steps that I usually take with 16S data, some of which will be demonstrated below.</p>
+<p>I’ve listed the steps that I usually take with 16S data:</p>
 <ol style="list-style-type: decimal">
 <li>Do the lab work to extract DNA, make libraries, submit for sequencing, etc. <a href="https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-1-the-lab-work" class="external-link">Go ↓</a><br>
 </li>
@@ -87,35 +87,37 @@
 </li>
 <li>Do some basic sanity checking on the metadata, ASV, and taxonomy objects. <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-6-sanity-check" class="external-link">Go ↓</a><br>
 </li>
-<li>Check the quality of the sequencing data by examining both the positive and negative controls, and additionally how the controls compare to your real samples. <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-7-quality-check" class="external-link">Go ↓</a><br>
+<li>Check the quality of the sequencing data by examining the positive and negative controls. <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-7-quality-check" class="external-link">Go ↓</a><br>
 </li>
 <li>Alpha diversity (vegan). <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-8-alpha-diversity" class="external-link">Go ↓</a><br>
 </li>
 <li>Beta diversity (vegan). <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-9-beta-diversity" class="external-link">Go ↓</a><br>
 </li>
-<li>Differential abundance (maaslin3). <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-10-additional-analysis" class="external-link">Go ↓</a>
+<li>Additional statistical analysis, including differential abundance testing (maaslin3). <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-10-additional-analysis" class="external-link">Go ↓</a>
 </li>
 </ol>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>I’ll run through a very small and simple possible use case below. For more detailed help and documentation, please explore the vignettes <em>(TBA)</em>.</p>
+<p>I’ll run through a VERY small and simple possible use case below. For more detailed help and documentation, please explore the vignettes <em>(TBA)</em>.</p>
 <div class="section level3">
 <h3 id="step-1-the-lab-work">Step 1: the lab work<a class="anchor" aria-label="anchor" href="#step-1-the-lab-work"></a>
 </h3>
-<p>I’m not going to get into much detail here. More TBA. Both negative and positive controls are very important! Why, and what are those? Read more here: <sup><a href="https://pubmed.ncbi.nlm.nih.gov/25387460/" class="external-link">1</a>,</sup><sup><a href="https://pubmed.ncbi.nlm.nih.gov/27239228/" class="external-link">2</a>,</sup><sup><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y" class="external-link">3</a>,</sup><sup><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z" class="external-link">4</a>,</sup><sup><a href="https://journals.asm.org/doi/10.1128/msystems.00062-16" class="external-link">5</a></sup></p>
+<p>I’m not going to get into much detail here, but everything you or your colleagues do in the lab matters and can influence your results. You’ll need to be thoughtful about everything from how exactly samples will be collected, storage conditions, DNA extraction method, library prep method, and more. It’s not my place to tell you what to do here, but carefully consider and document every step along the say.</p>
+<p>However, I will strongly tell you that including both negative and positive controls is very important! Why, and what are those? Read more here: <sup><a href="https://pubmed.ncbi.nlm.nih.gov/25387460/" class="external-link">1</a>,</sup><sup><a href="https://pubmed.ncbi.nlm.nih.gov/27239228/" class="external-link">2</a>,</sup><sup><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y" class="external-link">3</a>,</sup><sup><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z" class="external-link">4</a>,</sup><sup><a href="https://journals.asm.org/doi/10.1128/msystems.00062-16" class="external-link">5</a></sup></p>
 </div>
 <div class="section level3">
 <h3 id="step-2-sequencing">Step 2: Sequencing<a class="anchor" aria-label="anchor" href="#step-2-sequencing"></a>
 </h3>
-<p>You’ll need to follow your own desired protocol to perform the sequencing, and get the data back.</p>
+<p>You’ll need to follow your own desired protocol to perform the sequencing, and get the data back. Most likely, you’ll use the services of a sequencing core, so follow their instructions.</p>
 <p>Included with the package is an extremely and unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available nasal swab 16S microbiome sequencing <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992" class="external-link">data</a> that I generated along with many <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/" class="external-link">colleagues</a>.</p>
+<p>The example files were generated by amplifying the V4 hypervariable region of the 16S gene and were sequenced on an Illumina MiSeq machine with 2x250 bp reads.</p>
 </div>
 <div class="section level3">
 <h3 id="step-3-data-processing">Step 3: Data processing<a class="anchor" aria-label="anchor" href="#step-3-data-processing"></a>
 </h3>
-<p>The files received from the sequencer will most likely be FASTQ files. These are files with DNA sequences generated by the sequencer along with quality score information (what the Q in FASTQ is for). In the age of next-generation sequencing, you could easily get millions of these sequences per each sequencing run. Our poor human brains can’t really comprehend or do anything with this data as it is. So what we’re going to do is process this data to eventually turn it into two tables that we humans can make sense of and analyze.</p>
+<p>The files received from the sequencer will most likely be FASTQ files. These are files with DNA sequences generated by the sequencer along with quality score information (putting the “Q” in FASTQ). In the age of next-generation sequencing, you could easily get millions of these sequences per each sequencing run. Our poor human brains can’t really comprehend or do anything with this data as it is. So what we’re going to do is process this data to eventually turn it into two tables that we humans can make sense of and analyze.</p>
 <p>We’re going to use the R package <code>dada2</code> to turn the FASTQ files into matching amplicon sequence variant (ASV) count and taxonomy tables. If you don’t know what an ASV is, please go <a href="https://benjjneb.github.io/dada2/index.html" class="external-link">here</a> first.</p>
 <p>The first thing we’ll do on these files is run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>, which is essentially a wrapper to generate an ASV count table by following a workflow similar to the <a href="https://benjjneb.github.io/dada2/tutorial.html" class="external-link">dada2 tutorial</a>.</p>
 <p>This function can take a number of arguments, but the most important one is ‘where’, which is the path to the folder where your FASTQ files are located.</p>
@@ -125,7 +127,7 @@
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpcFQo4D/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmp8mEjEM/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to searching in your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
@@ -168,8 +170,8 @@
 <p>There are two databases that we’re using for taxonomic assignment here:<br>
 1. ‘train’ needs to be the path to whatever database you’d like to use as the “training set of reference sequences with known taxonomy”.<br>
 2. ‘species’ is OPTIONAL. If you’d like to use this option, provide the path to a specifically formatted species assignment database. (Read more <a href="https://benjjneb.github.io/dada2/assign.html#species-assignment" class="external-link">here</a>.)</p>
-<p><strong>CAUTION: The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!</strong> You’ll definitely need to download and use the real <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">databases</a> for your actual data!</p>
-<p>There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">here</a> for details and links. I usually prefer the SILVA databases, but you don’t have to!</p>
+<p><strong>CAUTION: The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!</strong> You’ll definitely need to download and use the real <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">databases</a> for your actual data! If you try to use these with real data, you’ll get very weird results that will make no sense.</p>
+<p>There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">here</a> for details and download links. I usually prefer the SILVA databases, but you don’t have to!</p>
 <p>Let’s take a look at the taxonomy assignment table:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 7</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt;   ASV                                    Kingdom Phylum Class Order Family Genus</span></span>
@@ -216,7 +218,7 @@
 <code class="sourceCode R"><span><span class="va">metadata</span><span class="op">$</span><span class="va">LabID</span></span>
 <span><span class="co">#&gt; [1] "participant01" "participant02" "participant03" "participant04"</span></span>
 <span><span class="co">#&gt; [5] "CTRL_neg_ext"  "CTRL_neg_pcr"  "CTRL_pos_pcr"</span></span></code></pre></div>
-<p>To seemlessly use this package, you MUST have a column called ‘SampleID’, and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you’re free to name your samples whatever you want.</p>
+<p>To seamlessly use this package, you MUST have a column called ‘SampleID’, and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you’re free to name your samples whatever you want.</p>
 </div>
 <div class="section level3">
 <h3 id="step-5-bioinformatic-decontamination">Step 5: Bioinformatic Decontamination<a class="anchor" aria-label="anchor" href="#step-5-bioinformatic-decontamination"></a>
@@ -225,15 +227,16 @@
 <p>What does <code>decontam</code> need to know?<br>
 1. To use the “prevalence” method: which samples are the negative controls.<br>
 2. To use the “frequency” method: the DNA concentration in each sample prior to sequencing.<br>
-3. To use both/either of the “prevalence” and “frequency” methods, you need all the above.</p>
+3. To use both of the “prevalence” and “frequency” methods, you need all the above.</p>
 <p>Don’t have any negative controls? You won’t be able to run <code>decontam</code>, and I strongly recommend you include some next time! Both negative and positive controls are very important! Read more here: <sup><a href="https://pubmed.ncbi.nlm.nih.gov/25387460/" class="external-link">1</a>,</sup><sup><a href="https://pubmed.ncbi.nlm.nih.gov/27239228/" class="external-link">2</a>,</sup><sup><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y" class="external-link">3</a>,</sup><sup><a href="https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z" class="external-link">4</a>,</sup><sup><a href="https://journals.asm.org/doi/10.1128/msystems.00062-16" class="external-link">5</a></sup></p>
-<p>In our example data, we only are able to use the “prevalence” method, because we know which samples were negative controls, and which were not. That information is in our column called “neg”, where TRUE means it was a negative control:</p>
+<p>In our example data, we only are able to use the “prevalence” method, because we know which samples were negative controls, but we don’t have DNA concentration data. That information is in our column called “neg”, where TRUE means it was a negative control:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">metadata</span><span class="op">$</span><span class="va">neg</span></span>
 <span><span class="co">#&gt; [1] FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE</span></span></code></pre></div>
 <p>Next, let’s run the <code><a href="reference/decontam_wrapper.html">decontam_wrapper()</a></code> on the example data we’ve generated so far:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/decontam_wrapper.html">decontam_wrapper</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">asvtable</span>, taxa <span class="op">=</span> <span class="va">taxa</span>, metadata <span class="op">=</span> <span class="va">metadata</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "CLASS OF METADATA IS data.frame"</span></span>
 <span><span class="co">#&gt; Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :</span></span>
 <span><span class="co">#&gt; Removed 3 samples with zero total counts (or frequency).</span></span>
 <span><span class="co">#&gt; Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :</span></span>
@@ -244,7 +247,7 @@
 <span><span class="co">#&gt; Some batches have very few (&lt;=4) samples.</span></span>
 <span><span class="co">#&gt; [1] "No contaminants were detected. Exiting function and returning your original ASV and taxa tables."</span></span></code></pre></div>
 <p>You’ll see several messages, including one at the bottom that tells us “No contaminants were detected. Exiting function and returning your original ASV and taxa tables.” With real data with proper controls, you should not expect to ever see this message. Our example data set was just too stupidly small for <code>decontam</code> to work properly!</p>
-<p>So that I can demonstrate <code>decontam</code> actually doing something, we’ll deliberately “contaminate” the ASV table with the <code><a href="reference/contaminate.html">contaminate()</a></code> command. All we’re doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls for good measure. This data is even more fake and made up than it was previously! The command <code><a href="reference/contaminate.html">contaminate()</a></code> will also simultaneously create a matched metadata object with the additional made up negative controls.</p>
+<p>So that I can demonstrate <code>decontam</code> actually doing something, we’ll deliberately “contaminate” the ASV table with the <code><a href="reference/contaminate.html">contaminate()</a></code> command. All we’re doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls for good measure. This data is now even more fake and made up than it was previously, so don’t use it for anything other than learning how this R package works! The command <code><a href="reference/contaminate.html">contaminate()</a></code> will also simultaneously create a matched metadata object containing information on the additional made up negative controls.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">contaminated_asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/converter.html">converter</a></span><span class="op">(</span><span class="fu"><a href="reference/contaminate.html">contaminate</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">asvtable</span><span class="op">)</span></span>
 <span><span class="va">contaminated_taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_taxa.html">dada2_taxa</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">contaminated_asvtable</span>, train <span class="op">=</span> <span class="va">train</span>, species <span class="op">=</span> <span class="va">species</span><span class="op">)</span> <span class="co"># we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.</span></span>
@@ -252,6 +255,7 @@
 <span><span class="co">#&gt; Finished processing reference fasta.</span></span>
 <span><span class="va">contaminated_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/contaminate.html">contaminate</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">metadata</span></span>
 <span><span class="va">decontaminated</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/decontam_wrapper.html">decontam_wrapper</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">contaminated_asvtable</span>, taxa <span class="op">=</span> <span class="va">contaminated_taxa</span>, metadata <span class="op">=</span> <span class="va">contaminated_metadata</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "CLASS OF METADATA IS data.frame"</span></span>
 <span><span class="co">#&gt; Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :</span></span>
 <span><span class="co">#&gt; Removed 1 samples with zero total counts (or frequency).</span></span>
 <span><span class="co">#&gt; Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :</span></span>
@@ -268,7 +272,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">decontaminated</span><span class="op">$</span><span class="va">asvtable</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 5</span></span></code></pre></div>
 <p>The decontaminated version of both the ASV and taxa tables have one fewer ASV than the originals, as I artifically added a bunch of counts to one of the ASVs to the contaminated version of the ASV table. <code>decontam</code> rightfully thinks that ASV is likely a background contaminant due to its prevalence in the negative controls, and has now removed it, to make our data cleaner and more reliable. Why is this so important?^[Negative controls are especially important with 16S data due the nature of the process: 1) bacteria and their DNA are ubiquitous and can live even in environments hostile to most other life, 2) the PCR protocol deliberately enriches for all bacteria in a semi-universal way. This means the data can be extremely susceptible to contamination. The details of this are out of the scope of this document, but your FIRST step should be improving your lab methods to reduce contamination potential as much as possible.</p>
-<p>However, no matter how amazing you (or your colleagues) are in the lab, you’ll probably still have at least some contamination. That’s where the negative controls come in. I would recommend having at least one negative extraction control (e.g., extract some ultraclean water or sample buffer) per every extraction batch, and a PCR negative control for every PCR master mix batch.]</p>
+<p>However, no matter how amazing you (or your colleagues) are in the lab, you’ll probably still have at least some contamination. That’s where the negative controls come in. I would recommend having at least one negative extraction control (e.g., “extract” DNA from some ultraclean water or sample buffer) per every extraction batch, and a PCR negative control for every PCR master mix batch.)</p>
 </div>
 <div class="section level3">
 <h3 id="step-6-sanity-check">Step 6: Sanity Check<a class="anchor" aria-label="anchor" href="#step-6-sanity-check"></a>
@@ -282,7 +286,7 @@
 <h3 id="step-7-quality-check">Step 7: Quality Check<a class="anchor" aria-label="anchor" href="#step-7-quality-check"></a>
 </h3>
 <p>Since we’re done with the basic sanity checks, now we can do an actual more interesting quality check of our data.</p>
-<p>As mentioned numerious times, lab positive and negative controls are VERY important and should be included at minimum in every single sequencing run. If you haven’t included either of these, you won’t be able to do the full quality checks here.</p>
+<p>As mentioned numerous times, lab positive and negative controls are VERY important and should be included at minimum in every single sequencing run. If you haven’t included either of these, you won’t be able to do the full quality checks here.</p>
 </div>
 <div class="section level3">
 <h3 id="step-8-alpha-diversity">Step 8: Alpha diversity<a class="anchor" aria-label="anchor" href="#step-8-alpha-diversity"></a>
