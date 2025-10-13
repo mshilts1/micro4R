@@ -30,7 +30,7 @@ The goal of `micro4R` was to create an R package for microbiome data processing 
 
 Likely, the ideal person to benefit from `micro4R` would be a bench scientist without much formal statistics or bioinformatics training. Fair warning, if you already have a strong stats/informatics background, this may not be of much use for you!            
 
-This package does not create any brand new functionality and is essentially inspired by and/or a wrapper of existing tools [others](https://github.com/mshilts1/micro4R?tab=readme-ov-file#acknowledgements) have already created. Much of what it does can be accomplished with other packages, such as [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html), [QIIME 2](https://qiime2.org), and [MicrobiomeAnalyst](https://www.microbiomeanalyst.ca). One of these may be better for your purposes, and I'd encourage anyone new to the field to explore multiple tools!    
+This package does not create any brand new functionality and is essentially a wrapper of and/or inspired by existing tools [others](https://github.com/mshilts1/micro4R?tab=readme-ov-file#acknowledgements) have already created. Much of what it does can be accomplished with other packages, such as [phyloseq](https://bioconductor.org/packages/release/bioc/html/phyloseq.html), [QIIME 2](https://qiime2.org), and [MicrobiomeAnalyst](https://www.microbiomeanalyst.ca). One of these may be better for your purposes, and I'd encourage anyone new to the field to explore multiple tools!    
 
 
 
@@ -47,7 +47,7 @@ pak::pak("mshilts1/micro4R")
 
 ## My Usual Workflow
 
-I've listed the steps that I usually take with 16S data, some of which will be demonstrated below.    
+I've listed the steps that I usually take with 16S data:    
 
 1. Do the lab work to extract DNA, make libraries, submit for sequencing, etc. [Go &darr;](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-1-the-lab-work)        
 2. Get the data from the sequencing core. [Go &darr;](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-2-sequencing)    
@@ -55,18 +55,20 @@ I've listed the steps that I usually take with 16S data, some of which will be d
 4. Create a "metadata" file with pertinent information on the samples and controls in your run. [Go &darr;](https://github.com/mshilts1/micro4R?tab=readme-ov-file#step-4-metadata)
 5. Use [decontam](https://benjjneb.github.io/decontam/vignettes/decontam_intro.html) to bioinformatically remove suspected contaminants. [Go &darr;](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-5-bioinformatic-decontamination).   
 6. Do some basic sanity checking on the metadata, ASV, and taxonomy objects. [Go &darr;](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-6-sanity-check)    
-7. Check the quality of the sequencing data by examining both the positive and negative controls, and additionally how the controls compare to your real samples. [Go &darr;](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-7-quality-check)      
+7. Check the quality of the sequencing data by examining the positive and negative controls. [Go &darr;](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-7-quality-check)      
 8. Alpha diversity (vegan). [Go &darr;](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-8-alpha-diversity)    
 9. Beta diversity (vegan). [Go &darr;](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-9-beta-diversity)     
-10. Differential abundance (maaslin3). [Go &darr;](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-10-additional-analysis)     
+10. Additional statistical analysis, including differential abundance testing (maaslin3). [Go &darr;](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-10-additional-analysis)     
 
 ## Example
 
-I'll run through a very small and simple possible use case below. For more detailed help and documentation, please explore the vignettes *(TBA)*.
+I'll run through a VERY small and simple possible use case below. For more detailed help and documentation, please explore the vignettes *(TBA)*.
 
 ### Step 1: the lab work
 
-I'm not going to get into much detail here. More TBA.  Both negative and positive controls are very important! Why, and what are those? Read more here: ^[1](https://pubmed.ncbi.nlm.nih.gov/25387460/),^ ^[2](https://pubmed.ncbi.nlm.nih.gov/27239228/),^ ^[3](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y),^ ^[4](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z),^ ^[5](https://journals.asm.org/doi/10.1128/msystems.00062-16)^
+I'm not going to get into much detail here, but everything you or your colleagues do in the lab matters and can influence your results. You'll need to be thoughtful about everything from how exactly samples will be collected, storage conditions, DNA extraction method, library prep method, and more. It's not my place to tell you what to do here, but carefully consider and document every step along the say.          
+
+However, I will strongly tell you that including both negative and positive controls is very important! Why, and what are those? Read more here: ^[1](https://pubmed.ncbi.nlm.nih.gov/25387460/),^ ^[2](https://pubmed.ncbi.nlm.nih.gov/27239228/),^ ^[3](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y),^ ^[4](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z),^ ^[5](https://journals.asm.org/doi/10.1128/msystems.00062-16)^
 
  
 ```{r empty}
@@ -74,13 +76,15 @@ I'm not going to get into much detail here. More TBA.  Both negative and positiv
 
 ### Step 2: Sequencing
 
-You'll need to follow your own desired protocol to perform the sequencing, and get the data back.    
+You'll need to follow your own desired protocol to perform the sequencing, and get the data back. Most likely, you'll use the services of a sequencing core, so follow their instructions.        
 
-Included with the package is an extremely and unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available nasal swab 16S microbiome sequencing [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992) that I generated along with many [colleagues](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/).   
+Included with the package is an extremely and unnaturally tiny toy example to demonstrate its major functionality, using subsampled publicly available nasal swab 16S microbiome sequencing [data](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA726992) that I generated along with many [colleagues](https://pmc.ncbi.nlm.nih.gov/articles/PMC8819187/).
+
+The example files were generated by amplifying the V4 hypervariable region of the 16S gene and were sequenced on an Illumina MiSeq machine with 2x250 bp reads.    
 
 ### Step 3: Data processing
 
-The files received from the sequencer will most likely be FASTQ files. These are files with DNA sequences generated by the sequencer along with quality score information (what the Q in FASTQ is for). In the age of next-generation sequencing, you could easily get millions of these sequences per each sequencing run. Our poor human brains can't really comprehend or do anything with this data as it is. So what we're going to do is process this data to eventually turn it into two tables that we humans can make sense of and analyze.    
+The files received from the sequencer will most likely be FASTQ files. These are files with DNA sequences generated by the sequencer along with quality score information (putting the "Q" in FASTQ). In the age of next-generation sequencing, you could easily get millions of these sequences per each sequencing run. Our poor human brains can't really comprehend or do anything with this data as it is. So what we're going to do is process this data to eventually turn it into two tables that we humans can make sense of and analyze.    
 
 We're going to use the R package `dada2` to turn the FASTQ files into matching amplicon sequence variant (ASV) count and taxonomy tables. If you don't know what an ASV is, please go [here](https://benjjneb.github.io/dada2/index.html) first.    
 
@@ -128,9 +132,9 @@ There are two databases that we're using for taxonomic assignment here:
 1. 'train' needs to be the path to whatever database you'd like to use as the "training set of reference sequences with known taxonomy".   
 2. 'species' is OPTIONAL. If you'd like to use this option, provide the path to a specifically formatted species assignment database. (Read more [here](https://benjjneb.github.io/dada2/assign.html#species-assignment).)
 
-**CAUTION: The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!** You'll definitely need to download and use the real [databases](https://benjjneb.github.io/dada2/training.html) for your actual data!       
+**CAUTION: The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!** You'll definitely need to download and use the real [databases](https://benjjneb.github.io/dada2/training.html) for your actual data! If you try to use these with real data, you'll get very weird results that will make no sense.       
 
-There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go [here](https://benjjneb.github.io/dada2/training.html) for details and links. I usually prefer the SILVA databases, but you don't have to!
+There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go [here](https://benjjneb.github.io/dada2/training.html) for details and download links. I usually prefer the SILVA databases, but you don't have to!
 
 ```{r example3.1, echo = FALSE}
 # taxa <- tibble::as_tibble(taxa, rownames = "ASV")
@@ -142,7 +146,7 @@ Let's take a look at the taxonomy assignment table:
 tibble::as_tibble(taxa, rownames = "ASV")
 ```
 
-It's a bit squished, but you can see this information is more human-friendly here. Each ASV has been given a taxonomic assignment the lowest taxonomic level the taxonomy assigner was confident of.    
+It's a bit squished, but you can see this information is more human-friendly here. Each ASV has been given a taxonomic assignment the lowest taxonomic level the taxonomy assigner was confident of.     
 
 ### Step 4: Metadata
 
@@ -168,7 +172,7 @@ In this example, there is also a 'LabID' field, which is an ID that could have b
 metadata$LabID
 ```
 
-To seemlessly use this package, you MUST have a column called 'SampleID', and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you're free to name your samples whatever you want.
+To seamlessly use this package, you MUST have a column called 'SampleID', and those IDs must exactly match between your metadata and ASV count table objects. But otherwise, you're free to name your samples whatever you want.
 
 ### Step 5: Bioinformatic Decontamination
 
@@ -177,11 +181,11 @@ What kind of information you'll need to have in your metadata object is HIGHLY d
 What does `decontam` need to know?    
 1. To use the "prevalence" method: which samples are the negative controls.    
 2. To use the "frequency" method: the DNA concentration in each sample prior to sequencing.    
-3. To use both/either of the "prevalence" and "frequency" methods, you need all the above.    
+3. To use both of the "prevalence" and "frequency" methods, you need all the above.    
 
 Don't have any negative controls? You won't be able to run `decontam`, and I strongly recommend you include some next time! Both negative and positive controls are very important! Read more here: ^[1](https://pubmed.ncbi.nlm.nih.gov/25387460/),^ ^[2](https://pubmed.ncbi.nlm.nih.gov/27239228/),^ ^[3](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-020-01839-y),^ ^[4](https://bmcmicrobiol.biomedcentral.com/articles/10.1186/s12866-016-0738-z),^ ^[5](https://journals.asm.org/doi/10.1128/msystems.00062-16)^  
 
-In our example data, we only are able to use the "prevalence" method, because we know which samples were negative controls, and which were not. That information is in our column called "neg", where TRUE means it was a negative control:
+In our example data, we only are able to use the "prevalence" method, because we know which samples were negative controls, but we don't have DNA concentration data. That information is in our column called "neg", where TRUE means it was a negative control:
 ```{r example 4.3}
 metadata$neg
 ```
@@ -193,7 +197,7 @@ decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile 
 
 You'll see several messages, including one at the bottom that tells us "No contaminants were detected. Exiting function and returning your original ASV and taxa tables." With real data with proper controls, you should not expect to ever see this message. Our example data set was just too stupidly small for `decontam` to work properly!     
 
-So that I can demonstrate `decontam` actually doing something, we'll deliberately "contaminate" the ASV table with the `contaminate()` command. All we're doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls for good measure. This data is even more fake and made up than it was previously! The command `contaminate()` will also simultaneously create a matched metadata object with the additional made up negative controls.
+So that I can demonstrate `decontam` actually doing something, we'll deliberately "contaminate" the ASV table with the `contaminate()` command. All we're doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls for good measure. This data is now even more fake and made up than it was previously, so don't use it for anything other than learning how this R package works! The command `contaminate()` will also simultaneously create a matched metadata object containing information on the additional made up negative controls.
 
 ```{r example5.1}
 contaminated_asvtable <- converter(contaminate()$asvtable)
@@ -214,7 +218,7 @@ ncol(decontaminated$asvtable)
 
 The decontaminated version of both the ASV and taxa tables have one fewer ASV than the originals, as I artifically added a bunch of counts to one of the ASVs to the contaminated version of the ASV table. `decontam` rightfully thinks that ASV is likely a background contaminant due to its prevalence in the negative controls, and has now removed it, to make our data cleaner and more reliable. Why is this so important?^[Negative controls are especially important with 16S data due the nature of the process: 1) bacteria and their DNA are ubiquitous and can live even in environments hostile to most other life, 2) the PCR protocol deliberately enriches for all bacteria in a semi-universal way. This means the data can be extremely susceptible to contamination. The details of this are out of the scope of this document, but your FIRST step should be improving your lab methods to reduce contamination potential as much as possible.
 
-However, no matter how amazing you (or your colleagues) are in the lab, you'll probably still have at least some contamination. That's where the negative controls come in. I would recommend having at least one negative extraction control (e.g., extract some ultraclean water or sample buffer) per every extraction batch, and a PCR negative control for every PCR master mix batch.]
+However, no matter how amazing you (or your colleagues) are in the lab, you'll probably still have at least some contamination. That's where the negative controls come in. I would recommend having at least one negative extraction control (e.g., "extract" DNA from some ultraclean water or sample buffer) per every extraction batch, and a PCR negative control for every PCR master mix batch.)
 
 ### Step 6: Sanity Check
 
@@ -226,7 +230,7 @@ checkAll(asvtable = asvtable, taxa = taxa, metadata = metadata)
 
 Since we're done with the basic sanity checks, now we can do an actual more interesting quality check of our data.    
 
-As mentioned numerious times, lab positive and negative controls are VERY important and should be included at minimum in every single sequencing run. If you haven't included either of these, you won't be able to do the full quality checks here.
+As mentioned numerous times, lab positive and negative controls are VERY important and should be included at minimum in every single sequencing run. If you haven't included either of these, you won't be able to do the full quality checks here.
 
 ### Step 8: Alpha diversity
 
