@@ -265,7 +265,7 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
     }
 
     if (out == "tibble") {
-      # print("You requested to turn a tibble into a tibble, so the code is doing nothing.")\
+      # print("You requested to turn a tibble into a tibble, so the code is doing nothing.")
       return(invisible(x))
     }
   }
@@ -284,12 +284,23 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
         x <- as.matrix(x)
         return(invisible(x))
       }
-      if (!id %in% names(x)) {
+      if (!id %in% names(x) & tibble::has_rownames(x) == TRUE) {
+        #x <- column_to_rownames(x, var = id)
+        x <- as.matrix(x)
+        return(invisible(x))
+      }
+      if (!id %in% names(x) & tibble::has_rownames(x) == FALSE) {
         stop(sprintf("'id' column '%s' was not found in your input object.", id))
       }
     }
 
-    if (out == "tibble") {
+    if (out == "tibble"  & tibble::has_rownames(x) == TRUE) {
+      x <- rownames_to_column(x, var = id)
+      x <- tibble::as_tibble(x)
+      return(invisible(x))
+    }
+
+    if (out == "tibble"  & tibble::has_rownames(x) == FALSE) {
       x <- tibble::as_tibble(x)
       return(invisible(x))
     }
@@ -374,6 +385,24 @@ example_metadata <- function() {
   metadata <- read.csv(file = filepath, header = TRUE)
   metadata <- tibble::as_tibble(metadata)
   return(metadata)
+}
+#' Load in unsampled example
+#'
+#' @returns An list with the unsampled example metadata and asvtable files
+#' @export
+#'
+#' @examples
+#' unsampled_example()
+unsampled_example <- function() {
+  filepath <- system.file("extdata/objects", package = "micro4R", "unsampled_metadata.csv", mustWork = TRUE)
+  metadata <- read.csv(file = filepath, header = TRUE)
+  metadata <- tibble::as_tibble(metadata)
+
+  filepath <- system.file("extdata/objects", package = "micro4R", "unsampled_asvtable.csv", mustWork = TRUE)
+  asvtable <- read.csv(file = filepath, header = TRUE)
+  asvtable <- tibble::as_tibble(asvtable)
+
+  return(list("asvtable" = asvtable, "metadata" = metadata))
 }
 #' "Contaminate" the example ASV table so decontam can run in example
 #'
@@ -588,3 +617,39 @@ checkMeta <- function(df, ids = "SampleID") {
     message("No warnings or errors detected.")
   }
 }
+
+#' Filter the ASV table
+#'
+#' @param asvtable Input ASV table
+#' @param minDepth Minimum number of reads a sample must have to be kept
+#' @param minASVCount Minimum count an ASV must have to be kept
+#'
+#' @returns A filtered ASV table
+#' @export
+#' @import dplyr
+#' @import magrittr
+#'
+
+filtering <- function(asvtable = NULL, minDepth = 1000, minASVCount = 2) {
+  asvtable <- converter(asvtable, out = "tibble", id = "SampleID")
+
+  if (max(rowSums(asvtable[-1])) < minDepth) {
+    warning(sprintf("Your filtering may remove all samples. Your minimum requested sequence depth is %s, which may be too aggressive for your data, as the maximum read count in your input data is %s.", minDepth, max(rowSums(asvtable[-1]))))
+  }
+
+  if (max(colSums(asvtable[, -1])) < minASVCount) {
+    warning(sprintf("Your filtering may remove all ASVs. Your minimum requested ASV count is %s, which may be too aggressive for your data, as the maximum ASV count in your input data is %s.", minASVCount, max(colSums(asvtable[, -1]))))
+  }
+
+  seqtabout <- asvtable %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate("row.sum" = sum(dplyr::c_across(where(is.numeric)))) %>%
+    dplyr::filter(.data$row.sum >= minDepth) %>%
+    dplyr::select(-c("row.sum")) %>%
+    dplyr::select(c("SampleID", where(~ is.numeric(.) && sum(.) >= minASVCount))) %>%
+    #dplyr::rename("SampleID" = "X") %>%
+    ungroup()
+
+  return(seqtabout)
+}
+

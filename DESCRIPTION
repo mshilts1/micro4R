@@ -21,7 +21,8 @@ Imports:
     rlang,
     stringr,
     tibble,
-    utils
+    utils,
+    vegan
 Suggests: 
     googledrive,
     testthat (>= 3.0.0)
