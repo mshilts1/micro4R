@@ -8,7 +8,7 @@
 #' @param example Run example data. Default is FALSE
 #' @param ... Allows passing of arguments to nested functions
 #'
-#' @returns A table of taxonomic assigments
+#' @returns A tibble of taxonomic assigments
 #' @export
 #'
 #' @examples
@@ -44,12 +44,13 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
 
   if (chatty == TRUE) {
     taxa <- dada2::assignTaxonomy(seqs = asvtable, refFasta = train_db, multithread = multi, verbose = chatty)
-    return(taxa)
+    #return(taxa)
+    taxa
   }
 
   if (chatty == FALSE) {
     taxa <- dada2::assignTaxonomy(seqs = asvtable, refFasta = train_db, multithread = multi, verbose = chatty)
-    return(invisible(taxa))
+    invisible(taxa)
   }
 
 
@@ -57,10 +58,12 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     species_db <- ref_db(species, chatty = chatty)
     taxa <- dada2::addSpecies(taxtab = taxa, refFasta = species_db, allowMultiple = FALSE, tryRC = FALSE, verbose = chatty)
     if (chatty == TRUE) {
-      return(taxa)
+      #return(taxa)
+      taxa
     }
     if (chatty == FALSE) {
-      return(invisible(taxa))
+      #return(invisible(taxa))
+      invisible(taxa)
     }
   }
 
@@ -73,4 +76,15 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   write.csv(taxa_tbl, file = sprintf("%s/dada2_out/taxa.csv", outdir), row.names = FALSE)
   on.exit(unlink(outdir), add = TRUE)
   #  }
+
+  if (chatty == FALSE) {
+    #return(invisible(taxa))
+    invisible(return(taxa_tbl))
+  }
+
+  if (chatty == TRUE) {
+    #return(invisible(taxa))
+    return(taxa_tbl)
+  }
+
 }

@@ -30,7 +30,7 @@ dada2_taxa(
 \item{...}{Allows passing of arguments to nested functions}
 }
 \value{
-A table of taxonomic assigments
+A tibble of taxonomic assigments
 }
 \description{
 dada2 taxa

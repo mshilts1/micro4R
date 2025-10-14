@@ -238,14 +238,15 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
     out <- "matrix"
   }
 
+  # stop if something is really wrong
   validout <- c("tibble", "data.frame", "matrix")
   if (!out %in% validout) stop("Invalid 'out' value")
 
-  # tibble converter
   if (!tibble::is_tibble(x) & !is.data.frame(x) & !is.matrix(x)) {
     stop("Input object is not a tibble, data frame, or matrix.")
   }
 
+  # tibble converter
   if (tibble::is_tibble(x)) {
     # print(sprintf("tibble to %s", out))
     if (out == "matrix") {

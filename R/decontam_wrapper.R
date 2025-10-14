@@ -41,7 +41,7 @@ decontam_wrapper <- function(asvtable = NULL, taxa = NULL, metadata = NULL, ...)
 
   print(sprintf("CLASS OF METADATA IS %s", class(metadata)))
 
-  ps <- phyloseq::phyloseq(phyloseq::otu_table(asvtable, taxa_are_rows = FALSE), phyloseq::sample_data(metadata), phyloseq::tax_table(taxa))
+  ps <- phyloseq::phyloseq(phyloseq::otu_table(asvtable, taxa_are_rows = FALSE), phyloseq::sample_data(metadata), phyloseq::tax_table(converter(taxa, out = "matrix", id = "ASV")))
 
   df <- as.data.frame(sample_data(ps))
   LibrarySize <- NULL

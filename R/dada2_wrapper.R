@@ -40,8 +40,8 @@ dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, fu
       # return(invisible(taxa))
     }
 
-    asvtable <- as_tibble(asvtable, rownames = "SampleID")
-    taxa <- as_tibble(taxa, rownames = "ASV")
+    asvtable <- converter(asvtable, out = "tibble")
+    #taxa <- as_tibble(taxa, rownames = "ASV")
 
     if (is.null(metadata) | full.wrapper == TRUE) {
       checkAll(asvtable = asvtable, taxa = taxa)
