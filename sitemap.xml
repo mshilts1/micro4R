@@ -4,6 +4,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/LICENSE.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/authors.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/index.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/calcBeta.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/checkAll.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/checkMeta.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/checkSampleID.html</loc></url>
@@ -16,6 +17,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/reference/decontam_wrapper.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/exampleData.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/example_metadata.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/filtering.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/full_example_data.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/index.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/known_dada2_dbs.html</loc></url>
@@ -28,6 +30,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/reference/ref_db.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/test_dbs.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/tibblefy.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/unsampled_example.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/whereFastqs.html</loc></url>
 </urlset>
 
