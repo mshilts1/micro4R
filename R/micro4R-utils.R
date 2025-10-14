@@ -626,8 +626,6 @@ checkMeta <- function(df, ids = "SampleID") {
 #'
 #' @returns A filtered ASV table
 #' @export
-#' @import dplyr
-#' @import magrittr
 #'
 
 filtering <- function(asvtable = NULL, minDepth = 1000, minASVCount = 2) {

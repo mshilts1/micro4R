@@ -25,7 +25,7 @@ calcBeta <- function(asvtable = NULL, metadata = NULL, numRare = 400, method = "
   #if(!is.null(metadata)){
     #asv_tib <- converter(asvtable, out = "tibble", id = "SampleID")
     kept_after_filtering <- asvtable %>% dplyr::select("SampleID")
-    metadata <- metadata %>% dplyr::filter(!is.na(.[[category]]))  # if there are any NAs in metadata, they'll be thrown out later anyway
+    metadata <- metadata %>% dplyr::filter(!is.na(.data[[category]]))  # if there are any NAs in metadata, they'll be thrown out later anyway
     metadata <- dplyr::inner_join(kept_after_filtering, metadata, by = "SampleID")
     kept_after_filtering <- metadata %>% dplyr::select("SampleID")
     asvtable <- dplyr::inner_join(kept_after_filtering, asvtable, by = "SampleID")
