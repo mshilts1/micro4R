@@ -26,15 +26,24 @@ test_that("returns path visibly", {
 test_that("Get a warning if NAs are detected", {
   expect_warning(checkMeta(dplyr::starwars %>% dplyr::select(-c(films, vehicles, starships)), "name"))
 })
-
 test_that("Get a warning if your sample IDs are not all unique", {
   expect_warning(checkMeta(dplyr::storms, "name"))
 })
-
 test_that("Get a warning if the column name you gave for the sample IDs can't be found", {
   expect_warning(checkMeta(dplyr::storms, "nameee"))
 })
 
 test_that("No output if it passes all tests", {
   expect_null(checkMeta(dplyr::band_members, "name"))
+})
+test_that("whereFastqs returning tibble", {
+  path <- system.file("extdata/f", package = "micro4R", mustWork = TRUE)
+  out <- whereFastqs(path = path, return_tibble_or_path = "tibble")
+  expect_equal(class(out), c("tbl_df", "tbl", "data.frame"))
+  expect_equal(colnames(out), c("SampleID"))
+  expect_visible(whereFastqs(path = path, return_tibble_or_path = "tibble"))
+  expect_invisible(whereFastqs(path = path, return_tibble_or_path = "tibble", chatty = FALSE))
+})
+test_that("get an error with invalid option for known_dada2_dbs", {
+  expect_error(known_dada2_dbs(what = "something"))
 })
