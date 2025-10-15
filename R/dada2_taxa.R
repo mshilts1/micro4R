@@ -23,7 +23,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   # }
 
   if (example == TRUE) {
-    asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE)
+    asvtable <- dada2_asvtable(example = TRUE)
     train <- test_dbs()$train
     species <- test_dbs()$species
   }

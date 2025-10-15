@@ -9,6 +9,7 @@ dada2_wrapper(
   metadata = NULL,
   listargs = FALSE,
   full.wrapper = FALSE,
+  log = TRUE,
   ...
 )
 }
@@ -20,6 +21,8 @@ dada2_wrapper(
 \item{listargs}{List passed arguments. Using only for troubleshooting during development; shouldn't have any use to end user}
 
 \item{full.wrapper}{TRUE by default, but must be sent to FALSE when using dada2_decontam_wrapper as otherwise metadata objects collide}
+
+\item{log}{Produce a log file}
 
 \item{...}{Allows passing of arguments to nested functions}
 }

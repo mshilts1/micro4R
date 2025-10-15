@@ -39,5 +39,5 @@ dada2 ASV table
 dada2 workflow to generate ASV table
 }
 \examples{
-dada2_asvtable(example = TRUE, logfile = FALSE)
+dada2_asvtable(example = TRUE)
 }

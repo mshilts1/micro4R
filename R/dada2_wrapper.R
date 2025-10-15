@@ -5,13 +5,14 @@
 #' @param example Set to TRUE to run an example
 #' @param listargs List passed arguments. Using only for troubleshooting during development; shouldn't have any use to end user
 #' @param full.wrapper TRUE by default, but must be sent to FALSE when using dada2_decontam_wrapper as otherwise metadata objects collide
+#' @param log Produce a log file
 #'
 #' @returns a list of dada2 ASV table and taxonomy table (and metadata, optionally)
 #' @export
 #'
 #' @examples
 #' dada2_wrapper(example = TRUE)
-dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, full.wrapper = FALSE, ...) {
+dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, full.wrapper = FALSE, log = TRUE,...) {
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
 
@@ -26,14 +27,14 @@ dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, fu
     }
 
     if (example == TRUE) {
-      asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE, ...)
+      asvtable <- dada2_asvtable(example = TRUE, ...)
     }
     if (example == TRUE) {
       taxa <- dada2_taxa(example = TRUE, ...)
     }
 
     if (example == FALSE) {
-      asvtable <- dada2_asvtable(example = FALSE, ...)
+      asvtable <- dada2_asvtable(example = FALSE, ...)# logfile = log, ...)
       # return(invisible(asvtable))
     }
 

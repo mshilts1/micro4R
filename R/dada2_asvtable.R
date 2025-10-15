@@ -17,7 +17,7 @@
 #' @import grDevices
 #'
 #' @examples
-#' dada2_asvtable(example = TRUE, logfile = FALSE)
+#' dada2_asvtable(example = TRUE)
 dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, ...) {
   if (!is.null(where)) {
     if (where == "inst/extdata/f") {
