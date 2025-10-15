@@ -17,6 +17,7 @@ dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, fu
 
   if (listargs == TRUE) {
     print(passed_args)
+    return(passed_args)
   }
 
   if (listargs == FALSE) {

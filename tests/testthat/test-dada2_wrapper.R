@@ -1,3 +1,15 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("checking on inherited arguments", {
+  expect_equal(length(dada2_wrapper(listargs = TRUE)), 0)
+  expect_equal(length(dada2_wrapper(listargs = TRUE, metadata = example_metadata())), 0)
+  expect_equal(length(dada2_wrapper(listargs = TRUE, metadata = example_metadata(), multi = TRUE)), 1)
+  expect_equal(length(dada2_wrapper(listargs = TRUE, metadata = example_metadata(), multi = TRUE, species = "species")), 2)
+})
+test_that("checking example output", {
+  out <- dada2_wrapper(example = TRUE, full.wrapper = FALSE)
+  expect_type(out, "list")
+  expect_equal(length(out), 3)
+  expect_equal(names(out), c("asvtable", "taxa", "metadata"))
+  expect_equal(dim(out$asvtable), c(7, 7))
+  expect_equal(dim(out$taxa), c(6, 8))
+  expect_equal(dim(out$metadata), c(7, 7))
 })

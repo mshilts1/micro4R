@@ -29,3 +29,17 @@ test_that("rownames correct", {
   rownames <- c("SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001", "SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001", "SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001", "SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001", "SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001", "SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001", "SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001")
   expect_equal(asvtable$SampleID, rownames)
 })
+test_that("when setting where to example data returns same output as setting example to TRUE", {
+  out1 <- dada2_asvtable(where = "inst/extdata/f", logfile = FALSE)
+  out2 <- dada2_asvtable(example = TRUE)
+  expect_equal(out1, out2)
+})
+test_that("get an error if try to set where somewhere else and run the example at the same time", {
+  expect_error( dada2_asvtable(where = "../", example = TRUE, logfile = FALSE))
+})
+test_that("get no error if try to set where to example dataand run the example at the same time", {
+  expect_no_error( dada2_asvtable(where = "inst/extdata/f", example = TRUE, logfile = FALSE))
+})
+#test_that("get no error if try to set where to example dataand run the example at the same time", {
+#  expect_error(dada2_asvtable())
+#})
