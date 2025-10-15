@@ -105,4 +105,30 @@ test_that("converter ok", {
   expect_equal(class(converter(out$asvtable, out = "matrix")), c("matrix", "array"))
   expect_equal(length(converter(out$asvtable, out = "matrix")), 42)
   expect_error(converter(out$asvtable, out = "matrix", id = "fake"))
+
+  expect_error(converter(asvtable_df, out = "matrix", id = "notexist")) # get an error if 'id' column doesn't exist
+  expect_invisible(converter(asvtable_df, out = "data.frame"))
+})
+test_that("unsampled example", {
+  out <- unsampled_example()
+  expect_equal(class(out), "list")
+  expect_equal(length(out), 2)
+  expect_equal(names(out), c("asvtable", "metadata"))
+  expect_equal(dim(out$asvtable), c(7, 236))
+  expect_equal(dim(out$metadata), c(7, 7))
+  expect_equal(names(out$asvtable[1]), "SampleID")
+  expect_equal(names(out$metadata[1]), "SampleID")
+
+  expect_equal(class(out$asvtable), c("tbl_df", "tbl", "data.frame"))
+  expect_equal(class(out$metadata), c("tbl_df", "tbl", "data.frame"))
+})
+test_that("filtering working", {
+  out <- unsampled_example()
+  expect_warning(filtering(asvtable = out$asvtable, minDepth = 10000000000000)) # overly aggressive filtering gives a warning
+  expect_warning(filtering(asvtable = out$asvtable, minASVCount = 100000000000))
+
+  out_filter <- filtering(asvtable = out$asvtable) # check if default filtering working correctly
+  expect_equal(class(out_filter), c("tbl_df", "tbl", "data.frame"))
+  expect_equal(dim(out_filter), c(5, 234))
+  expect_equal(out_filter$SampleID, c("5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001", "5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001", "5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001", "5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001", "5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001"))
 })
