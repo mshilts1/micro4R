@@ -68,3 +68,41 @@ test_that("ref_db ok", {
   out_expect <- system.file("extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz", package = "micro4R", mustWork = TRUE)
   expect_equal(out, out_expect)
 })
+test_that("converter ok", {
+  out <- dada2_wrapper(example = TRUE)
+  expect_equal(out$asvtable, converter(out$asvtable, out = "tibble")) # tibble to tibble; returns original object
+  expect_equal(out$taxa, converter(out$taxa, out = "tibble", id = "ASV")) # tibble to tibble; returns original object
+  expect_equal(out$metadata, converter(out$metadata, out = "tibble")) # tibble to tibble; returns original object
+
+  a_typo <- converter(out$asvtable, out = "df") # quietly fixes common typos
+  expect_equal(class(a_typo), "data.frame")
+  expect_equal(a_typo, converter(out$asvtable, out = "data.frame"))
+  a_typo <- converter(out$asvtable, out = "data_frame") # quietly fixes common typos
+  expect_equal(class(a_typo), "data.frame")
+  expect_equal(a_typo, converter(out$asvtable, out = "data.frame"))
+
+  a_typo <- converter(out$asvtable, out = "tbl_df") # quietly fixes common typos
+  expect_equal(class(a_typo), c("tbl_df", "tbl", "data.frame"))
+  expect_equal(a_typo, converter(out$asvtable, out = "tibble"))
+
+  a_typo <- converter(out$asvtable, out = "tbl") # quietly fixes common typos
+  expect_equal(class(a_typo), c("tbl_df", "tbl", "data.frame"))
+  expect_equal(a_typo, converter(out$asvtable, out = "tibble"))
+
+  a_typo <- converter(out$asvtable, out = "array") # quietly fixes common typos
+  expect_equal(class(a_typo), c("matrix", "array"))
+  expect_equal(a_typo, converter(out$asvtable, out = "matrix"))
+
+  expect_error(converter(out)) # get an error if input isn't a tibble, data frame, or matrix.
+  expect_error(converter(out$asvtable, out = "doesntexist")) # get an error if requested output isn't a valid option
+
+  expect_error(converter(out$asvtable, out = "matrix", id = "notexist")) # get an error if 'id' column doesn't exist
+  expect_invisible(converter(out$asvtable, out = "data.frame"))
+
+  path <- system.file("extdata/objects/asvtable.csv", package = "micro4R", mustWork = TRUE)
+  asvtable_df <- read.csv(file = path, header = TRUE)
+  expect_equal(asvtable_df, converter(out$asvtable, out = "data.frame"))
+  expect_equal(class(converter(out$asvtable, out = "matrix")), c("matrix", "array"))
+  expect_equal(length(converter(out$asvtable, out = "matrix")), 42)
+  expect_error(converter(out$asvtable, out = "matrix", id = "fake"))
+})

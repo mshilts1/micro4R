@@ -219,7 +219,7 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
 
   # stop if something is really wrong
   validout <- c("tibble", "data.frame", "matrix")
-  if (!out %in% validout) stop("Invalid 'out' value")
+  if (!out %in% validout) stop("Invalid 'out' value. Valid options are 'tibble', 'data.frame', or 'matrix'.")
 
   if (!tibble::is_tibble(x) & !is.data.frame(x) & !is.matrix(x)) {
     stop("Input object is not a tibble, data frame, or matrix.")
