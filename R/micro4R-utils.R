@@ -190,27 +190,6 @@ ref_db <- function(db, chatty = TRUE) {
     return(invisible(db))
   }
 }
-#' Option to use googledrive package to download example data
-#'
-#' @param path Path to directory where you want to download file to.
-#'
-#' @returns Downloads zipped folder of full fastq files used in example
-#' as this is it doesn't work. may delete later.
-full_example_data <- function(path = NULL) {
-  if (path == "example") {
-    path <- tempdir()
-  }
-  if (rlang::is_installed("googledrive") == TRUE) {
-    googledrive::drive_download(
-      "micro4r_example_data.zip",
-      path = file.path(path, "micro4r_example_data.zip"),
-      overwrite = TRUE
-    )
-  }
-  if (rlang::is_installed("googledrive") == FALSE) {
-    print("To use this function, package 'googledrive' must be installed first. Visit https://googledrive.tidyverse.org/index.html for more information.")
-  }
-}
 #' Converts tibbles, data frames, and matrices to each other as needed by the specific function
 #'
 #' @param x A tibble, data frame, or matrix that you want to convert

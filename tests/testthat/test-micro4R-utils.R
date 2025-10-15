@@ -47,3 +47,24 @@ test_that("whereFastqs returning tibble", {
 test_that("get an error with invalid option for known_dada2_dbs", {
   expect_error(known_dada2_dbs(what = "something"))
 })
+test_that("known_dada2_dbs output for keypair looks ok", {
+  out <- known_dada2_dbs(what = "keypair")
+  expect_equal(class(out), c("tbl_df", "tbl", "data.frame"))
+  expect_equal(colnames(out), c("db", "pattern"))
+  expect_equal(dim(out), c(4, 2))
+})
+test_that("known_dada2_dbs output for list looks ok", {
+  out <- known_dada2_dbs(what = "list")
+  expect_equal(class(out), c("tbl_df", "tbl", "data.frame"))
+  expect_equal(colnames(out), c("database", "database_file_name"))
+  expect_equal(dim(out), c(8, 2))
+})
+test_that("ref_db ok", {
+  expect_error(ref_db("this/is/a/fake/path")) # error if path doesn't exist
+  path <- system.file("extdata/f", package = "micro4R", mustWork = TRUE)
+  expect_error(ref_db(path)) # error if path is to a directory and not a file
+
+  out <- ref_db(test_dbs()$train)
+  out_expect <- system.file("extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz", package = "micro4R", mustWork = TRUE)
+  expect_equal(out, out_expect)
+})
