@@ -208,6 +208,8 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
   # tibblefy(seqtab.nochim, type = "asvtable")
   # converter(seqtab.nochim, out = "tibble")
 
+  seqtab.nochim <- converter(seqtab.nochim, out = "tibble")
+
   if (chatty == TRUE) {
     return(seqtab.nochim)
   }

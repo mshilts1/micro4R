@@ -30,7 +30,7 @@ test_that("rownames correct", {
 })
 test_that("example asv table ok", {
   #asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE)
-  expect_equal(class(asvtable), c("matrix", "array"))
+  expect_equal(class(asvtable), c("tbl_df", "tbl", "data.frame"))
 })
 test_that("example databases ok", {
   train <- test_dbs()$train
@@ -47,4 +47,7 @@ test_that("fails if not example and no path to training database", {
 test_that("ref_db working ok", {
   expect_error(ref_db())
   expect_output(ref_db(train))
+})
+test_that("example true", {
+  expect_output(dada2_taxa(example = TRUE))
 })

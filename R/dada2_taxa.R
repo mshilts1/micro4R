@@ -41,6 +41,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   #  }
 
   train_db <- ref_db(train, chatty = chatty)
+  asvtable <- converter(asvtable, out = "matrix", id = "SampleID")
 
   if (chatty == TRUE) {
     taxa <- dada2::assignTaxonomy(seqs = asvtable, refFasta = train_db, multithread = multi, verbose = chatty)
