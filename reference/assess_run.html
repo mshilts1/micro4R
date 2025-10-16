@@ -42,7 +42,8 @@
 <span>  wells <span class="op">=</span> <span class="st">"Well"</span>,</span>
 <span>  plate <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  category <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  minReads <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  minReads <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  pcoa <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -72,7 +73,11 @@
 
 
 <dt id="arg-minreads">minReads<a class="anchor" aria-label="anchor" href="#arg-minreads"></a></dt>
-<dd><p>Minimum number of total reads for sample to be kept. Recommend to keep it at 1</p></dd>
+<dd><p>Minimum number of total reads for sample to be kept. Recommend to keep it at 0, but can change that if you want.</p></dd>
+
+
+<dt id="arg-pcoa">pcoa<a class="anchor" aria-label="anchor" href="#arg-pcoa"></a></dt>
+<dd><p>Include PCoA data (can significantly increase run time, so set to FALSE by default)</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -93,19 +98,15 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Plate 1</span>
-<span class="r-plt img"><img src="assess_run-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Plate 2</span>
-<span class="r-plt img"><img src="assess_run-2.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Plate 3</span>
-<span class="r-plt img"><img src="assess_run-3.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Plate 4</span>
-<span class="r-plt img"><img src="assess_run-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
