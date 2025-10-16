@@ -21,6 +21,7 @@ Imports:
     rlang,
     stringr,
     tibble,
+    tidyr,
     utils,
     vegan
 Suggests: 
