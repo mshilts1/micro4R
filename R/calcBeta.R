@@ -20,7 +20,7 @@ calcBeta <- function(asvtable = NULL, metadata = NULL, numRare = 400, method = "
 
   averagedbc <- NULL
 
-  asvtable <- filtering(asvtable, minDepth = minReads, ...)
+  asvtable <- filtering(asvtable, minDepth = minReads)
 
   #if(!is.null(metadata)){
     #asv_tib <- converter(asvtable, out = "tibble", id = "SampleID")
@@ -49,9 +49,8 @@ calcBeta <- function(asvtable = NULL, metadata = NULL, numRare = 400, method = "
   mod<-vegan::betadisper(averagedbc, metadata[[category]])
   vctrs<-mod$vectors
   centroids<-data.frame(grps=rownames(mod$centroids),data.frame(mod$centroids))
-  pcoa_metadata<-cbind(as.data.frame(vctrs), metadata)
+  pcoa_metadata<-cbind(metadata, as.data.frame(vctrs))
+  pcoa_metadata_tib <- converter(pcoa_metadata, out = "tibble")
 
-
-
-  return(list("dissimilarities" = averagedbc, "betadisper_res" = mod))
+  return(list("dissimilarities" = averagedbc, "betadisper_res" = mod, "pcoa_metadata" = pcoa_metadata_tib))
 }

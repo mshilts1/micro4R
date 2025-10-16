@@ -10,7 +10,7 @@ assess_run(
   wells = "Well",
   plate = NULL,
   category = NULL,
-  minReads = 0,
+  minReadCount = 0,
   pcoa = FALSE,
   ...
 )
@@ -26,7 +26,7 @@ assess_run(
 
 \item{category}{Varible to label wells by. Makes the most sense if positive and negative controls are labeled.}
 
-\item{minReads}{Minimum number of total reads for sample to be kept. Recommend to keep it at 0, but can change that if you want.}
+\item{minReadCount}{Minimum number of total reads for sample to be kept. Recommend to keep it at 0, but can change that if you want.}
 
 \item{pcoa}{Include PCoA data (can significantly increase run time, so set to FALSE by default)}
 
