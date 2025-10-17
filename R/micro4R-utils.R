@@ -276,7 +276,9 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
 
     if (out == "tibble"  & tibble::has_rownames(x) == TRUE) {
       if(id %in% names(x)){
-        stop(print(x))
+        print(x)
+        print(has_rownames(x))
+        #stop(print(x))
         #stop(sprintf("'id' column %s was already found in your input object, but you have rownames. Your input colnames are %s", id, names(x)))
       }
       x <- rownames_to_column(x, var = id)
