@@ -12,6 +12,7 @@ assess_run(
   category = NULL,
   minReadCount = 0,
   pcoa = FALSE,
+  corrplot = FALSE,
   ...
 )
 }
@@ -29,6 +30,8 @@ assess_run(
 \item{minReadCount}{Minimum number of total reads for sample to be kept. Recommend to keep it at 0, but can change that if you want.}
 
 \item{pcoa}{Include PCoA data (can significantly increase run time, so set to FALSE by default)}
+
+\item{corrplot}{Generate correlation plots. Set to FALSE by default as for now not sure how helpful it actually is}
 
 \item{...}{Allows passing of arguments to nested functions. not being used at the moment.}
 }

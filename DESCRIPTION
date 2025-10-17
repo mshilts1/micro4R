@@ -10,6 +10,7 @@ URL: https://mshilts1.github.io/micro4R/
 Depends: 
     R (>= 3.5)
 Imports: 
+    corrplot,
     dada2,
     decontam,
     dplyr,
@@ -19,6 +20,7 @@ Imports:
     magrittr,
     phyloseq,
     rlang,
+    rmarkdown,
     stringr,
     tibble,
     tidyr,

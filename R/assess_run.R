@@ -8,17 +8,19 @@
 #' @param minReadCount Minimum number of total reads for sample to be kept. Recommend to keep it at 0, but can change that if you want.
 #' @param pcoa Include PCoA data (can significantly increase run time, so set to FALSE by default)
 #' @param ... Allows passing of arguments to nested functions. not being used at the moment.
+#' @param corrplot Generate correlation plots. Set to FALSE by default as for now not sure how helpful it actually is
 #'
 #' @returns figures visualizing results
 #' @export
 #' @importFrom tidyr separate
+#' @importFrom corrplot corrplot
 #'
 #' @examples
 #' out <- micro4R::assess_example
 #' met <- out$metadata
 #' asv <- out$asvtable
 #' assess_run(metadata = met, asvtable = asv, wells = "well", plate = "Plate", category = "SampleType")
-assess_run <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, ...){
+assess_run <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...){
 
   metadata <- converter(metadata, out = "tibble")
   asvtable <- converter(asvtable, out = "tibble")
@@ -38,6 +40,7 @@ assess_run <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate =
 
  # both <- dplyr::inner_join(metadata, asvtable, by = "SampleID")
   both <- dplyr::inner_join(metadata, asvtable %>% select(.data$SampleID, .data$ReadCount), by = "SampleID")
+  both2 <- dplyr::inner_join(metadata %>% select(.data$SampleID, .data[[plate]]), asvtable %>% select(-.data$ReadCount), by = "SampleID")
 
   #if (example == FALSE) {
   where <- tempdir()
@@ -58,6 +61,7 @@ assess_run <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate =
     allplates <- unique(metadata[[plate]])
   }
 
+  #### heatmap by read counts
   for(j in allplates) {
     writeLines("\n    ")
     cat(sprintf("Plate %s", j))
@@ -71,6 +75,7 @@ assess_run <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate =
 
   #return(asvtable)
 
+  #### heatmap by pcoa1
   if(pcoa == TRUE){
 
   pcoa_out <- calcBeta(asvtable = asvtable, metadata = metadata, numRare = 0, minReads = 1, category = category, ...)
@@ -85,5 +90,29 @@ assess_run <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate =
     print(ggplot(df_filter, aes(y=.data$row_name, x = .data$column_name, label = .data[[category]])) + geom_point(aes(colour = .data$PCoA1), size = 18) + theme_bw() + labs(x=NULL, y = NULL) + scale_y_discrete(limits = rev) + geom_text() + scale_colour_gradient2(low="darkblue", high = "darkgreen", guide="colorbar"))
     grDevices::dev.off()
   }
+  }
+
+  #### corrplot
+  if(corrplot==TRUE){
+    #platenum <- length(unique(df_table$Plate))
+    writeLines("\n    ")
+    cat("Correlation plot")
+    for(j in allplates) {
+      writeLines("\n    ")
+      cat(sprintf("Plate %s", j))
+      df_filter <- both2 %>% filter(.data[[plate]]==j) %>% droplevels()
+
+      #df_filter <- df_filter[colnames(asvtable)]
+      df_filter1 <- df_filter %>% select(-c(.data$SampleID, .data[[plate]]))
+      df_filter1_t <- as.data.frame(t(df_filter1))
+      rownames(df_filter1_t)<-NULL
+
+      corr = stats::cor(df_filter1_t)
+      #print(corrplot(corr))
+      grDevices::pdf(sprintf("%s/dada2_out/assess_run/corrplot_plate%s_heatmap.pdf", where, j), width = 9, height = 9)
+      corrplot::corrplot(corr, method = 'square', diag = FALSE, addrect = 3, rect.col = 'blue', rect.lwd = 3, tl.pos = 'd')
+      grDevices::dev.off()
+
+    }
   }
 }

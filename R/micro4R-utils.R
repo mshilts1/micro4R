@@ -642,3 +642,43 @@ filtering <- function(asvtable = NULL, minDepth = 1000, minASVCount = 2) {
   return(seqtabout)
 }
 
+
+#' Create RMarkdown report
+#'
+#' @param title title of the report
+#' @param data input data
+#' @param color color
+#'
+#' @returns HTML report
+#' @importFrom rmarkdown render
+#'
+report_maker <- function(title, data, color){
+
+  p <- ggplot(data, aes(x=.data$value)) +
+    geom_histogram(color = color)
+
+  cat("---
+title: \"", title, "\"
+author: \"Jared_Mamrot\"
+date: \'", format(Sys.Date(), '%B %d, %Y'), "\'
+output: html_document
+---
+
+\`\`\`{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+\`\`\`
+
+## Example plot
+\`\`\`{r example, echo=TRUE}
+p <- ggplot(data, aes(x=value)) +
+  geom_histogram(color = color)
+p
+\`\`\`",
+      file = "tmp.Rmd")
+  rmarkdown::render("tmp.Rmd")
+  data2 <- data$col2 <- 1:100
+
+  mylist <- list(plot = p, data = data2)
+  return(mylist)
+
+}
