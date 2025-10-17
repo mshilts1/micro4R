@@ -264,21 +264,24 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
         x <- as.matrix(x)
         return(invisible(x))
       }
-      if (!id %in% names(x) & tibble::has_rownames(x) == TRUE) {
+      #if (!id %in% names(x) & tibble::has_rownames(x) == TRUE) { #has_rownames failing sometimes
+      if (!id %in% names(x) & identical(rownames(x), as.character(1:nrow(x))) == FALSE) {
         #x <- column_to_rownames(x, var = id)
         x <- as.matrix(x)
         return(invisible(x))
       }
-      if (!id %in% names(x) & tibble::has_rownames(x) == FALSE) {
+      #if (!id %in% names(x) & tibble::has_rownames(x) == FALSE) {
+      if (!id %in% names(x) & identical(rownames(x), as.character(1:nrow(x))) == TRUE) {
         stop(sprintf("'id' column '%s' was not found in your input object.", id))
       }
     }
 
-    if (out == "tibble"  & tibble::has_rownames(x) == TRUE) {
+    #if (out == "tibble"  & tibble::has_rownames(x) == TRUE) {
+    if (out == "tibble"  & identical(rownames(x), as.character(1:nrow(x))) == FALSE) {
       if(id %in% names(x)){
-        print(x)
-        print(rownames(x))
-        print(has_rownames(x))
+        #print(x)
+        #print(rownames(x))
+        #print(has_rownames(x))
         #stop(print(x))
         #stop(sprintf("'id' column %s was already found in your input object, but you have rownames. Your input colnames are %s", id, names(x)))
       }
@@ -287,7 +290,8 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
       return(invisible(x))
     }
 
-    if (out == "tibble"  & tibble::has_rownames(x) == FALSE) {
+    #if (out == "tibble"  & tibble::has_rownames(x) == FALSE) {
+    if (out == "tibble"  & identical(rownames(x), as.character(1:nrow(x))) == TRUE) {
       x <- tibble::as_tibble(x)
       return(invisible(x))
     }
