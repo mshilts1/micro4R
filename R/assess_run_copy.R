@@ -11,19 +11,17 @@
 #' @param corrplot Generate correlation plots. Set to FALSE by default as for now not sure how helpful it actually is
 #'
 #' @returns figures visualizing results
-#' @export
 #' @importFrom tidyr separate
 #' @importFrom corrplot corrplot
-#' @importFrom rmarkdown render
+#' @export
 #'
 #' @examples
 #' out <- micro4R::assess_example
 #' met <- out$metadata
 #' asv <- out$asvtable
-#' assess_run(metadata = met, asvtable = asv, wells = "well", plate = "Plate", category = "SampleType")
-assess_run_deprecated <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...){
+#' assess_run_copy(metadata = met, asvtable = asv, wells = "well", plate = "Plate", category = "SampleType")
+assess_run <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...){
   output_path <- tempdir()
-  print(output_path)
   cat("---
 title: \"Run Assessment\"
 date: \'", format(Sys.Date(), '%B %d, %Y'), "\'
@@ -138,8 +136,6 @@ knitr::opts_chunk$set(echo = TRUE)
   }
 
 \`\`\`",
-      file = sprintf("%s/dada2_out/assess_run/Run_Assessment_Report.Rmd", output_path))
-  rmarkdown::render(sprintf("%s/dada2_out/assess_run/Run_Assessment_Report.Rmd", output_path))
-
-  print(sprintf("%s/dada2_out/assess_run/Run_Assessment_Report.Rmd", output_path))
+      file = sprintf("%s/dada2_out/assess_run/test.Rmd", output_path))
+  rmarkdown::render(sprintf("%s/dada2_out/assess_run/test.Rmd", output_path))
 }

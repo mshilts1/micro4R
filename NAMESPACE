@@ -2,6 +2,8 @@
 
 export("%>%")
 export(assess_run)
+export(assess_run_copy)
+export(assess_run_original)
 export(calcBeta)
 export(checkAll)
 export(checkMeta)
