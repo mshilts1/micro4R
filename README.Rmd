@@ -192,7 +192,7 @@ metadata$neg
 
 Next, let's run the `decontam_wrapper()` on the example data we've generated so far:
 ```{r example5}
-decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
+#decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
 ```
 
 You'll see several messages, including one at the bottom that tells us "No contaminants were detected. Exiting function and returning your original ASV and taxa tables." With real data with proper controls, you should not expect to ever see this message. Our example data set was just too stupidly small for `decontam` to work properly!     
@@ -230,7 +230,17 @@ checkAll(asvtable = asvtable, taxa = taxa, metadata = metadata)
 
 Since we're done with the basic sanity checks, now we can do an actual more interesting quality check of our data.    
 
-As mentioned numerous times, lab positive and negative controls are VERY important and should be included at minimum in every single sequencing run. If you haven't included either of these, you won't be able to do the full quality checks here.
+As mentioned numerous times, lab positive and negative controls are VERY important and should be included at minimum in every single sequencing run. If you haven't included either of these, you won't be able to do the full quality checks here.    
+
+The example data that we've used so far won't be useful for this, so let's load in some example data that I've created specifically to demonstrate the kind of data quality checking that I reguarly do for every single sequencing run.     
+
+Included with the package is processed data from a single typical fictional 16S MiSeq run (`assess_example`). There are 384 samples on this run, including a number of negative and positive controls. I personally like to assess the level of background contamination in the negative controls *before* `decontam`.
+
+```{r qc}
+out <- micro4R::assess_example
+
+assess_run(metadata = out$metadata, asvtable = out$asvtable, wells = "well", plate = "Plate", category = "SampleType")
+```
 
 ### Step 8: Alpha diversity
 

@@ -13,6 +13,7 @@
 #' @returns figures visualizing results
 #' @importFrom tidyr separate
 #' @importFrom corrplot corrplot
+#' @importFrom gt gt
 #' @export
 #'
 #' @examples
@@ -48,6 +49,15 @@ knitr::opts_chunk$set(echo = TRUE)
   metadata <- converter(metadata, out = \"tibble\")
   asvtable <- converter(asvtable, out = \"tibble\")
 
+  asv_rel <-normalize(asvtable)
+
+  negative_vector <- c(\"negative\", \"neg\")
+  negatives <- NULL
+  negatives <- metadata %>% dplyr::mutate(isNeg = dplyr::case_when(
+    .data[[category]] %in% negative_vector ~ 1,
+    !(.data[[category]] %in% negative_vector) ~ 0
+  ))
+
   if (!category %in% names(metadata)) {
     stop(sprintf(\"'category' column '%s' was not found in your input object.\", category))
   }
@@ -65,6 +75,13 @@ knitr::opts_chunk$set(echo = TRUE)
   both <- dplyr::inner_join(metadata, asvtable %>% select(.data$SampleID, .data$ReadCount), by = \"SampleID\")
   both2 <- dplyr::inner_join(metadata %>% select(.data$SampleID, .data[[plate]]), asvtable %>% select(-.data$ReadCount), by = \"SampleID\")
 
+  read_counts_table<-both %>% group_by(.data[[category]]) %>% dplyr::summarize(mean=mean(ReadCount),
+min=min(ReadCount), max=max(ReadCount), median=median(ReadCount), q1=quantile(ReadCount, 0.25), q3=quantile(ReadCount,0.75), LessThan1000=sum(ReadCount<1000), TotalCategory=sum(ReadCount>=0))
+
+read_counts_table %>% gt::gt(caption = \"Read Counts Summary\") %>% gt::fmt_number(decimals = 0)
+
+ggplot(both, aes(x=.data[[category]], y = .data$ReadCount, fill = .data[[category]])) + geom_boxplot() + theme_bw()
+
   #if (example == FALSE) {
   output_path <- tempdir()
     if (!dir.exists(sprintf(\"%s/dada2_out/assess_run\", output_path))) {
@@ -74,6 +91,8 @@ knitr::opts_chunk$set(echo = TRUE)
   #}
 
   #return(metadata)
+
+
 
   if(is.null(plate)){
     allplates <- 1
@@ -98,7 +117,7 @@ knitr::opts_chunk$set(echo = TRUE)
     p
     grDevices::dev.off()
 
-    #print(p)
+    print(p)
   }
 
   #return(asvtable)
@@ -113,9 +132,11 @@ knitr::opts_chunk$set(echo = TRUE)
     cat(sprintf(\"Plate %s\", j))
     df_filter <- pcoa_out$pcoa_metadata %>% dplyr::filter(.data[[plate]]==j) %>% droplevels()
 
+    p <- print(ggplot(df_filter, aes(y=.data$row_name, x = .data$column_name, label = .data[[category]])) + geom_point(aes(colour = .data$PCoA1), size = 18) + theme_bw() + labs(x=NULL, y = NULL) + scale_y_discrete(limits = rev) + geom_text() + scale_colour_gradient2(low=\"darkblue\", high = \"darkgreen\", guide=\"colorbar\"))
+
     #mid <- median(df_filter$ReadCount)
     grDevices::pdf(sprintf(\"%s/dada2_out/assess_run/PCoA1_plate%s_heatmap.pdf\", output_path, j), width = 9, height = 9)
-    print(ggplot(df_filter, aes(y=.data$row_name, x = .data$column_name, label = .data[[category]])) + geom_point(aes(colour = .data$PCoA1), size = 18) + theme_bw() + labs(x=NULL, y = NULL) + scale_y_discrete(limits = rev) + geom_text() + scale_colour_gradient2(low=\"darkblue\", high = \"darkgreen\", guide=\"colorbar\"))
+    p
     grDevices::dev.off()
   }
   }
@@ -136,9 +157,12 @@ knitr::opts_chunk$set(echo = TRUE)
       rownames(df_filter1_t)<-NULL
 
       corr = stats::cor(df_filter1_t)
+
+      p <- corrplot::corrplot(corr, method = 'square', diag = FALSE, addrect = 3, rect.col = 'blue', rect.lwd = 3, tl.pos = 'd')
+
       #print(corrplot(corr))
       grDevices::pdf(sprintf(\"%s/dada2_out/assess_run/corrplot_plate%s_heatmap.pdf\", output_path, j), width = 9, height = 9)
-      corrplot::corrplot(corr, method = 'square', diag = FALSE, addrect = 3, rect.col = 'blue', rect.lwd = 3, tl.pos = 'd')
+      p
       grDevices::dev.off()
 
     }

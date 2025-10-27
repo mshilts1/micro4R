@@ -641,4 +641,13 @@ filtering <- function(asvtable = NULL, minDepth = 1000, minASVCount = 2) {
 
   return(seqtabout)
 }
+normalize <- function(df) {
+ # df <- filtering(asvtable = x, minDepth = 1)
+  row_sums <- rowSums(df[,-1])
+  normalized_df <- df[,-1] / row_sums
+
+  normalized_df <- dplyr::bind_cols(df[1], normalized_df) %>% mutate(across(everything(), ~replace(.x, is.nan(.x), 0)))
+}
+
+
 
