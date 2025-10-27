@@ -127,40 +127,41 @@
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpllHMAy/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpl86Zjz/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to searching in your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
 <p>Let’s take a quick look at what this asvtable looks like (using the <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> function so it prints more nicely):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">asvtable</span>, rownames <span class="op">=</span> <span class="st">"SampleID"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 7 × 7</span></span>
-<span><span class="co">#&gt;   SampleID  TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                      &lt;int&gt;                  &lt;int&gt;                  &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 SAMPLED_…                      0                      0                      0</span></span>
-<span><span class="co">#&gt; 2 SAMPLED_…                      0                      0                      0</span></span>
-<span><span class="co">#&gt; 3 SAMPLED_…                     44                      0                      0</span></span>
-<span><span class="co">#&gt; 4 SAMPLED_…                     24                      0                      0</span></span>
-<span><span class="co">#&gt; 5 SAMPLED_…                      0                      0                     12</span></span>
-<span><span class="co">#&gt; 6 SAMPLED_…                      0                     35                      6</span></span>
-<span><span class="co">#&gt; 7 SAMPLED_…                      0                      0                      0</span></span>
+<span><span class="co">#&gt; # A tibble: 7 × 8</span></span>
+<span><span class="co">#&gt;   SampleID SampleID                TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…²</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                                    &lt;int&gt;                  &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 1        SAMPLED_5080-MS-1_307-…                      0                      0</span></span>
+<span><span class="co">#&gt; 2 2        SAMPLED_5080-MS-1_313-…                      0                      0</span></span>
+<span><span class="co">#&gt; 3 3        SAMPLED_5080-MS-1_328-…                     44                      0</span></span>
+<span><span class="co">#&gt; 4 4        SAMPLED_5080-MS-1_339-…                     24                      0</span></span>
+<span><span class="co">#&gt; 5 5        SAMPLED_5348-MS-1_162-…                      0                      0</span></span>
+<span><span class="co">#&gt; 6 6        SAMPLED_5348-MS-1_297-…                      0                     35</span></span>
+<span><span class="co">#&gt; 7 7        SAMPLED_5348-MS-1_381-…                      0                      0</span></span>
 <span><span class="co">#&gt; # ℹ abbreviated names:</span></span>
 <span><span class="co">#&gt; #   ¹​TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG,</span></span>
-<span><span class="co">#&gt; #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG,</span></span>
-<span><span class="co">#&gt; #   ³​TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG</span></span>
-<span><span class="co">#&gt; # ℹ 3 more variables:</span></span>
+<span><span class="co">#&gt; #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables:</span></span>
+<span><span class="co">#&gt; #   TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG &lt;int&gt;,</span></span>
 <span><span class="co">#&gt; #   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG &lt;int&gt;,</span></span>
 <span><span class="co">#&gt; #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG &lt;int&gt;, …</span></span></code></pre></div>
 <p>This is basically just a count table of the number of ASVs detected in each sample.</p>
 <p>Let’s look what the column names (AKA the names of the ASVs) look like:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">asvtable</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG" </span></span>
-<span><span class="co">#&gt; [2] "TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG" </span></span>
-<span><span class="co">#&gt; [3] "TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG"</span></span>
-<span><span class="co">#&gt; [4] "TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG" </span></span>
-<span><span class="co">#&gt; [5] "TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG" </span></span>
-<span><span class="co">#&gt; [6] "TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "SampleID"                                                                                                                                                                                                                                                      </span></span>
+<span><span class="co">#&gt; [2] "TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG" </span></span>
+<span><span class="co">#&gt; [3] "TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG" </span></span>
+<span><span class="co">#&gt; [4] "TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG"</span></span>
+<span><span class="co">#&gt; [5] "TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG" </span></span>
+<span><span class="co">#&gt; [6] "TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG" </span></span>
+<span><span class="co">#&gt; [7] "TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCGTAAAGCGAGCGCAGGCGGTTAGATAAGTCTGAAGTTAAAGGCTGTGGCTTAACCATAGTACGCTTTGGAAACTGTTTAACTTGAGTGCAAGAGGGGAGAGTGGAATTCCATGTGTAGCGGTGAAATGCGTAGATATATGGAGGAACACCGGTGGCGAAAGCGGCTCTCTGGCTTGTAACTGACGCTGAGGCTCGAAAGCGTGGGGAGCAAACAGG"</span></span></code></pre></div>
 <p>Our ASVs are by default just named after their literal DNA sequences. Since you’re (probably?) not a computer, a string of hundreds of nucletotides is likely not something you can make much sense of by yourself. The next step will take those nucleotide sequences and compare them against a database (or two) of sequences with known taxonomy:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">train</span> <span class="op">&lt;-</span> <span class="st">"inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"</span> <span class="co"># set training database</span></span>
@@ -173,15 +174,15 @@
 <p><strong>CAUTION: The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!</strong> You’ll definitely need to download and use the real <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">databases</a> for your actual data! If you try to use these with real data, you’ll get very weird results that will make no sense.</p>
 <p>There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">here</a> for details and download links. I usually prefer the SILVA databases, but you don’t have to!</p>
 <p>Let’s take a look at the taxonomy assignment table:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 7</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt;   ASV                                    Kingdom Phylum Class Order Family Genus</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                                  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; 1 TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCG… Bacter… Bacil… Baci… Stap… Staph… Stap…</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 2 TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCG… Bacter… Pseud… Gamm… Ente… Enter… Kleb…</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 3 TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCG… Bacter… Actin… Acti… Myco… Coryn… Cory…</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 4 TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCG… Bacter… Actin… Acti… Myco… Coryn… Cory…</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 5 TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Carno… Dolo…</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 6 TACGTAGGTCCCGAGCGTTGTCCGGATTTATTGGGCG… Bacter… Bacil… Baci… Lact… Strep… Stre…</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 9</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt;   ASV   ASV                      Kingdom Phylum Class Order Family Genus Species</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;                    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  </span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; 1 1     TACGTAGGTGGCAAGCGTTATCC… Bacter… Bacil… Baci… Stap… Staph… Stap… &lt;NA&gt;   </span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 2 2     TACGGAGGGTGCAAGCGTTAATC… Bacter… Pseud… Gamm… Ente… Enter… Kleb… &lt;NA&gt;   </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 3 3     TACGTAGGGTGCGAGCGTTGTCC… Bacter… Actin… Acti… Myco… Coryn… Cory… &lt;NA&gt;   </span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 4 4     TACGTAGGGTGCAAGCGTTGTCC… Bacter… Actin… Acti… Myco… Coryn… Cory… &lt;NA&gt;   </span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 5 5     TACGTAGGTGACAAGCGTTGTCC… Bacter… Bacil… Baci… Lact… Carno… Dolo… pigrum </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 6 6     TACGTAGGTCCCGAGCGTTGTCC… Bacter… Bacil… Baci… Lact… Strep… Stre… &lt;NA&gt;</span></span></code></pre></div>
 <p>It’s a bit squished, but you can see this information is more human-friendly here. Each ASV has been given a taxonomic assignment the lowest taxonomic level the taxonomy assigner was confident of.</p>
 </div>
 <div class="section level3">
@@ -235,24 +236,16 @@
 <span><span class="co">#&gt; [1] FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE</span></span></code></pre></div>
 <p>Next, let’s run the <code><a href="reference/decontam_wrapper.html">decontam_wrapper()</a></code> on the example data we’ve generated so far:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/decontam_wrapper.html">decontam_wrapper</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">asvtable</span>, taxa <span class="op">=</span> <span class="va">taxa</span>, metadata <span class="op">=</span> <span class="va">metadata</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "CLASS OF METADATA IS data.frame"</span></span>
-<span><span class="co">#&gt; Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :</span></span>
-<span><span class="co">#&gt; Removed 3 samples with zero total counts (or frequency).</span></span>
-<span><span class="co">#&gt; Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :</span></span>
-<span><span class="co">#&gt; Some batches have very few (&lt;=4) samples.</span></span>
-<span><span class="co">#&gt; Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :</span></span>
-<span><span class="co">#&gt; Removed 3 samples with zero total counts (or frequency).</span></span>
-<span><span class="co">#&gt; Warning in .is_contaminant(seqtab, conc = conc, neg = neg, method = method, :</span></span>
-<span><span class="co">#&gt; Some batches have very few (&lt;=4) samples.</span></span>
-<span><span class="co">#&gt; [1] "No contaminants were detected. Exiting function and returning your original ASV and taxa tables."</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)</span></span></code></pre></div>
 <p>You’ll see several messages, including one at the bottom that tells us “No contaminants were detected. Exiting function and returning your original ASV and taxa tables.” With real data with proper controls, you should not expect to ever see this message. Our example data set was just too stupidly small for <code>decontam</code> to work properly!</p>
 <p>So that I can demonstrate <code>decontam</code> actually doing something, we’ll deliberately “contaminate” the ASV table with the <code><a href="reference/contaminate.html">contaminate()</a></code> command. All we’re doing is artificially adding counts to one of the ASVs, and throwing in a few more negative controls for good measure. This data is now even more fake and made up than it was previously, so don’t use it for anything other than learning how this R package works! The command <code><a href="reference/contaminate.html">contaminate()</a></code> will also simultaneously create a matched metadata object containing information on the additional made up negative controls.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">contaminated_asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/converter.html">converter</a></span><span class="op">(</span><span class="fu"><a href="reference/contaminate.html">contaminate</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">asvtable</span><span class="op">)</span></span>
 <span><span class="va">contaminated_taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_taxa.html">dada2_taxa</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">contaminated_asvtable</span>, train <span class="op">=</span> <span class="va">train</span>, species <span class="op">=</span> <span class="va">species</span><span class="op">)</span> <span class="co"># we don't actually have to re-run this command with this specific example, but it's good practice to always ensure your asvtable and taxa tables match.</span></span>
 <span><span class="co">#&gt; [1] "CAUTION: You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstration purposes. DO NOT use them with your real data."</span></span>
-<span><span class="co">#&gt; Finished processing reference fasta.</span></span>
+<span><span class="co">#&gt; Finished processing reference fasta.[1] "CAUTION: You're using the provided micro4R EXAMPLE reference databases. These are extremely tiny and unrealistic and meant only for testing and demonstration purposes. DO NOT use them with your real data."</span></span>
+<span><span class="co">#&gt; 1 out of 6 were assigned to the species level.</span></span>
+<span><span class="co">#&gt; Of which 1 had genera consistent with the input table.</span></span>
 <span><span class="va">contaminated_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/contaminate.html">contaminate</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">metadata</span></span>
 <span><span class="va">decontaminated</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/decontam_wrapper.html">decontam_wrapper</a></span><span class="op">(</span>asvtable <span class="op">=</span> <span class="va">contaminated_asvtable</span>, taxa <span class="op">=</span> <span class="va">contaminated_taxa</span>, metadata <span class="op">=</span> <span class="va">contaminated_metadata</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "CLASS OF METADATA IS data.frame"</span></span>
@@ -287,6 +280,18 @@
 </h3>
 <p>Since we’re done with the basic sanity checks, now we can do an actual more interesting quality check of our data.</p>
 <p>As mentioned numerous times, lab positive and negative controls are VERY important and should be included at minimum in every single sequencing run. If you haven’t included either of these, you won’t be able to do the full quality checks here.</p>
+<p>The example data that we’ve used so far won’t be useful for this, so let’s load in some example data that I’ve created specifically to demonstrate the kind of data quality checking that I reguarly do for every single sequencing run.</p>
+<p>Included with the package is processed data from a single typical fictional 16S MiSeq run (<code>assess_example</code>). There are 384 samples on this run, including a number of negative and positive controls. I personally like to assess the level of background contamination in the negative controls <em>before</em> <code>decontam</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">micro4R</span><span class="fu">::</span><span class="va"><a href="reference/assess_example.html">assess_example</a></span></span>
+<span></span>
+<span><span class="fu"><a href="reference/assess_run.html">assess_run</a></span><span class="op">(</span>metadata <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">metadata</span>, asvtable <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">asvtable</span>, wells <span class="op">=</span> <span class="st">"well"</span>, plate <span class="op">=</span> <span class="st">"Plate"</span>, category <span class="op">=</span> <span class="st">"SampleType"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; processing file: test.Rmd</span></span></code></pre></div>
+<p><img src="reference/figures/README-qc-1.png" width="100%"><img src="reference/figures/README-qc-2.png" width="100%"><img src="reference/figures/README-qc-3.png" width="100%"><img src="reference/figures/README-qc-4.png" width="100%"><img src="reference/figures/README-qc-5.png" width="100%"><img src="reference/figures/README-qc-6.png" width="100%"><img src="reference/figures/README-qc-7.png" width="100%"></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co">#&gt; output file: test.knit.md</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#&gt; /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/pandoc +RTS -K512m -RTS test.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output test.html --lua-filter /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --template /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpl86Zjz/rmarkdown-strf5523ce3258.html</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">#&gt; Output created: test.html</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="step-8-alpha-diversity">Step 8: Alpha diversity<a class="anchor" aria-label="anchor" href="#step-8-alpha-diversity"></a>
