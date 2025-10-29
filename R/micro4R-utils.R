@@ -649,5 +649,10 @@ normalize <- function(df) {
   normalized_df <- dplyr::bind_cols(df[1], normalized_df) %>% mutate(across(everything(), ~replace(.x, is.nan(.x), 0)))
 }
 
-
+create_pos <- function(zymo = TRUE){
+  if(zymo == TRUE){
+  expected <- data.frame(SampleID=rep(c('Expected'), times=9), Genus=c('Pseudomonas', 'Escherichia', 'Lactobacillus', 'Enterococcus', 'Staphylococcus', 'Listeria', 'Bacillus', 'Salmonella', 'Other'), value=c(0.046, 0.1, 0.188, 0.104, 0.133, 0.159, 0.157, 0.113, 0))
+  }
+  return(expected)
+}
 
