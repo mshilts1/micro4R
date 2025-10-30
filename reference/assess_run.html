@@ -39,6 +39,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">assess_run</span><span class="op">(</span></span>
 <span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  asvtable <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  taxa <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  wells <span class="op">=</span> <span class="st">"Well"</span>,</span>
 <span>  plate <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  category <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -59,6 +60,10 @@
 
 <dt id="arg-asvtable">asvtable<a class="anchor" aria-label="anchor" href="#arg-asvtable"></a></dt>
 <dd><p>asvtable object</p></dd>
+
+
+<dt id="arg-taxa">taxa<a class="anchor" aria-label="anchor" href="#arg-taxa"></a></dt>
+<dd><p>taxa object</p></dd>
 
 
 <dt id="arg-wells">wells<a class="anchor" aria-label="anchor" href="#arg-wells"></a></dt>
@@ -99,7 +104,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">micro4R</span><span class="fu">::</span><span class="va"><a href="assess_example.html">assess_example</a></span></span></span>
 <span class="r-in"><span><span class="va">met</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">$</span><span class="va">metadata</span></span></span>
 <span class="r-in"><span><span class="va">asv</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">$</span><span class="va">asvtable</span></span></span>
-<span class="r-in"><span><span class="fu">assess_run</span><span class="op">(</span>metadata <span class="op">=</span> <span class="va">met</span>, asvtable <span class="op">=</span> <span class="va">asv</span>, wells <span class="op">=</span> <span class="st">"well"</span>, plate <span class="op">=</span> <span class="st">"Plate"</span>, category <span class="op">=</span> <span class="st">"SampleType"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tax</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">$</span><span class="va">taxa</span></span></span>
+<span class="r-in"><span><span class="fu">assess_run</span><span class="op">(</span>metadata <span class="op">=</span> <span class="va">met</span>, asvtable <span class="op">=</span> <span class="va">asv</span>, taxa <span class="op">=</span> <span class="va">tax</span>, wells <span class="op">=</span> <span class="st">"well"</span>, plate <span class="op">=</span> <span class="st">"Plate"</span>, category <span class="op">=</span> <span class="st">"SampleType"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> processing file: test.Rmd</span>
@@ -115,7 +121,7 @@
 <span class="r-plt img"><img src="assess_run-6.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="assess_run-7.png" alt="" width="700" height="433"></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> output file: test.knit.md</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc +RTS -K512m -RTS test.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output test.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpSRm44j/rmarkdown-str1e8618c5f8e7.html </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc +RTS -K512m -RTS test.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output test.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpTQv6uv/rmarkdown-str1ea77a88abf2.html </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Output created: test.html</span>
 </code></pre></div>
