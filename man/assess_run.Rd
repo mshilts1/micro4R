@@ -7,6 +7,7 @@
 assess_run(
   metadata = NULL,
   asvtable = NULL,
+  taxa = NULL,
   wells = "Well",
   plate = NULL,
   category = NULL,
@@ -20,6 +21,8 @@ assess_run(
 \item{metadata}{metadata object}
 
 \item{asvtable}{asvtable object}
+
+\item{taxa}{taxa object}
 
 \item{wells}{wells for each sample. Expecting A01, A02, etc.}
 
@@ -45,5 +48,6 @@ Assess sequencing results
 out <- micro4R::assess_example
 met <- out$metadata
 asv <- out$asvtable
-assess_run(metadata = met, asvtable = asv, wells = "well", plate = "Plate", category = "SampleType")
+tax <- out$taxa
+assess_run(metadata = met, asvtable = asv, taxa = tax, wells = "well", plate = "Plate", category = "SampleType")
 }

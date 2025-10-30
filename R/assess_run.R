@@ -9,6 +9,7 @@
 #' @param pcoa Include PCoA data (can significantly increase run time, so set to FALSE by default)
 #' @param ... Allows passing of arguments to nested functions. not being used at the moment.
 #' @param corrplot Generate correlation plots. Set to FALSE by default as for now not sure how helpful it actually is
+#' @param taxa taxa object
 #'
 #' @returns figures visualizing results
 #' @importFrom tidyr separate
@@ -20,8 +21,9 @@
 #' out <- micro4R::assess_example
 #' met <- out$metadata
 #' asv <- out$asvtable
-#' assess_run(metadata = met, asvtable = asv, wells = "well", plate = "Plate", category = "SampleType")
-assess_run <- function(metadata = NULL, asvtable = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...){
+#' tax <- out$taxa
+#' assess_run(metadata = met, asvtable = asv, taxa = tax, wells = "well", plate = "Plate", category = "SampleType")
+assess_run <- function(metadata = NULL, asvtable = NULL, taxa = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...){
 
   output_path <- tempdir()
 
@@ -48,6 +50,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
   metadata <- converter(metadata, out = \"tibble\")
   asvtable <- converter(asvtable, out = \"tibble\")
+  taxa <- converter(taxa, out = \"tibble\")
 
   asv_rel <-normalize(asvtable)
 
@@ -81,6 +84,47 @@ min=min(ReadCount), max=max(ReadCount), median=median(ReadCount), q1=quantile(Re
 read_counts_table %>% gt::gt(caption = \"Read Counts Summary\") %>% gt::fmt_number(decimals = 0)
 
 ggplot(both, aes(x=.data[[category]], y = .data$ReadCount, fill = .data[[category]])) + geom_boxplot() + theme_bw()
+
+  positive_vector <- c(\"positive\", \"pos\")
+  positives <- NULL
+  positives <- metadata %>% dplyr::mutate(isPos = dplyr::case_when(
+    .data[[category]] %in% positive_vector ~ 1,
+    !(.data[[category]] %in% positive_vector) ~ 0
+  )) %>%
+  dplyr::filter(.data$isPos == 1) %>%
+  dplyr::select(.data$SampleID)
+
+  positive_seqs <- dplyr::left_join(positives, asvtable, by = \"SampleID\") %>% dplyr::select_if(function(col) !all(col == 0)) %>% dplyr::select(-.data$ReadCount)
+
+  positive_seqs_rel <- normalize(positive_seqs) %>% tidyr::pivot_longer(!.data$SampleID, names_to = \"ASV\", values_to = \"value\")
+
+  positive_seqs_rel <- dplyr::left_join(positive_seqs_rel, taxa, by = \"ASV\")
+
+
+  positive_seqs_rel_genus <- positive_seqs_rel %>% dplyr::select(.data$SampleID, .data$Genus, .data$value)
+  positive_seqs_rel_genus <- dplyr::bind_rows(positive_seqs_rel_genus, create_pos(zymo_opt = \"B\")$freqs)
+
+  ncols<-length(unique(positive_seqs_rel_genus$Genus))
+  mycolors <- colorRampPalette(RColorBrewer::brewer.pal(8, \"Set2\"))(ncols)
+
+print(ggplot(positive_seqs_rel_genus, aes(x=SampleID, y=value, fill=Genus)) + geom_bar(stat=\"identity\") + scale_fill_manual(values=mycolors, name=\"Genus\") + theme_bw() + xlab(\"\nSample ID\") + ylab(\"Relative abundance\"))
+
+  positive_seqs_counts <- positive_seqs %>% dplyr::select(-c(.data$SampleID)) %>% dplyr::select_if(colSums(.) != 0)
+  cat(\"DADA2 inferred\", ncol(positive_seqs_counts), \"sample sequences present in the Mock community.\n\")
+
+  match.ref <- sum(sapply(names(positive_seqs), function(x) any(grepl(x, create_pos()$seqs))))
+  cat(\"Of those,\", sum(match.ref), \"were exact matches to the expected reference sequences.\n\")
+
+  no.match <- sapply(names(positive_seqs), function(x) any(grepl(x, create_pos()$seqs)))
+
+  no.match.df <- as.data.frame(no.match)
+  no.match.tib <- converter(no.match.df, out = \"tibble\", id = \"ASV\")
+  no.match.tib <- no.match.tib %>% dplyr::filter(.data$no.match == FALSE)
+  no.match.tib <- dplyr::left_join(no.match.tib, taxa, by = \"ASV\")
+
+  refs <- create_pos()$seqs_tib
+
+  no.match.tib$Genus %in% create_pos()$seqs_tib$ind
 
   #if (example == FALSE) {
   output_path <- tempdir()
