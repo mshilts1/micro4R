@@ -37,14 +37,19 @@ assess_run <- function(metadata = NULL, asvtable = NULL, taxa = NULL, wells = "W
   cat("---
 title: \"Run Assessment\"
 date: \'", format(Sys.Date(), '%B %d, %Y'), "\'
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    number_sections: true
 ---
 
 \`\`\`{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 \`\`\`
 
-## Plots
+### Plots
 \`\`\`{r example, echo=FALSE}
 
 
@@ -77,14 +82,21 @@ knitr::opts_chunk$set(echo = TRUE)
  # both <- dplyr::inner_join(metadata, asvtable, by = \"SampleID\")
   both <- dplyr::inner_join(metadata, asvtable %>% select(.data$SampleID, .data$ReadCount), by = \"SampleID\")
   both2 <- dplyr::inner_join(metadata %>% select(.data$SampleID, .data[[plate]]), asvtable %>% select(-.data$ReadCount), by = \"SampleID\")
+\`\`\`
 
+### Read Count Summary
+
+\`\`\`{r readcounts, echo=FALSE}
   read_counts_table<-both %>% group_by(.data[[category]]) %>% dplyr::summarize(mean=mean(ReadCount),
 min=min(ReadCount), max=max(ReadCount), median=median(ReadCount), q1=quantile(ReadCount, 0.25), q3=quantile(ReadCount,0.75), LessThan1000=sum(ReadCount<1000), TotalCategory=sum(ReadCount>=0))
 
 read_counts_table %>% gt::gt(caption = \"Read Counts Summary\") %>% gt::fmt_number(decimals = 0)
 
 ggplot(both, aes(x=.data[[category]], y = .data$ReadCount, fill = .data[[category]])) + geom_boxplot() + theme_bw()
+\`\`\`
 
+### Positive Control(s) Assessment
+\`\`\`{r poscontrol, echo=FALSE}
   positive_vector <- c(\"positive\", \"pos\")
   positives <- NULL
   positives <- metadata %>% dplyr::mutate(isPos = dplyr::case_when(
@@ -107,13 +119,11 @@ ggplot(both, aes(x=.data[[category]], y = .data$ReadCount, fill = .data[[categor
   ncols<-length(unique(positive_seqs_rel_genus$Genus))
   mycolors <- colorRampPalette(RColorBrewer::brewer.pal(8, \"Set2\"))(ncols)
 
-print(ggplot(positive_seqs_rel_genus, aes(x=SampleID, y=value, fill=Genus)) + geom_bar(stat=\"identity\") + scale_fill_manual(values=mycolors, name=\"Genus\") + theme_bw() + xlab(\"\nSample ID\") + ylab(\"Relative abundance\"))
+print(ggplot(positive_seqs_rel_genus, aes(x=SampleID, y=value, fill=Genus)) + geom_bar(stat=\"identity\") + scale_fill_manual(values=mycolors, name=\"Genus\") + theme_bw() + xlab(\"\nSample ID\") + ylab(\"Relative abundance\")) #+ theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 
   positive_seqs_counts <- positive_seqs %>% dplyr::select(-c(.data$SampleID)) %>% dplyr::select_if(colSums(.) != 0)
-  cat(\"DADA2 inferred\", ncol(positive_seqs_counts), \"sample sequences present in the Mock community.\n\")
 
   match.ref <- sum(sapply(names(positive_seqs), function(x) any(grepl(x, create_pos()$seqs))))
-  cat(\"Of those,\", sum(match.ref), \"were exact matches to the expected reference sequences.\n\")
 
   no.match <- sapply(names(positive_seqs), function(x) any(grepl(x, create_pos()$seqs)))
 
@@ -125,7 +135,18 @@ print(ggplot(positive_seqs_rel_genus, aes(x=SampleID, y=value, fill=Genus)) + ge
   refs <- create_pos()$seqs_tib
 
   no.match.tib$Genus %in% create_pos()$seqs_tib$ind
+\`\`\`
 
+dada2 inferred `r ncol(positive_seqs_counts)` sample sequences present in the mock community sample(s). Of those, `r sum(match.ref)` were exact matches to the expected reference sequences.
+
+\`\`\`{r empty, echo=FALSE}
+\`\`\`
+
+### Well Heatmap Plots {.tabset}
+
+#### Well Heatmap Read Counts
+
+\`\`\`{r heatmap_plots, echo=FALSE}
   #if (example == FALSE) {
   output_path <- tempdir()
     if (!dir.exists(sprintf(\"%s/dada2_out/assess_run\", output_path))) {
@@ -157,14 +178,20 @@ print(ggplot(positive_seqs_rel_genus, aes(x=SampleID, y=value, fill=Genus)) + ge
     p <- print(ggplot(df_filter, aes(y=.data$row_name, x = .data$column_name, label = .data[[category]])) + geom_point(aes(colour = .data$ReadCount), size = 18) + theme_bw() + labs(x=NULL, y = NULL) + scale_y_discrete(limits = rev) + geom_text() + scale_colour_gradient2(low=\"darkblue\", high = \"darkgreen\", guide=\"colorbar\"))
 
     #mid <- median(df_filter$ReadCount)
-    grDevices::pdf(sprintf(\"%s/dada2_out/assess_run/reads_plate%s_heatmap.pdf\", output_path, j), width = 9, height = 9)
-    p
-    grDevices::dev.off()
+    #grDevices::pdf(sprintf(\"%s/dada2_out/assess_run/reads_plate%s_heatmap.pdf\", output_path, j), width = 9, height = 9)
+    #p
+    #grDevices::dev.off()
 
-    print(p)
+    #print(p)
   }
 
   #return(asvtable)
+
+\`\`\`
+
+#### Well Heatmap PCoA
+
+\`\`\`{r heatmap_plots_pcoa, echo=FALSE}
 
   #### heatmap by pcoa1
   if(pcoa == TRUE){
@@ -213,6 +240,6 @@ print(ggplot(positive_seqs_rel_genus, aes(x=SampleID, y=value, fill=Genus)) + ge
   }
 
 \`\`\`",
-      file = sprintf("%s/dada2_out/assess_run/test.Rmd", output_path))
-  rmarkdown::render(sprintf("%s/dada2_out/assess_run/test.Rmd", output_path))
+      file = sprintf("%s/dada2_out/assess_run/Run_assessment.Rmd", output_path))
+  rmarkdown::render(sprintf("%s/dada2_out/assess_run/Run_assessment.Rmd", output_path))
 }
