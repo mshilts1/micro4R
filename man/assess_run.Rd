@@ -28,7 +28,7 @@ assess_run(
 
 \item{plate}{plate samples were on. Can be left as NULL if there's only one plate.}
 
-\item{category}{Varible to label wells by. Makes the most sense if positive and negative controls are labeled.}
+\item{category}{Variable to classify the samples. Makes the most sense if positive and negative controls are labeled.}
 
 \item{minReadCount}{Minimum number of total reads for sample to be kept. Recommend to keep it at 0, but can change that if you want.}
 
@@ -39,7 +39,7 @@ assess_run(
 \item{...}{Allows passing of arguments to nested functions. not being used at the moment.}
 }
 \value{
-figures visualizing results
+HTML report summarizing results
 }
 \description{
 Assess sequencing results
