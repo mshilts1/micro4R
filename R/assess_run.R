@@ -22,8 +22,9 @@
 #' m <- out$metadata
 #' a <- out$asvtable
 #' t <- out$taxa
+#' c <- "SampleType"
 #'
-#' assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = "SampleType")
+#' assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = c)
 assess_run <- function(metadata = NULL, asvtable = NULL, taxa = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...){
 
   output_path <- tempdir()

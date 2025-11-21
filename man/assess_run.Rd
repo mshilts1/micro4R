@@ -49,6 +49,7 @@ out <- micro4R::assess_example
 m <- out$metadata
 a <- out$asvtable
 t <- out$taxa
+c <- "SampleType"
 
-assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = "SampleType")
+assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = c)
 }

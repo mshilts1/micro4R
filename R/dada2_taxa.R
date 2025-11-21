@@ -71,11 +71,17 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   # as_tibble(taxa, rownames = "ASV", .name_repair = "unique")
   taxa_tbl <- converter(taxa, out = "tibble", id = "ASV")
 
-  #  if (where == "example" | where == "inst/extdata/f") {
+
+# if (where == "example" | where == "inst/extdata/f") {
+#   outdir <- tempdir()
+# } else {
+#   outdir <- getwd()
+# }
+
   #    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
   outdir <- tempdir()
   write.csv(taxa_tbl, file = sprintf("%s/dada2_out/taxa.csv", outdir), row.names = FALSE)
-  on.exit(unlink(outdir), add = TRUE)
+  #on.exit(unlink(outdir), add = TRUE)
   #  }
 
   if (chatty == FALSE) {
