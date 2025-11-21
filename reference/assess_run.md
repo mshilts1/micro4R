@@ -77,8 +77,9 @@ out <- micro4R::assess_example
 m <- out$metadata
 a <- out$asvtable
 t <- out$taxa
+c <- "SampleType"
 
-assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = "SampleType")
+assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = c)
 #> 
 #> 
 #> processing file: Run_assessment.Rmd
@@ -103,7 +104,7 @@ assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate"
 #> 19/20                     
 #> 20/20 [heatmap_corrplot]  
 #> output file: Run_assessment.knit.md
-#> /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc +RTS -K512m -RTS Run_assessment.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output Run_assessment.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 4 --variable toc_float=1 --variable toc_selectors=h1,h2,h3,h4 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --highlight-style tango --number-sections --variable theme=cosmo --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpRGU1mo/rmarkdown-str7a8668e601c2.html 
+#> /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc +RTS -K512m -RTS Run_assessment.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output Run_assessment.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 4 --variable toc_float=1 --variable toc_selectors=h1,h2,h3,h4 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --highlight-style tango --number-sections --variable theme=cosmo --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmprDMAj6/rmarkdown-str195c3c634e57.html 
 #> 
 #> Output created: Run_assessment.html
 ```
