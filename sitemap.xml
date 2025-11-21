@@ -4,6 +4,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/LICENSE.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/authors.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/index.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/allOrients.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/assess_example.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/assess_run.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/calcBeta.html</loc></url>
@@ -12,6 +13,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/reference/checkSampleID.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/contaminate.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/converter.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/cutadapt_helper.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_asvtable.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_decontam_wrapper.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/dada2_taxa.html</loc></url>
@@ -28,6 +30,7 @@
 <url><loc>https://mshilts1.github.io/micro4R/reference/makeExampleTaxa.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/packItUp.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/pipe.html</loc></url>
+<url><loc>https://mshilts1.github.io/micro4R/reference/primerHits.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/ref_db.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/test_dbs.html</loc></url>
 <url><loc>https://mshilts1.github.io/micro4R/reference/tibblefy.html</loc></url>
