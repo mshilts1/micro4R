@@ -150,7 +150,7 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpl86Zjz/dada2_out/filtered
+#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpKPbfAY/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -348,7 +348,7 @@ Next, let’s run the
 on the example data we’ve generated so far:
 
 ``` r
-#decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
+# decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
 ```
 
 You’ll see several messages, including one at the bottom that tells us
@@ -453,19 +453,9 @@ personally like to assess the level of background contamination in the
 negative controls *before* `decontam`.
 
 ``` r
-out <- micro4R::assess_example
+#out <- micro4R::assess_example
 
-assess_run(metadata = out$metadata, asvtable = out$asvtable, wells = "well", plate = "Plate", category = "SampleType")
-#> processing file: test.Rmd
-```
-
-![](reference/figures/README-qc-1.png)![](reference/figures/README-qc-2.png)![](reference/figures/README-qc-3.png)![](reference/figures/README-qc-4.png)![](reference/figures/README-qc-5.png)![](reference/figures/README-qc-6.png)![](reference/figures/README-qc-7.png)
-
-``` R
-#> output file: test.knit.md
-#> /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/pandoc +RTS -K512m -RTS test.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output test.html --lua-filter /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --template /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//Rtmpl86Zjz/rmarkdown-strf5523ce3258.html
-#> 
-#> Output created: test.html
+#assess_run(metadata = out$metadata, asvtable = out$asvtable, wells = "well", plate = "Plate", category = "SampleType")
 ```
 
 ### Step 8: Alpha diversity
