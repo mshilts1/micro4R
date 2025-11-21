@@ -1,7 +1,7 @@
-#test_that("where if example OK", {
+# test_that("where if example OK", {
 #  where <- "inst/extdata/f"
 #  testthat::expect_type(asvtable, "integer")
-#})
+# })
 test_that("returned asvtable is an integer type", {
   asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE, chatty = FALSE)
   testthat::expect_type(asvtable, "list")
@@ -35,11 +35,11 @@ test_that("when setting where to example data returns same output as setting exa
   expect_equal(out1, out2)
 })
 test_that("get an error if try to set where somewhere else and run the example at the same time", {
-  expect_error( dada2_asvtable(where = "../", example = TRUE, logfile = FALSE))
+  expect_error(dada2_asvtable(where = "../", example = TRUE, logfile = FALSE))
 })
 test_that("get no error if try to set where to example dataand run the example at the same time", {
-  expect_no_error( dada2_asvtable(where = "inst/extdata/f", example = TRUE, logfile = FALSE))
+  expect_no_error(dada2_asvtable(where = "inst/extdata/f", example = TRUE, logfile = FALSE))
 })
-#test_that("get no error if try to set where to example dataand run the example at the same time", {
+# test_that("get no error if try to set where to example dataand run the example at the same time", {
 #  expect_error(dada2_asvtable())
-#})
+# })

@@ -25,20 +25,19 @@
 #' c <- "SampleType"
 #'
 #' assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = c)
-assess_run <- function(metadata = NULL, asvtable = NULL, taxa = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...){
-
+assess_run <- function(metadata = NULL, asvtable = NULL, taxa = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...) {
   output_path <- tempdir()
 
-  #if (example == TRUE) {
+  # if (example == TRUE) {
   output_path <- tempdir()
-    if (!dir.exists(sprintf("%s/dada2_out/assess_run", output_path))) {
-      # If it doesn't exist, create it
-      dir.create(sprintf("%s/dada2_out/assess_run", output_path), recursive = TRUE) # recursive = TRUE creates parent directories if needed
-    }
+  if (!dir.exists(sprintf("%s/dada2_out/assess_run", output_path))) {
+    # If it doesn't exist, create it
+    dir.create(sprintf("%s/dada2_out/assess_run", output_path), recursive = TRUE) # recursive = TRUE creates parent directories if needed
+  }
 
   cat("---
 title: \"Run Assessment\"
-date: \'", format(Sys.Date(), '%B %d, %Y'), "\'
+date: \'", format(Sys.Date(), "%B %d, %Y"), "\'
 output:
   html_document:
     toc: true
@@ -282,6 +281,7 @@ short_names %>% gt::gt(caption = \"Original Sample IDs to Figure IDs\") %>% gt::
   }
 
 \`\`\`",
-      file = sprintf("%s/dada2_out/assess_run/Run_assessment.Rmd", output_path))
+    file = sprintf("%s/dada2_out/assess_run/Run_assessment.Rmd", output_path)
+  )
   rmarkdown::render(sprintf("%s/dada2_out/assess_run/Run_assessment.Rmd", output_path))
 }

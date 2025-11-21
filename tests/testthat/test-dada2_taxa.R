@@ -14,9 +14,9 @@ test_that("output to console", {
 test_that("returns taxa visibly", {
   expect_visible(dada2_taxa(asvtable = asvtable, train = train, species = species, logfile = FALSE))
 })
-#test_that("returns taxa invisibly", { # something wrong here
+# test_that("returns taxa invisibly", { # something wrong here
 #  expect_invisible(dada2_taxa(asvtable = asvtable, train = train, species = species, logfile = FALSE, chatty = FALSE))
-#})
+# })
 test_that("get no errors, warnings, or messages", {
   expect_no_condition(dada2_taxa(asvtable = asvtable, train = train, species = species, logfile = FALSE, chatty = FALSE))
 })
@@ -29,7 +29,7 @@ test_that("rownames correct", {
   expect_equal(taxa$ASV, rownames)
 })
 test_that("example asv table ok", {
-  #asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE)
+  # asvtable <- dada2_asvtable(example = TRUE, logfile = FALSE)
   expect_equal(class(asvtable), c("tbl_df", "tbl", "data.frame"))
 })
 test_that("example databases ok", {

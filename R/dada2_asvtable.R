@@ -8,6 +8,7 @@
 #' @param chatty How chatty should code be? Default is TRUE, but set to FALSE if you don't want so much text going to the console.
 #' @param logfile Write a logfile to user's computer. Default is TRUE
 #' @param example Set to TRUE to run example
+#' @param output For non-example runs, path to where you'd like output files to be stored. Defaults to a folder where your fastq files are stored.
 #'
 #' @returns dada2 ASV table
 #' @export
@@ -18,7 +19,7 @@
 #'
 #' @examples
 #' dada2_asvtable(example = TRUE)
-dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, ...) {
+dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, output = NULL, ...) {
   if (!is.null(where)) {
     if (where == "inst/extdata/f") {
       example <- TRUE
@@ -52,11 +53,22 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
     }
   }
 
+  if (example == FALSE) {
+    if (is.null(output)) {
+      outpath <- where
+    }
+    if (!is.null(output)) {
+      outpath <- output
+    }
+  }
 
   if (example == FALSE) {
-    if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
+    # if(is.null(output)) {
+    #  output <- where
+    # }
+    if (!dir.exists(sprintf("%s/dada2_out/figs", outpath))) {
       # If it doesn't exist, create it
-      dir.create(sprintf("%s/dada2_out/figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
+      dir.create(sprintf("%s/dada2_out/figs", outpath), recursive = TRUE) # recursive = TRUE creates parent directories if needed
     }
   }
 
@@ -67,7 +79,7 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
       log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", outdir, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
     }
     if (example == FALSE) {
-      log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", where, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
+      log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", outpath, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
     }
     sink(log_file_conn, split = TRUE)
     print(sprintf("Run with function %s started at %s", functionname, Sys.time()))
@@ -108,8 +120,8 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
   sample.names <- gsub(patternF, "", basename(fnFs)) # create simplified sample names by stripping out the forward read pattern specified by user. *should* match reverse reads, unless something really weird going on with file names.
 
   if (example == FALSE) {
-    filtFs <- file.path(where, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
-    filtRs <- file.path(where, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
+    filtFs <- file.path(outpath, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
+    filtRs <- file.path(outpath, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
 
   if (example == TRUE) {
@@ -129,29 +141,29 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
 
   if (example == FALSE) { # create some dada2 figs
 
-    if (!dir.exists(sprintf("%s/dada2_out/figs", where))) {
+    if (!dir.exists(sprintf("%s/dada2_out/figs", outpath))) {
       # If it doesn't exist, create it
-      dir.create(sprintf("%s/dada2_out/figs", where), recursive = TRUE) # recursive = TRUE creates parent directories if needed
+      dir.create(sprintf("%s/dada2_out/figs", outpath), recursive = TRUE) # recursive = TRUE creates parent directories if needed
     }
 
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileForwardReads_first10_samples.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileForwardReads_first10_samples.pdf", outpath))
     print(dada2::plotQualityProfile(fnFs[1:10]))
     grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileReverseReads_first10_samples.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileReverseReads_first10_samples.pdf", outpath))
     print(dada2::plotQualityProfile(fnRs[1:10]))
     grDevices::dev.off()
 
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileForwardReads_aggregate_all.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileForwardReads_aggregate_all.pdf", outpath))
     print(dada2::plotQualityProfile(fnFs, aggregate = TRUE))
     grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileReverseReads_aggregate_all.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileReverseReads_aggregate_all.pdf", outpath))
     print(dada2::plotQualityProfile(fnRs, aggregate = TRUE))
     grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotErrorsForward.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotErrorsForward.pdf", outpath))
     suppressWarnings(print(dada2::plotErrors(errF, nominalQ = TRUE)))
     grDevices::dev.off()
 
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotErrorsReverse.pdf", where))
+    grDevices::pdf(sprintf("%s/dada2_out/figs/plotErrorsReverse.pdf", outpath))
     suppressWarnings(print(dada2::plotErrors(errR, nominalQ = TRUE)))
     grDevices::dev.off()
   }
@@ -195,8 +207,8 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
   track.tibble <- as_tibble(track, rownames = "SampleID")
 
   if (example == FALSE) {
-    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", where), row.names = FALSE)
-    write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/seqtab.nochim.csv", where), row.names = FALSE)
+    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outpath), row.names = FALSE)
+    write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/asvtable.csv", outpath), row.names = FALSE)
   }
 
   if (example == TRUE) {

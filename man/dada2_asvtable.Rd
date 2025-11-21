@@ -12,6 +12,7 @@ dada2_asvtable(
   multi = FALSE,
   chatty = TRUE,
   logfile = TRUE,
+  output = NULL,
   ...
 )
 }
@@ -29,6 +30,8 @@ dada2_asvtable(
 \item{chatty}{How chatty should code be? Default is TRUE, but set to FALSE if you don't want so much text going to the console.}
 
 \item{logfile}{Write a logfile to user's computer. Default is TRUE}
+
+\item{output}{For non-example runs, path to where you'd like output files to be stored. Defaults to a folder where your fastq files are stored.}
 
 \item{...}{Allows passing of arguments to nested functions}
 }

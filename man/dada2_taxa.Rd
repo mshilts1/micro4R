@@ -11,6 +11,7 @@ dada2_taxa(
   chatty = TRUE,
   multi = FALSE,
   example = FALSE,
+  output_file = NULL,
   ...
 )
 }
@@ -26,6 +27,8 @@ dada2_taxa(
 \item{multi}{Set to TRUE to use mutithreading where possible}
 
 \item{example}{Run example data. Default is FALSE}
+
+\item{output_file}{For non-example runs, path to where you'd like output files to be stored. Defaults to a folder where your fastq files are stored.}
 
 \item{...}{Allows passing of arguments to nested functions}
 }

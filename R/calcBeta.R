@@ -17,22 +17,21 @@
 #' metadata <- unsampled_example()$metadata
 #' calcBeta(asvtable = asvtable, metadata = metadata, category = "host_sex", method = "bray")
 calcBeta <- function(asvtable = NULL, metadata = NULL, numRare = 400, method = "bray", category = NULL, minReads = 1000, ...) {
-
   averagedbc <- NULL
 
   asvtable <- filtering(asvtable, minDepth = minReads)
 
-  #if(!is.null(metadata)){
-    #asv_tib <- converter(asvtable, out = "tibble", id = "SampleID")
-    kept_after_filtering <- asvtable %>% dplyr::select("SampleID")
-    metadata <- metadata %>% dplyr::filter(!is.na(.data[[category]]))  # if there are any NAs in metadata, they'll be thrown out later anyway
-    metadata <- dplyr::inner_join(kept_after_filtering, metadata, by = "SampleID")
-    kept_after_filtering <- metadata %>% dplyr::select("SampleID")
-    asvtable <- dplyr::inner_join(kept_after_filtering, asvtable, by = "SampleID")
-    #merging <- list("merged" = merged, "asvs" = colnames(asv_tib), "meta" = colnames(metadata))
-  #}
+  # if(!is.null(metadata)){
+  # asv_tib <- converter(asvtable, out = "tibble", id = "SampleID")
+  kept_after_filtering <- asvtable %>% dplyr::select("SampleID")
+  metadata <- metadata %>% dplyr::filter(!is.na(.data[[category]])) # if there are any NAs in metadata, they'll be thrown out later anyway
+  metadata <- dplyr::inner_join(kept_after_filtering, metadata, by = "SampleID")
+  kept_after_filtering <- metadata %>% dplyr::select("SampleID")
+  asvtable <- dplyr::inner_join(kept_after_filtering, asvtable, by = "SampleID")
+  # merging <- list("merged" = merged, "asvs" = colnames(asv_tib), "meta" = colnames(metadata))
+  # }
 
-  #asvtable <- converter(asvtable, out = "data.frame")
+  # asvtable <- converter(asvtable, out = "data.frame")
 
   minlibrary <- min(rowSums(asvtable[-1]))
 
@@ -46,10 +45,10 @@ calcBeta <- function(asvtable = NULL, metadata = NULL, numRare = 400, method = "
     averagedbc <- vegan::vegdist(asvtable[-1], method = method, binary = TRUE)
   }
 
-  mod<-vegan::betadisper(averagedbc, metadata[[category]])
-  vctrs<-mod$vectors
-  centroids<-data.frame(grps=rownames(mod$centroids),data.frame(mod$centroids))
-  pcoa_metadata<-cbind(metadata, as.data.frame(vctrs))
+  mod <- vegan::betadisper(averagedbc, metadata[[category]])
+  vctrs <- mod$vectors
+  centroids <- data.frame(grps = rownames(mod$centroids), data.frame(mod$centroids))
+  pcoa_metadata <- cbind(metadata, as.data.frame(vctrs))
   pcoa_metadata_tib <- converter(pcoa_metadata, out = "tibble")
 
   return(list("dissimilarities" = averagedbc, "betadisper_res" = mod, "pcoa_metadata" = pcoa_metadata_tib))

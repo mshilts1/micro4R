@@ -20,8 +20,7 @@
 #'
 #'
 #' @examples
-cutadapt_helper <- function(example = FALSE, where = NULL, FWD = "CCTACGGGNGGCWGCAG" , REV = "GACTACHVGGGTATCTAATCC", patternF = "R1_001.fastq.gz", patternR = "R2_001.fastq.gz", chatty = TRUE){
-
+cutadapt_helper <- function(example = FALSE, where = NULL, FWD = "CCTACGGGNGGCWGCAG", REV = "GACTACHVGGGTATCTAATCC", patternF = "R1_001.fastq.gz", patternR = "R2_001.fastq.gz", chatty = TRUE) {
   if (!is.null(where)) {
     if (where == "inst/extdata/f2") {
       example <- TRUE
@@ -73,7 +72,6 @@ cutadapt_helper <- function(example = FALSE, where = NULL, FWD = "CCTACGGGNGGCWG
   dada2::filterAndTrim(fnFs, fnFs.filtN, fnRs, fnRs.filtN, maxN = 0, multithread = TRUE)
 
   rbind(FWD.ForwardReads = sapply(FWD.orients, primerHits, fn = fnFs.filtN[[1]]), FWD.ReverseReads = sapply(FWD.orients, primerHits, fn = fnRs.filtN[[1]]), REV.ForwardReads = sapply(REV.orients, primerHits, fn = fnFs.filtN[[1]]), REV.ReverseReads = sapply(REV.orients, primerHits, fn = fnRs.filtN[[1]]))
-
 }
 
 #' all possible orientations of a DNA string
@@ -85,10 +83,12 @@ cutadapt_helper <- function(example = FALSE, where = NULL, FWD = "CCTACGGGNGGCWG
 #' @returns all possible orientations of a DNA sequence (forward, reverse, complement, reverse complement)
 allOrients <- function(primer) {
   # Create all orientations of the input sequence
-  dna <- Biostrings::DNAString(primer)  # The Biostrings works w/ DNAString objects rather than character vectors
-  orients <- c(Forward = dna, Complement = Biostrings::complement(dna), Reverse = Biostrings::reverse(dna),
-               RevComp = Biostrings::reverseComplement(dna))
-  return(sapply(orients, toString))  # Convert back to character vector
+  dna <- Biostrings::DNAString(primer) # The Biostrings works w/ DNAString objects rather than character vectors
+  orients <- c(
+    Forward = dna, Complement = Biostrings::complement(dna), Reverse = Biostrings::reverse(dna),
+    RevComp = Biostrings::reverseComplement(dna)
+  )
+  return(sapply(orients, toString)) # Convert back to character vector
 }
 #' primer hits
 #' Code was pulled from dada2 document https://benjjneb.github.io/dada2/ITS_workflow.html

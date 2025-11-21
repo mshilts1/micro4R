@@ -264,34 +264,34 @@ converter <- function(x = NULL, out = "matrix", id = "SampleID") {
         x <- as.matrix(x)
         return(invisible(x))
       }
-      #if (!id %in% names(x) & tibble::has_rownames(x) == TRUE) { #has_rownames failing sometimes
+      # if (!id %in% names(x) & tibble::has_rownames(x) == TRUE) { #has_rownames failing sometimes
       if (!id %in% names(x) & identical(rownames(x), as.character(1:nrow(x))) == FALSE) {
-        #x <- column_to_rownames(x, var = id)
+        # x <- column_to_rownames(x, var = id)
         x <- as.matrix(x)
         return(invisible(x))
       }
-      #if (!id %in% names(x) & tibble::has_rownames(x) == FALSE) {
+      # if (!id %in% names(x) & tibble::has_rownames(x) == FALSE) {
       if (!id %in% names(x) & identical(rownames(x), as.character(1:nrow(x))) == TRUE) {
         stop(sprintf("'id' column '%s' was not found in your input object.", id))
       }
     }
 
-    #if (out == "tibble"  & tibble::has_rownames(x) == TRUE) {
-    if (out == "tibble"  & identical(rownames(x), as.character(1:nrow(x))) == FALSE) {
-      if(id %in% names(x)){
-        #print(x)
-        #print(rownames(x))
-        #print(has_rownames(x))
-        #stop(print(x))
-        #stop(sprintf("'id' column %s was already found in your input object, but you have rownames. Your input colnames are %s", id, names(x)))
+    # if (out == "tibble"  & tibble::has_rownames(x) == TRUE) {
+    if (out == "tibble" & identical(rownames(x), as.character(1:nrow(x))) == FALSE) {
+      if (id %in% names(x)) {
+        # print(x)
+        # print(rownames(x))
+        # print(has_rownames(x))
+        # stop(print(x))
+        # stop(sprintf("'id' column %s was already found in your input object, but you have rownames. Your input colnames are %s", id, names(x)))
       }
       x <- rownames_to_column(x, var = id)
       x <- tibble::as_tibble(x)
       return(invisible(x))
     }
 
-    #if (out == "tibble"  & tibble::has_rownames(x) == FALSE) {
-    if (out == "tibble"  & identical(rownames(x), as.character(1:nrow(x))) == TRUE) {
+    # if (out == "tibble"  & tibble::has_rownames(x) == FALSE) {
+    if (out == "tibble" & identical(rownames(x), as.character(1:nrow(x))) == TRUE) {
       x <- tibble::as_tibble(x)
       return(invisible(x))
     }
@@ -636,38 +636,38 @@ filtering <- function(asvtable = NULL, minDepth = 1000, minASVCount = 2) {
     dplyr::filter(.data$row.sum >= minDepth) %>%
     dplyr::select(-c("row.sum")) %>%
     dplyr::select(c("SampleID", where(~ is.numeric(.) && sum(.) >= minASVCount))) %>%
-    #dplyr::rename("SampleID" = "X") %>%
+    # dplyr::rename("SampleID" = "X") %>%
     ungroup()
 
   return(seqtabout)
 }
 normalize <- function(df) {
- # df <- filtering(asvtable = x, minDepth = 1)
-  row_sums <- rowSums(df[,-1])
-  normalized_df <- df[,-1] / row_sums
+  # df <- filtering(asvtable = x, minDepth = 1)
+  row_sums <- rowSums(df[, -1])
+  normalized_df <- df[, -1] / row_sums
 
-  normalized_df <- dplyr::bind_cols(df[1], normalized_df) %>% mutate(across(everything(), ~replace(.x, is.nan(.x), 0)))
+  normalized_df <- dplyr::bind_cols(df[1], normalized_df) %>% mutate(across(everything(), ~ replace(.x, is.nan(.x), 0)))
 }
 
-create_pos <- function(zymo = TRUE, zymo_opt = "A"){
-  if(zymo == TRUE){
-  if(zymo_opt == "A"){
-    freqs <- data.frame(SampleID=rep(c('Expected'), times=9), Genus=c('Pseudomonas', 'Escherichia-Shigella', 'Lactobacillus', 'Enterococcus', 'Staphylococcus', 'Listeria', 'Bacillus', 'Salmonella', 'Other'), value=c(0.046, 0.1, 0.188, 0.104, 0.133, 0.159, 0.157, 0.113, 0))
-  }
-    if(zymo_opt == "B"){
-      freqs <- data.frame(SampleID=rep(c('Expected'), times=9), Genus=c('Pseudomonas', 'Escherichia-Shigella', 'Limosilactobacillus', 'Enterococcus', 'Staphylococcus', 'Listeria', 'Bacillus', 'Salmonella', 'Other'), value=c(0.046, 0.1, 0.188, 0.104, 0.133, 0.159, 0.157, 0.113, 0))
+create_pos <- function(zymo = TRUE, zymo_opt = "A") {
+  if (zymo == TRUE) {
+    if (zymo_opt == "A") {
+      freqs <- data.frame(SampleID = rep(c("Expected"), times = 9), Genus = c("Pseudomonas", "Escherichia-Shigella", "Lactobacillus", "Enterococcus", "Staphylococcus", "Listeria", "Bacillus", "Salmonella", "Other"), value = c(0.046, 0.1, 0.188, 0.104, 0.133, 0.159, 0.157, 0.113, 0))
     }
-  zymoD6306 <- system.file("extdata/db", package = "micro4R", "ZymoD6306_all_16S_V4.fasta", mustWork = TRUE)
-  mock.ref <- dada2::getSequences(zymoD6306)
+    if (zymo_opt == "B") {
+      freqs <- data.frame(SampleID = rep(c("Expected"), times = 9), Genus = c("Pseudomonas", "Escherichia-Shigella", "Limosilactobacillus", "Enterococcus", "Staphylococcus", "Listeria", "Bacillus", "Salmonella", "Other"), value = c(0.046, 0.1, 0.188, 0.104, 0.133, 0.159, 0.157, 0.113, 0))
+    }
+    zymoD6306 <- system.file("extdata/db", package = "micro4R", "ZymoD6306_all_16S_V4.fasta", mustWork = TRUE)
+    mock.ref <- dada2::getSequences(zymoD6306)
 
-  seqs_tib <- as_tibble(stack(mock.ref))
+    seqs_tib <- as_tibble(stack(mock.ref))
 
-  return(list("freqs" = freqs, "seqs" = mock.ref, "seqs_tib" = seqs_tib))
+    return(list("freqs" = freqs, "seqs" = mock.ref, "seqs_tib" = seqs_tib))
   }
-  #return(freqs)
+  # return(freqs)
 }
 
-transpose <- function(df, id){
+transpose <- function(df, id) {
   df_transposed <- df %>%
     column_to_rownames(var = id) %>%
     t() %>%

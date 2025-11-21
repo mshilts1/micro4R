@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' dada2_wrapper(example = TRUE)
-dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, full.wrapper = FALSE, log = TRUE,...) {
+dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, full.wrapper = FALSE, log = TRUE, ...) {
   passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
 
 
@@ -34,7 +34,7 @@ dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, fu
     }
 
     if (example == FALSE) {
-      asvtable <- dada2_asvtable(example = FALSE, ...)# logfile = log, ...)
+      asvtable <- dada2_asvtable(example = FALSE, ...) # logfile = log, ...)
       # return(invisible(asvtable))
     }
 
@@ -43,8 +43,8 @@ dada2_wrapper <- function(example = FALSE, metadata = NULL, listargs = FALSE, fu
       # return(invisible(taxa))
     }
 
-    #asvtable <- converter(asvtable, out = "tibble")
-    #taxa <- as_tibble(taxa, rownames = "ASV")
+    # asvtable <- converter(asvtable, out = "tibble")
+    # taxa <- as_tibble(taxa, rownames = "ASV")
 
     if (is.null(metadata) | full.wrapper == TRUE) {
       checkAll(asvtable = asvtable, taxa = taxa)

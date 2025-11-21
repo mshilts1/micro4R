@@ -7,6 +7,7 @@
 #' @param multi Set to TRUE to use mutithreading where possible
 #' @param example Run example data. Default is FALSE
 #' @param ... Allows passing of arguments to nested functions
+#' @param output_file For non-example runs, path to where you'd like output files to be stored. Defaults to a folder where your fastq files are stored.
 #'
 #' @returns A tibble of taxonomic assigments
 #' @export
@@ -16,7 +17,7 @@
 #' train <- "inst/extdata/db/EXAMPLE_silva_nr99_v138.2_toGenus_trainset.fa.gz"
 #' species <- "inst/extdata/db/EXAMPLE_silva_v138.2_assignSpecies.fa.gz"
 #' dada2_taxa(asvtable = asvtable, train = train, species = species)
-dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = TRUE, multi = FALSE, example = FALSE, ...) {
+dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = TRUE, multi = FALSE, example = FALSE, output_file = NULL, ...) {
   # if (is.null(passed_args$db)) {
   #  db <- readline(sprintf("What is the full file path to the reference taxonomic database you'll be using? Don't use quotes. \n\n"))
   #  tax_db <- ref_db(db)
@@ -36,6 +37,14 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     stop("You must provide the path to a taxonomic reference database. See here for options and more info: https://benjjneb.github.io/dada2/training.html")
   }
 
+  if (example == FALSE) {
+    if (is.null(output_file)) {
+      outpath <- getwd()
+    }
+    if (!is.null(output_file)) {
+      outpath <- output_file
+    }
+  }
   # if (!is.matrix(asvtable)) {
   #    asvtable <- matrixify(asvtable)
   #  }
@@ -45,7 +54,7 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
 
   if (chatty == TRUE) {
     taxa <- dada2::assignTaxonomy(seqs = asvtable, refFasta = train_db, multithread = multi, verbose = chatty)
-    #return(taxa)
+    # return(taxa)
     taxa
   }
 
@@ -59,11 +68,11 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
     species_db <- ref_db(species, chatty = chatty)
     taxa <- dada2::addSpecies(taxtab = taxa, refFasta = species_db, allowMultiple = FALSE, tryRC = FALSE, verbose = chatty)
     if (chatty == TRUE) {
-      #return(taxa)
+      # return(taxa)
       taxa
     }
     if (chatty == FALSE) {
-      #return(invisible(taxa))
+      # return(invisible(taxa))
       invisible(taxa)
     }
   }
@@ -72,26 +81,34 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   taxa_tbl <- converter(taxa, out = "tibble", id = "ASV")
 
 
-# if (where == "example" | where == "inst/extdata/f") {
-#   outdir <- tempdir()
-# } else {
-#   outdir <- getwd()
-# }
+  # if (where == "example" | where == "inst/extdata/f") {
+  #   outdir <- tempdir()
+  # } else {
+  #   outdir <- getwd()
+  # }
+
+
 
   #    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
-  #outdir <- tempdir()
-  #write.csv(taxa_tbl, file = sprintf("%s/dada2_out/taxa.csv", outdir), row.names = FALSE)
-  #on.exit(unlink(outdir), add = TRUE)
-  #  }
+  # outdir <- tempdir()
+  if (example == FALSE) {
+    if (!dir.exists(sprintf("%s/dada2_out/", outpath))) {
+      # If it doesn't exist, create it
+      dir.create(sprintf("%s/dada2_out/", outpath), recursive = TRUE) # recursive = TRUE creates parent directories if needed
+    }
+    write.csv(taxa_tbl, file = sprintf("%s/dada2_out/taxa.csv", outpath), row.names = FALSE)
+    # }
+    # write.csv(taxa_tbl, file = sprintf("%s/dada2_out/taxa.csv", outpath), row.names = FALSE)
+    # on.exit(unlink(outdir), add = TRUE)
+  }
 
   if (chatty == FALSE) {
-    #return(invisible(taxa))
+    # return(invisible(taxa))
     invisible(return(taxa_tbl))
   }
 
   if (chatty == TRUE) {
-    #return(invisible(taxa))
+    # return(invisible(taxa))
     return(taxa_tbl)
   }
-
 }
