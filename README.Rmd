@@ -192,7 +192,7 @@ metadata$neg
 
 Next, let's run the `decontam_wrapper()` on the example data we've generated so far:
 ```{r example5}
-#decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
+# decontam_wrapper(asvtable = asvtable, taxa = taxa, metadata = metadata, logfile = FALSE)
 ```
 
 You'll see several messages, including one at the bottom that tells us "No contaminants were detected. Exiting function and returning your original ASV and taxa tables." With real data with proper controls, you should not expect to ever see this message. Our example data set was just too stupidly small for `decontam` to work properly!     
@@ -237,9 +237,9 @@ The example data that we've used so far won't be useful for this, so let's load 
 Included with the package is processed data from a single typical fictional 16S MiSeq run (`assess_example`). There are 384 samples on this run, including a number of negative and positive controls. I personally like to assess the level of background contamination in the negative controls *before* `decontam`.
 
 ```{r qc}
-out <- micro4R::assess_example
+#out <- micro4R::assess_example
 
-assess_run(metadata = out$metadata, asvtable = out$asvtable, wells = "well", plate = "Plate", category = "SampleType")
+#assess_run(metadata = out$metadata, asvtable = out$asvtable, wells = "well", plate = "Plate", category = "SampleType")
 ```
 
 ### Step 8: Alpha diversity
