@@ -46,8 +46,9 @@ Assess sequencing results
 }
 \examples{
 out <- micro4R::assess_example
-met <- out$metadata
-asv <- out$asvtable
-tax <- out$taxa
-assess_run(metadata = met, asvtable = asv, taxa = tax, wells = "well", plate = "Plate", category = "SampleType")
+m <- out$metadata
+a <- out$asvtable
+t <- out$taxa
+
+assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = "SampleType")
 }

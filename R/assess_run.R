@@ -19,10 +19,11 @@
 #'
 #' @examples
 #' out <- micro4R::assess_example
-#' met <- out$metadata
-#' asv <- out$asvtable
-#' tax <- out$taxa
-#' assess_run(metadata = met, asvtable = asv, taxa = tax, wells = "well", plate = "Plate", category = "SampleType")
+#' m <- out$metadata
+#' a <- out$asvtable
+#' t <- out$taxa
+#'
+#' assess_run(metadata = m, asvtable = a, taxa = t, wells = "well", plate = "Plate", category = "SampleType")
 assess_run <- function(metadata = NULL, asvtable = NULL, taxa = NULL, wells = "Well", plate = NULL, category = NULL, minReadCount = 0, pcoa = FALSE, corrplot = FALSE, ...){
 
   output_path <- tempdir()
@@ -60,9 +61,10 @@ knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 5)
   asvtable <- converter(asvtable, out = \"tibble\")
   taxa <- converter(taxa, out = \"tibble\")
 
+  #asvtable <- filtering(asvtable = asvtable, minDepth = 1, minASVCount = minASVCount)
   asv_rel <-normalize(asvtable)
 
-  negative_vector <- c(\"negative\", \"neg\")
+  negative_vector <- c(\"negative\", \"neg\", \"negative control\")
   negatives <- NULL
   negatives <- metadata %>% dplyr::mutate(isNeg = dplyr::case_when(
     .data[[category]] %in% negative_vector ~ 1,
@@ -106,7 +108,7 @@ ggplot(both, aes(x=.data[[category]], y = .data$ReadCount, fill = .data[[categor
 
 #### Expected to Observed
 \`\`\`{r poscontrol, echo=FALSE}
-  positive_vector <- c(\"positive\", \"pos\")
+  positive_vector <- c(\"positive\", \"pos\", \"positive control\")
   positives <- NULL
   positives <- metadata %>% dplyr::mutate(isPos = dplyr::case_when(
     .data[[category]] %in% positive_vector ~ 1,
