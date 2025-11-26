@@ -49,3 +49,15 @@ cutadapt_helper(
 ## Value
 
 a shell script for you to run to remove adapter/primer sequences
+
+## Examples
+
+``` r
+cutadapt_helper(example = TRUE)
+#> Creating output directory: /tmp/RtmpXtTmpk/filtN
+#>                  Forward Complement Reverse RevComp
+#> FWD.ForwardReads       0          0       0       0
+#> FWD.ReverseReads       0          0       0       0
+#> REV.ForwardReads       0          0       0       0
+#> REV.ReverseReads       2          0       0       0
+```
