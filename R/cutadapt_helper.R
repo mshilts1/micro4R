@@ -20,6 +20,9 @@
 #'
 #'
 #' @examples
+#' cutadapt_helper(example = TRUE)
+#'
+
 cutadapt_helper <- function(example = FALSE, where = NULL, FWD = "CCTACGGGNGGCWGCAG", REV = "GACTACHVGGGTATCTAATCC", patternF = "R1_001.fastq.gz", patternR = "R2_001.fastq.gz", chatty = TRUE) {
   if (!is.null(where)) {
     if (where == "inst/extdata/f2") {
@@ -46,6 +49,7 @@ cutadapt_helper <- function(example = FALSE, where = NULL, FWD = "CCTACGGGNGGCWG
   if (example == TRUE) {
     fnFs <- system.file("extdata/f2", package = "micro4R", mustWork = TRUE) %>% list.files("*_R1_001.fastq.gz", full.names = TRUE)
     fnRs <- system.file("extdata/f2", package = "micro4R", mustWork = TRUE) %>% list.files("*_R2_001.fastq.gz", full.names = TRUE)
+    where <- tempdir()
   }
 
   if (example == FALSE) {
@@ -61,8 +65,8 @@ cutadapt_helper <- function(example = FALSE, where = NULL, FWD = "CCTACGGGNGGCWG
 
   path <- where
 
-  fnFs <- sort(list.files(path, pattern = "R1_001.fastq.gz", full.names = TRUE))
-  fnRs <- sort(list.files(path, pattern = "R2_001.fastq.gz", full.names = TRUE))
+  #fnFs <- sort(list.files(path, pattern = "R1_001.fastq.gz", full.names = TRUE))
+  #fnRs <- sort(list.files(path, pattern = "R2_001.fastq.gz", full.names = TRUE))
 
   FWD.orients <- allOrients(FWD)
   REV.orients <- allOrients(REV)

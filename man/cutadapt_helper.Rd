@@ -35,3 +35,7 @@ a shell script for you to run to remove adapter/primer sequences
 \description{
 Generate a shell script to run cutadapt to remove primer sequences
 }
+\examples{
+cutadapt_helper(example = TRUE)
+
+}
