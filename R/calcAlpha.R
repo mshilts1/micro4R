@@ -1,3 +1,19 @@
+#' Title
+#'
+#' @param asvtable ASV table
+#' @param metadata metadata
+#' @param numRare optional number of rarefactions to perform on data
+#' @param method doesn't do anything yet; may remove
+#' @param category category to use for grouping data
+#' @param minReads minimum number of reads to keep a sample
+#'
+#' @returns a list of
+#' @export
+#'
+#' @examples
+#' asvtable <- unsampled_example()$asvtable
+#' metadata <- unsampled_example()$metadata
+#' calcAlpha(asvtable = asvtable, metadata = metadata, category = "SampleType")
 calcAlpha <- function(asvtable = NULL, metadata = NULL, numRare = 400, method = "standard", category = NULL, minReads = 1000){
 
 
