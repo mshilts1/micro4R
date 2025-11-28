@@ -9,6 +9,7 @@
 #' @param logfile Write a logfile to user's computer. Default is TRUE
 #' @param example Set to TRUE to run example
 #' @param output For non-example runs, path to where you'd like output files to be stored. Defaults to a folder where your fastq files are stored.
+#' @param truncLenPass pass to truncLen
 #'
 #' @returns dada2 ASV table
 #' @export
@@ -19,7 +20,7 @@
 #'
 #' @examples
 #' dada2_asvtable(example = TRUE)
-dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, output = NULL, ...) {
+dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, output = NULL, truncLenPass = c(240, 200), ...) {
   if (!is.null(where)) {
     if (where == "inst/extdata/f") {
       example <- TRUE
@@ -129,7 +130,7 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
     filtRs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
 
-  out <- dada2::filterAndTrim(fwd = fnFs, filt = filtFs, rev = fnRs, filt.rev = filtRs, compress = TRUE, truncLen = c(240, 200), maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, multithread = multi, matchIDs = TRUE, verbose = chatty)
+  out <- dada2::filterAndTrim(fwd = fnFs, filt = filtFs, rev = fnRs, filt.rev = filtRs, compress = TRUE, truncLen = truncLenPass, maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, multithread = multi, matchIDs = TRUE, verbose = chatty)
 
   # why add the next three lines in? sometimes samples with few reads to start with may get entirely filtered out and cause a fatal error during the error rate learning step. so we need to make sure files still exist first.
   exists <- file.exists(filtFs) & file.exists(filtRs)

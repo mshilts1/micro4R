@@ -13,6 +13,7 @@ dada2_asvtable(
   chatty = TRUE,
   logfile = TRUE,
   output = NULL,
+  truncLenPass = c(240, 200),
   ...
 )
 }
@@ -32,6 +33,8 @@ dada2_asvtable(
 \item{logfile}{Write a logfile to user's computer. Default is TRUE}
 
 \item{output}{For non-example runs, path to where you'd like output files to be stored. Defaults to a folder where your fastq files are stored.}
+
+\item{truncLenPass}{pass to truncLen}
 
 \item{...}{Allows passing of arguments to nested functions}
 }
