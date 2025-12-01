@@ -21,6 +21,7 @@
 #' @examples
 #' dada2_asvtable(example = TRUE)
 dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, output = NULL, truncLenPass = c(240, 200), ...) {
+  print(truncLenPass)
   if (!is.null(where)) {
     if (where == "inst/extdata/f") {
       example <- TRUE
