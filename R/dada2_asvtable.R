@@ -130,7 +130,9 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
     filtRs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
   }
 
+  print(truncLenPass)
   out <- dada2::filterAndTrim(fwd = fnFs, filt = filtFs, rev = fnRs, filt.rev = filtRs, compress = TRUE, truncLen = truncLenPass, maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, multithread = multi, matchIDs = TRUE, verbose = chatty)
+  #print(truncLenPass)
 
   # why add the next three lines in? sometimes samples with few reads to start with may get entirely filtered out and cause a fatal error during the error rate learning step. so we need to make sure files still exist first.
   exists <- file.exists(filtFs) & file.exists(filtRs)
