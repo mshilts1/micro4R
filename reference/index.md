@@ -11,7 +11,7 @@
 - [`assess_run()`](https://mshilts1.github.io/micro4R/reference/assess_run.md)
   : Assess sequencing results
 - [`calcAlpha()`](https://mshilts1.github.io/micro4R/reference/calcAlpha.md)
-  : Title
+  : Calculate standard alpha diversity indices
 - [`calcBeta()`](https://mshilts1.github.io/micro4R/reference/calcBeta.md)
   : Calculate beta diversity dissimilarities with or without rarefaction
 - [`checkAll()`](https://mshilts1.github.io/micro4R/reference/checkAll.md)
