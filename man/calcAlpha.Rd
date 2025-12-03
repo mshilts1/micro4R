@@ -2,15 +2,14 @@
 % Please edit documentation in R/calcAlpha.R
 \name{calcAlpha}
 \alias{calcAlpha}
-\title{Title}
+\title{Calculate standard alpha diversity indices}
 \usage{
 calcAlpha(
   asvtable = NULL,
   metadata = NULL,
-  numRare = 400,
+  numRare = 0,
   method = "standard",
-  category = NULL,
-  minReads = 1000
+  minReads = 1
 )
 }
 \arguments{
@@ -18,22 +17,20 @@ calcAlpha(
 
 \item{metadata}{metadata}
 
-\item{numRare}{optional number of rarefactions to perform on data}
+\item{numRare}{optional number of rarefactions to perform on ASV table}
 
-\item{method}{doesn't do anything yet; may remove}
+\item{method}{doesn't do anything yet; may end up removing}
 
-\item{category}{category to use for grouping data}
-
-\item{minReads}{minimum number of reads to keep a sample}
+\item{minReads}{minimum number of reads to keep a sample. default is 1 to discard samples with no read, but you may set it higher if desired. if you use rarefaction, it's recommended to set this to be at least 1000.}
 }
 \value{
-a list of
+returns a tibble of the calculated values for each sample.
 }
 \description{
-Title
+Calculate standard alpha diversity indices
 }
 \examples{
 asvtable <- unsampled_example()$asvtable
 metadata <- unsampled_example()$metadata
-calcAlpha(asvtable = asvtable, metadata = metadata, category = "SampleType")
+calcAlpha(asvtable = asvtable, metadata = metadata)
 }
