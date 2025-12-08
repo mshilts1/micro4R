@@ -12,6 +12,7 @@ calcBeta(
   method = "bray",
   category = NULL,
   minReads = 1000,
+  makeFigs = FALSE,
   ...
 )
 ```
@@ -34,6 +35,7 @@ calcBeta(
 - method:
 
   Dissimilarity index to use. See ?vegan::vegdist for more information.
+  Default is Bray-Curtis.
 
 - category:
 
@@ -42,6 +44,10 @@ calcBeta(
 - minReads:
 
   Minimum number of reads to keep a sample
+
+- makeFigs:
+
+  make some basic figures
 
 - ...:
 
