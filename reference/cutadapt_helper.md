@@ -54,7 +54,7 @@ a shell script for you to run to remove adapter/primer sequences
 
 ``` r
 cutadapt_helper(example = TRUE)
-#> Creating output directory: /tmp/RtmpovI3He/filtN
+#> Creating output directory: /tmp/RtmpaIs71o/filtN
 #>                  Forward Complement Reverse RevComp
 #> FWD.ForwardReads       0          0       0       0
 #> FWD.ReverseReads       0          0       0       0
