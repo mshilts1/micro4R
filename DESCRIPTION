@@ -21,6 +21,7 @@ Imports:
     lifecycle,
     magrittr,
     phyloseq,
+    reshape2,
     rlang,
     rmarkdown,
     ShortRead,

@@ -11,6 +11,7 @@ calcBeta(
   method = "bray",
   category = NULL,
   minReads = 1000,
+  makeFigs = FALSE,
   ...
 )
 }
@@ -21,11 +22,13 @@ calcBeta(
 
 \item{numRare}{Number of rarefactions to perform. Set to 0 if you do not want to do any rarefication.}
 
-\item{method}{Dissimilarity index to use. See ?vegan::vegdist for more information.}
+\item{method}{Dissimilarity index to use. See ?vegan::vegdist for more information. Default is Bray-Curtis.}
 
 \item{category}{Name in metadata column that you'd like to use}
 
 \item{minReads}{Minimum number of reads to keep a sample}
+
+\item{makeFigs}{make some basic figures}
 
 \item{...}{allow passed arguments to nested functions}
 }
