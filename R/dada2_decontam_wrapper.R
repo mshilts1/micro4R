@@ -58,10 +58,10 @@ dada2_decontam_wrapper <- function(example = FALSE, path = NULL, train_db = NULL
 
     if (example == FALSE) {
       dada2_out <- dada2_wrapper(where = path, train = train_db, species = species_db, metadata = metadata_obj) # , full.wrapper = TRUE, ...)
-      asvtable <- converter(dada2_out$asvtable, out = "tibble", id = "SampleID")
-      taxa <- converter(dada2_out$taxa, out = "tibble", id = "ASV")
+      asvtable <- dada2_out$asvtable
+      taxa <- dada2_out$taxa
       # metadata <- NULL
-      metadata <- converter(dada2_out$metadata, out = "tibble", id = "SampleID")
+      metadata <- dada2_out$metadata
       # metadata <- example_metadata()
       all <- list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata)
     }
@@ -69,10 +69,16 @@ dada2_decontam_wrapper <- function(example = FALSE, path = NULL, train_db = NULL
     if (example == TRUE) {
       decontam_out <- decontam_wrapper(asvtable = all$asvtable, taxa = all$taxa, metadata = all$metadata, ...)
     }
+
     if (example == FALSE) {
       print(all)
       print(all$metadata)
       decontam_out <- decontam_wrapper(asvtable = all$asvtable, taxa = all$taxa, metadata = all$metadata, ...)
+      asvtable <- converter(dada2_out$asvtable, out = "tibble", id = "SampleID")
+      taxa <- converter(dada2_out$taxa, out = "tibble", id = "ASV")
+      # metadata <- NULL
+      #metadata <- converter(dada2_out$metadata, out = "tibble", id = "SampleID")
+      all <- list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata)
     }
   }
 }
