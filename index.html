@@ -67,7 +67,7 @@
 <p>All you really need is <a href="https://cran.rstudio.com" class="external-link">R</a>, but I’d recommend also downloading and working in <a href="https://posit.co/download/rstudio-desktop/" class="external-link">RStudio</a>. If you’re a true newbie to R, there’s tons of free <a href="https://www.reddit.com/user/jjkraker/comments/zfhe1e/i_want_to_learn_basics_of_r_if_so_heres_a_reading/" class="external-link">content</a> to help you learn the basics.</p>
 <p>Once you’re set in R/RStudio, you can install the development version of micro4R like so:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<code class="sourceCode R"><span><span class="co"># install.packages("pak") # uncomment to install pak package</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"mshilts1/micro4R"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -89,9 +89,9 @@
 </li>
 <li>Check the quality of the sequencing data by examining the positive and negative controls. <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-7-quality-check" class="external-link">Go ↓</a><br>
 </li>
-<li>Alpha diversity (vegan). <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-8-alpha-diversity" class="external-link">Go ↓</a><br>
+<li>Alpha diversity. <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-8-alpha-diversity" class="external-link">Go ↓</a><br>
 </li>
-<li>Beta diversity (vegan). <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-9-beta-diversity" class="external-link">Go ↓</a><br>
+<li>Beta diversity. <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-9-beta-diversity" class="external-link">Go ↓</a><br>
 </li>
 <li>Additional statistical analysis, including differential abundance testing (maaslin3). <a href="https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-10-additional-analysis" class="external-link">Go ↓</a>
 </li>
@@ -127,31 +127,33 @@
 <span><span class="co">#&gt; This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.</span></span>
 <span></span>
 <span><span class="va">asvtable</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dada2_asvtable.html">dada2_asvtable</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"inst/extdata/f"</span>, chatty <span class="op">=</span> <span class="cn">FALSE</span>, logfile <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpKPbfAY/dada2_out/filtered</span></span>
+<span><span class="co">#&gt; [1] 240 200</span></span>
+<span><span class="co">#&gt; [1] 240 200</span></span>
+<span><span class="co">#&gt; Creating output directory: /var/folders/9p/n0xwyqzs4j3b_1gkzsm7b_xw0000gn/T//Rtmp0LPj4Y/dada2_out/filtered</span></span>
 <span><span class="co">#&gt; 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span>
 <span><span class="co">#&gt; 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.</span></span></code></pre></div>
 <p>If you’re running this with your own data, set ‘where’ to the path of the folder where your FASTQ files are stored. If you leave it empty (e.g., run <code><a href="reference/dada2_asvtable.html">dada2_asvtable()</a></code>), it will default to searching in your current working directory. (‘chatty’ was set to FALSE because tons of information gets printed to the console otherwise; I’d recommend setting it to TRUE (the default) when you’re processing data for real, as the information is useful, but just too much here.)</p>
-<p>Let’s take a quick look at what this asvtable looks like (using the <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> function so it prints more nicely):</p>
+<p>Let’s take a quick look at what this asvtable object looks like:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">asvtable</span>, rownames <span class="op">=</span> <span class="st">"SampleID"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 7 × 8</span></span>
-<span><span class="co">#&gt;   SampleID SampleID                TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…²</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                                    &lt;int&gt;                  &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 1        SAMPLED_5080-MS-1_307-…                      0                      0</span></span>
-<span><span class="co">#&gt; 2 2        SAMPLED_5080-MS-1_313-…                      0                      0</span></span>
-<span><span class="co">#&gt; 3 3        SAMPLED_5080-MS-1_328-…                     44                      0</span></span>
-<span><span class="co">#&gt; 4 4        SAMPLED_5080-MS-1_339-…                     24                      0</span></span>
-<span><span class="co">#&gt; 5 5        SAMPLED_5348-MS-1_162-…                      0                      0</span></span>
-<span><span class="co">#&gt; 6 6        SAMPLED_5348-MS-1_297-…                      0                     35</span></span>
-<span><span class="co">#&gt; 7 7        SAMPLED_5348-MS-1_381-…                      0                      0</span></span>
+<code class="sourceCode R"><span><span class="va">asvtable</span></span>
+<span><span class="co">#&gt; # A tibble: 7 × 7</span></span>
+<span><span class="co">#&gt;   SampleID  TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                      &lt;int&gt;                  &lt;int&gt;                  &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 SAMPLED_…                      0                      0                      0</span></span>
+<span><span class="co">#&gt; 2 SAMPLED_…                      0                      0                      0</span></span>
+<span><span class="co">#&gt; 3 SAMPLED_…                     44                      0                      0</span></span>
+<span><span class="co">#&gt; 4 SAMPLED_…                     24                      0                      0</span></span>
+<span><span class="co">#&gt; 5 SAMPLED_…                      0                      0                     12</span></span>
+<span><span class="co">#&gt; 6 SAMPLED_…                      0                     35                      6</span></span>
+<span><span class="co">#&gt; 7 SAMPLED_…                      0                      0                      0</span></span>
 <span><span class="co">#&gt; # ℹ abbreviated names:</span></span>
 <span><span class="co">#&gt; #   ¹​TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG,</span></span>
-<span><span class="co">#&gt; #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG</span></span>
-<span><span class="co">#&gt; # ℹ 4 more variables:</span></span>
-<span><span class="co">#&gt; #   TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG,</span></span>
+<span><span class="co">#&gt; #   ³​TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG</span></span>
+<span><span class="co">#&gt; # ℹ 3 more variables:</span></span>
 <span><span class="co">#&gt; #   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG &lt;int&gt;,</span></span>
 <span><span class="co">#&gt; #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG &lt;int&gt;, …</span></span></code></pre></div>
-<p>This is basically just a count table of the number of ASVs detected in each sample.</p>
+<p>This is just a count table of the number of ASVs detected in each sample.</p>
 <p>Let’s look what the column names (AKA the names of the ASVs) look like:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">asvtable</span><span class="op">)</span></span>
@@ -172,7 +174,7 @@
 1. ‘train’ needs to be the path to whatever database you’d like to use as the “training set of reference sequences with known taxonomy”.<br>
 2. ‘species’ is OPTIONAL. If you’d like to use this option, provide the path to a specifically formatted species assignment database. (Read more <a href="https://benjjneb.github.io/dada2/assign.html#species-assignment" class="external-link">here</a>.)</p>
 <p><strong>CAUTION: The two databases used in the example here are comically small and artificial subsamples of the real SILVA databases, and should only ever be used for testing and demonstration purposes!</strong> You’ll definitely need to download and use the real <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">databases</a> for your actual data! If you try to use these with real data, you’ll get very weird results that will make no sense.</p>
-<p>There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">here</a> for details and download links. I usually prefer the SILVA databases, but you don’t have to!</p>
+<p>There are many options for taxonomic databases you can use; the major players are SILVA, RDP, GreenGenes, and UNITE. Please go <a href="https://benjjneb.github.io/dada2/training.html" class="external-link">here</a> for details and download links. I usually prefer to use the SILVA databases, but you don’t have to!</p>
 <p>Let’s take a look at the taxonomy assignment table:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 9</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt;   ASV   ASV                      Kingdom Phylum Class Order Family Genus Species</span></span>
@@ -183,7 +185,7 @@
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 4 4     TACGTAGGGTGCAAGCGTTGTCC… Bacter… Actin… Acti… Myco… Coryn… Cory… &lt;NA&gt;   </span></span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 5 5     TACGTAGGTGACAAGCGTTGTCC… Bacter… Bacil… Baci… Lact… Carno… Dolo… pigrum </span></span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 6 6     TACGTAGGTCCCGAGCGTTGTCC… Bacter… Bacil… Baci… Lact… Strep… Stre… &lt;NA&gt;</span></span></code></pre></div>
-<p>It’s a bit squished, but you can see this information is more human-friendly here. Each ASV has been given a taxonomic assignment the lowest taxonomic level the taxonomy assigner was confident of.</p>
+<p>It’s a bit squished, but you can see this information is more human-friendly here. Each ASV has been given a taxonomic assignment to the lowest taxonomic level the taxonomy assigner was confident of.</p>
 </div>
 <div class="section level3">
 <h3 id="step-4-metadata">Step 4: Metadata<a class="anchor" aria-label="anchor" href="#step-4-metadata"></a>
