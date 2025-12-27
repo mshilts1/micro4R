@@ -55,7 +55,7 @@ Once you’re set in R/RStudio, you can install the development version of
 micro4R like so:
 
 ``` r
-# install.packages("pak")
+# install.packages("pak") # uncomment to install pak package
 pak::pak("mshilts1/micro4R")
 ```
 
@@ -85,9 +85,9 @@ I’ve listed the steps that I usually take with 16S data:
 7.  Check the quality of the sequencing data by examining the positive
     and negative controls. [Go
     ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-7-quality-check)  
-8.  Alpha diversity (vegan). [Go
+8.  Alpha diversity. [Go
     ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-8-alpha-diversity)  
-9.  Beta diversity (vegan). [Go
+9.  Beta diversity. [Go
     ↓](https://github.com/mshilts1/micro4R/tree/main?tab=readme-ov-file#step-9-beta-diversity)  
 10. Additional statistical analysis, including differential abundance
     testing (maaslin3). [Go
@@ -166,7 +166,9 @@ library(micro4R)
 #> This is version 0.0.0.9000 of micro4R. CAUTION: This is package is under active development and its functions may change at any time, without warning! Please visit https://github.com/mshilts1/micro4R to see recent changes.
 
 asvtable <- dada2_asvtable(where = "inst/extdata/f", chatty = FALSE, logfile = FALSE)
-#> Creating output directory: /var/folders/pp/15rq6p297j18gk2xt39kdmm40000gp/T//RtmpKPbfAY/dada2_out/filtered
+#> [1] 240 200
+#> [1] 240 200
+#> Creating output directory: /var/folders/9p/n0xwyqzs4j3b_1gkzsm7b_xw0000gn/T//Rtmp0LPj4Y/dada2_out/filtered
 #> 59520 total bases in 248 reads from 7 samples will be used for learning the error rates.
 #> 49600 total bases in 248 reads from 7 samples will be used for learning the error rates.
 ```
@@ -179,32 +181,31 @@ information gets printed to the console otherwise; I’d recommend setting
 it to TRUE (the default) when you’re processing data for real, as the
 information is useful, but just too much here.)
 
-Let’s take a quick look at what this asvtable looks like (using the
-`tibble::as_tibble()` function so it prints more nicely):
+Let’s take a quick look at what this asvtable object looks like:
 
 ``` r
-tibble::as_tibble(asvtable, rownames = "SampleID")
-#> # A tibble: 7 × 8
-#>   SampleID SampleID                TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…²
-#>   <chr>    <chr>                                    <int>                  <int>
-#> 1 1        SAMPLED_5080-MS-1_307-…                      0                      0
-#> 2 2        SAMPLED_5080-MS-1_313-…                      0                      0
-#> 3 3        SAMPLED_5080-MS-1_328-…                     44                      0
-#> 4 4        SAMPLED_5080-MS-1_339-…                     24                      0
-#> 5 5        SAMPLED_5348-MS-1_162-…                      0                      0
-#> 6 6        SAMPLED_5348-MS-1_297-…                      0                     35
-#> 7 7        SAMPLED_5348-MS-1_381-…                      0                      0
+asvtable
+#> # A tibble: 7 × 7
+#>   SampleID  TACGTAGGTGGCAAGCGTTA…¹ TACGGAGGGTGCAAGCGTTA…² TACGTAGGGTGCGAGCGTTG…³
+#>   <chr>                      <int>                  <int>                  <int>
+#> 1 SAMPLED_…                      0                      0                      0
+#> 2 SAMPLED_…                      0                      0                      0
+#> 3 SAMPLED_…                     44                      0                      0
+#> 4 SAMPLED_…                     24                      0                      0
+#> 5 SAMPLED_…                      0                      0                     12
+#> 6 SAMPLED_…                      0                     35                      6
+#> 7 SAMPLED_…                      0                      0                      0
 #> # ℹ abbreviated names:
 #> #   ¹​TACGTAGGTGGCAAGCGTTATCCGGAATTATTGGGCGTAAAGCGCGCGTAGGCGGTTTTTTAAGTCTGATGTGAAAGCCCACGGCTCAACCGTGGAGGGTCATTGGAAACTGGAAAACTTGAGTGCAGAAGAGGAAAGTGGAATTCCATGTGTAGCGGTGAAATGCGCAGAGATATGGAGGAACACCAGTGGCGAAGGCGACTTTCTGGTCTGTAACTGACGCTGATGTGCGAAAGCGTGGGGATCAAACAGG,
-#> #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG
-#> # ℹ 4 more variables:
-#> #   TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG <int>,
+#> #   ²​TACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTCTGTCAAGTCGGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTCGAAACTGGCAGGCTAGAGTCTTGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACAAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGG,
+#> #   ³​TACGTAGGGTGCGAGCGTTGTCCGGAATTACTGGGCGTAAAGGGCTCGTAGGTGGTTTGTCGCGTCGTCTGTGAAATTCTGGGGCTTAACTCCGGGCGTGCAGGCGATACGGGCATAACTTGAGTGCTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCGAACAGG
+#> # ℹ 3 more variables:
 #> #   TACGTAGGGTGCAAGCGTTGTCCGGAATTACTGGGCGTAAAGAGCTCGTAGGTGGTTTGTCACGTCGTCTGTGAAATTCCACAGCTTAACTGTGGGCGTGCAGGCGATACGGGCTGACTTGAGTACTGTAGGGGTAACTGGAATTCCTGGTGTAGCGGTGAAATGCGCAGATATCAGGAGGAACACCGATGGCGAAGGCAGGTTACTGGGCAGTTACTGACGCTGAGGAGCGAAAGCATGGGTAGCAAACAGG <int>,
 #> #   TACGTAGGTGACAAGCGTTGTCCGGATTTATTGGGCGTAAAGGGAGCGCAGGCGGTCTGTTTAGTCTAATGTGAAAGCCCACGGCTTAACCGTGGAACGGCATTGGAAACTGACAGACTTGAATGTAGAAGAGGAAAATGGAATTCCAAGTGTAGCGGTGGAATGCGTAGATATTTGGAGGAACACCAGTGGCGAAGGCGATTTTCTGGTCTAACATTGACGCTGAGGCTCGAAAGCGTGGGGAGCGAACAGG <int>, …
 ```
 
-This is basically just a count table of the number of ASVs detected in
-each sample.
+This is just a count table of the number of ASVs detected in each
+sample.
 
 Let’s look what the column names (AKA the names of the ASVs) look like:
 
@@ -251,8 +252,8 @@ weird results that will make no sense.
 There are many options for taxonomic databases you can use; the major
 players are SILVA, RDP, GreenGenes, and UNITE. Please go
 [here](https://benjjneb.github.io/dada2/training.html) for details and
-download links. I usually prefer the SILVA databases, but you don’t have
-to!
+download links. I usually prefer to use the SILVA databases, but you
+don’t have to!
 
 Let’s take a look at the taxonomy assignment table:
 
@@ -267,8 +268,8 @@ Let’s take a look at the taxonomy assignment table:
     #> 6 6     TACGTAGGTCCCGAGCGTTGTCC… Bacter… Bacil… Baci… Lact… Strep… Stre… <NA>
 
 It’s a bit squished, but you can see this information is more
-human-friendly here. Each ASV has been given a taxonomic assignment the
-lowest taxonomic level the taxonomy assigner was confident of.
+human-friendly here. Each ASV has been given a taxonomic assignment to
+the lowest taxonomic level the taxonomy assigner was confident of.
 
 ### Step 4: Metadata
 
