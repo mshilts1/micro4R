@@ -62,7 +62,7 @@ A tibble of taxonomic assigments
 
 ``` r
 asvtable <- dada2_asvtable(example = TRUE)
-#> Example run: outputs will be written under /tmp/Rtmpw6aHyE/dada2_out (temp).
+#> Example run: outputs will be written under /tmp/RtmpvDdPkg/dada2_out (temp).
 #> truncLen = c(240, 200)
 #> Read in 50 paired-sequences, output 11 (22%) filtered paired-sequences.
 #> Read in 50 paired-sequences, output 26 (52%) filtered paired-sequences.
@@ -81,33 +81,33 @@ asvtable <- dada2_asvtable(example = TRUE)
 #> selfConsist step 1 .......
 #>    selfConsist step 2
 #> Convergence after  2  rounds.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_F_filt.fastq.gz
 #> Encountered 11 unique sequences from 11 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_F_filt.fastq.gz
 #> Encountered 25 unique sequences from 26 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_F_filt.fastq.gz
 #> Encountered 37 unique sequences from 46 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_F_filt.fastq.gz
 #> Encountered 36 unique sequences from 41 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_F_filt.fastq.gz
 #> Encountered 30 unique sequences from 37 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_F_filt.fastq.gz
 #> Encountered 33 unique sequences from 44 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_F_filt.fastq.gz
 #> Encountered 36 unique sequences from 43 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5080-MS-1_307-ATAGTACC-ACGTCTCG_S307_L001_R_filt.fastq.gz
 #> Encountered 11 unique sequences from 11 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5080-MS-1_313-GACATAGT-TCGACGAG_S313_L001_R_filt.fastq.gz
 #> Encountered 23 unique sequences from 26 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5080-MS-1_328-GATCTACG-TCGACGAG_S328_L001_R_filt.fastq.gz
 #> Encountered 35 unique sequences from 46 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5080-MS-1_339-ACTCACTG-GATCGTGT_S339_L001_R_filt.fastq.gz
 #> Encountered 35 unique sequences from 41 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5348-MS-1_162-ACGTGCGC-GGATATCT_S162_L001_R_filt.fastq.gz
 #> Encountered 31 unique sequences from 37 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5348-MS-1_297-GTCTGCTA-ACGTCTCG_S297_L001_R_filt.fastq.gz
 #> Encountered 32 unique sequences from 44 total sequences read.
-#> Dereplicating sequence entries in Fastq file: /tmp/Rtmpw6aHyE/dada2_out/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R_filt.fastq.gz
+#> Dereplicating sequence entries in Fastq file: /tmp/RtmpvDdPkg/dada2_out/filtered/SAMPLED_5348-MS-1_381-TGCTCGTA-GTCAGATA_S381_L001_R_filt.fastq.gz
 #> Encountered 37 unique sequences from 43 total sequences read.
 #> Sample 1 - 11 reads in 11 unique sequences.
 #> Sample 2 - 26 reads in 25 unique sequences.
