@@ -77,7 +77,7 @@ dada2_decontam_wrapper <- function(example = FALSE, path = NULL, train_db = NULL
       asvtable <- converter(dada2_out$asvtable, out = "tibble", id = "SampleID")
       taxa <- converter(dada2_out$taxa, out = "tibble", id = "ASV")
       # metadata <- NULL
-      #metadata <- converter(dada2_out$metadata, out = "tibble", id = "SampleID")
+      # metadata <- converter(dada2_out$metadata, out = "tibble", id = "SampleID")
       all <- list("asvtable" = asvtable, "taxa" = taxa, "metadata" = metadata)
     }
   }

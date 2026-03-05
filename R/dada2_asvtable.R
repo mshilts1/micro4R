@@ -30,7 +30,6 @@ dada2_asvtable <- function(where = NULL,
                            output = NULL,
                            truncLenPass = c(240, 200),
                            ...) {
-
   is_true <- function(x) isTRUE(x)
 
   # Back-compat: allow where = "inst/extdata/f" to trigger example mode
@@ -60,7 +59,7 @@ dada2_asvtable <- function(where = NULL,
   # Resolve output base
   base_out <- if (is_true(example)) tempdir() else if (is.null(output)) where else output
 
-  out_dir  <- file.path(base_out, "dada2_out")
+  out_dir <- file.path(base_out, "dada2_out")
   figs_dir <- file.path(out_dir, "figs")
   filt_dir <- file.path(out_dir, "filtered")
 
@@ -83,10 +82,13 @@ dada2_asvtable <- function(where = NULL,
     )
     log_file_conn <- file(log_path, open = "wt")
     sink(log_file_conn, split = TRUE)
-    on.exit({
-      try(sink(), silent = TRUE)
-      try(close(log_file_conn), silent = TRUE)
-    }, add = TRUE)
+    on.exit(
+      {
+        try(sink(), silent = TRUE)
+        try(close(log_file_conn), silent = TRUE)
+      },
+      add = TRUE
+    )
 
     message(sprintf("Run with function %s started at %s", functionname, Sys.time()))
   }
@@ -152,7 +154,7 @@ dada2_asvtable <- function(where = NULL,
   exists <- file.exists(filtFs) & file.exists(filtRs)
   filtFs2 <- filtFs[exists]
   filtRs2 <- filtRs[exists]
-  samp2   <- sample.names[exists]
+  samp2 <- sample.names[exists]
 
   if (length(filtFs2) == 0L) {
     stop("All samples were filtered out (no filtered FASTQs remain). Consider adjusting truncLen/maxEE.")
@@ -197,7 +199,7 @@ dada2_asvtable <- function(where = NULL,
   dadaRs <- dada2::dada(derepRs, err = errR, multithread = multi, verbose = chatty)
 
   mergers <- dada2::mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose = chatty)
-  seqtab  <- dada2::makeSequenceTable(mergers)
+  seqtab <- dada2::makeSequenceTable(mergers)
 
   # Keep your V4 length filtering approach
   seqtab2 <- seqtab[, nchar(colnames(seqtab)) %in% seq(240, 260)]
@@ -226,10 +228,10 @@ dada2_asvtable <- function(where = NULL,
 
   # Write outputs
   track.tibble <- tibble::as_tibble(track, rownames = "SampleID")
-  asv.tibble   <- tibble::as_tibble(seqtab.nochim, rownames = "SampleID") # FIX: nochim
+  asv.tibble <- tibble::as_tibble(seqtab.nochim, rownames = "SampleID") # FIX: nochim
 
   utils::write.csv(track.tibble, file = file.path(out_dir, "track_seqcounts.csv"), row.names = FALSE)
-  utils::write.csv(asv.tibble,   file = file.path(out_dir, "asvtable.csv"),       row.names = FALSE)
+  utils::write.csv(asv.tibble, file = file.path(out_dir, "asvtable.csv"), row.names = FALSE)
 
   # Safe cleanup for example: delete only the created folder
   if (is_true(example)) {
@@ -243,6 +245,8 @@ dada2_asvtable <- function(where = NULL,
     message(sprintf("Run ended at %s", Sys.time()))
   }
 
-  if (is_true(chatty)) return(seqtab.nochim_tbl)
+  if (is_true(chatty)) {
+    return(seqtab.nochim_tbl)
+  }
   invisible(seqtab.nochim_tbl)
 }

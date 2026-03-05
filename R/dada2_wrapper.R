@@ -18,7 +18,6 @@ dada2_wrapper <- function(example = FALSE,
                           full.wrapper = FALSE,
                           log = TRUE,
                           ...) {
-
   passed_args <- list(...)
 
   if (isTRUE(listargs)) {

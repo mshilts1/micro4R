@@ -88,7 +88,6 @@ dada2_taxa <- function(asvtable = NULL, train = NULL, species = NULL, chatty = T
   # }
 
 
-
   #    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
   # outdir <- tempdir()
   if (example == FALSE) {
