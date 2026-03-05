@@ -16,18 +16,19 @@ dada2_wrapper(
 \arguments{
 \item{example}{Set to TRUE to run an example}
 
-\item{metadata}{OPTIONAL. Can pass your associated metadata object to this function so it packages it all up for you for downstream steps}
+\item{metadata}{OPTIONAL. Pass associated metadata to include in output list.}
 
-\item{listargs}{List passed arguments. Using only for troubleshooting during development; shouldn't have any use to end user}
+\item{listargs}{List passed arguments (dev/troubleshooting)}
 
-\item{full.wrapper}{TRUE by default, but must be sent to FALSE when using dada2_decontam_wrapper as otherwise metadata objects collide}
+\item{full.wrapper}{FALSE by default; must be FALSE when using
+dada2_decontam_wrapper as otherwise metadata objects collide}
 
-\item{log}{Produce a log file}
+\item{log}{Produce a log file (currently not wired through)}
 
 \item{...}{Allows passing of arguments to nested functions}
 }
 \value{
-a list of dada2 ASV table and taxonomy table (and metadata, optionally)
+a list with ASV table + taxonomy table (+ metadata, optionally)
 }
 \description{
 dada2 wrapper
