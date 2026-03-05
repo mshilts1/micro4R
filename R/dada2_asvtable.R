@@ -20,222 +20,229 @@
 #'
 #' @examples
 #' dada2_asvtable(example = TRUE)
-dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fastq.gz", patternR = "_R2_001.fastq.gz", multi = FALSE, chatty = TRUE, logfile = TRUE, output = NULL, truncLenPass = c(240, 200), ...) {
-  print(truncLenPass)
-  if (!is.null(where)) {
-    if (where == "inst/extdata/f") {
-      example <- TRUE
-      where <- NULL
-    }
+dada2_asvtable <- function(where = NULL,
+                           example = FALSE,
+                           patternF = "_R1_001.fastq.gz",
+                           patternR = "_R2_001.fastq.gz",
+                           multi = FALSE,
+                           chatty = TRUE,
+                           logfile = TRUE,
+                           output = NULL,
+                           truncLenPass = c(240, 200),
+                           ...) {
+
+  is_true <- function(x) isTRUE(x)
+
+  # Back-compat: allow where = "inst/extdata/f" to trigger example mode
+  if (!is.null(where) && identical(where, "inst/extdata/f")) {
+    example <- TRUE
+    where <- NULL
   }
 
-  if (example == TRUE) {
-    logfile <- FALSE
-  }
-
-  if (example == TRUE & !is.null(where)) {
+  if (is_true(example) && !is.null(where)) {
     stop("You can either run with example = TRUE or set a path to your fastq files with 'where'. You cannot do both.")
   }
 
-  if (example == FALSE & is.null(where)) {
+  # Example runs never write logs to user machine
+  if (is_true(example)) logfile <- FALSE
+
+  # Resolve input directory for non-example run
+  if (!is_true(example) && is.null(where)) {
     where <- getwd()
-    if (chatty == TRUE) {
-      print(sprintf("As no argument was provided for the 'path' of your fastq files, this wrapper will assume you want to work in your current directory, %s", where))
+    if (is_true(chatty)) {
+      message(sprintf(
+        "No 'where' provided; using current working directory: %s",
+        where
+      ))
     }
   }
 
-  if (example == TRUE) {
-    outdir <- tempdir()
-    if (chatty == TRUE) {
-      print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
-    }
-    if (!dir.exists(sprintf("%s/dada2_out/figs", outdir))) {
-      # If it doesn't exist, create it
-      dir.create(sprintf("%s/dada2_out/figs", outdir), recursive = TRUE) # recursive = TRUE creates parent directories if needed
-    }
+  # Resolve output base
+  base_out <- if (is_true(example)) tempdir() else if (is.null(output)) where else output
+
+  out_dir  <- file.path(base_out, "dada2_out")
+  figs_dir <- file.path(out_dir, "figs")
+  filt_dir <- file.path(out_dir, "filtered")
+
+  dir.create(figs_dir, recursive = TRUE, showWarnings = FALSE)
+  dir.create(filt_dir, recursive = TRUE, showWarnings = FALSE)
+
+  if (is_true(example) && is_true(chatty)) {
+    message(sprintf(
+      "Example run: outputs will be written under %s (temp).",
+      out_dir
+    ))
   }
 
-  if (example == FALSE) {
-    if (is.null(output)) {
-      outpath <- where
-    }
-    if (!is.null(output)) {
-      outpath <- output
-    }
-  }
-
-  if (example == FALSE) {
-    # if(is.null(output)) {
-    #  output <- where
-    # }
-    if (!dir.exists(sprintf("%s/dada2_out/figs", outpath))) {
-      # If it doesn't exist, create it
-      dir.create(sprintf("%s/dada2_out/figs", outpath), recursive = TRUE) # recursive = TRUE creates parent directories if needed
-    }
-  }
-
-  if (logfile) {
+  # Logfile handling (ensure cleanup always runs)
+  if (is_true(logfile)) {
     functionname <- as.character(sys.call()[[1]])
-    log_file_conn <- NULL
-    if (example == TRUE) {
-      log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", outdir, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
-    }
-    if (example == FALSE) {
-      log_file_conn <- file(sprintf("%s/dada2_out/%s_%s.log", outpath, format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname), open = "wt")
-    }
+    log_path <- file.path(
+      out_dir,
+      sprintf("%s_%s.log", format(Sys.time(), "%Y-%m-%d_%H-%M-%S"), functionname)
+    )
+    log_file_conn <- file(log_path, open = "wt")
     sink(log_file_conn, split = TRUE)
-    print(sprintf("Run with function %s started at %s", functionname, Sys.time()))
+    on.exit({
+      try(sink(), silent = TRUE)
+      try(close(log_file_conn), silent = TRUE)
+    }, add = TRUE)
+
+    message(sprintf("Run with function %s started at %s", functionname, Sys.time()))
   }
 
-  passed_args <- list(...) # get a list of all arguments from user that we want/need to pass to nested functions. not doing anything with this yet. actual functionality to be added
-
-
-
-  if (example == FALSE) {
+  # Validate FASTQ presence for user runs
+  if (!is_true(example)) {
     whereFastqs(where, chatty = chatty)
   }
 
-  if (example == TRUE) {
-    outdir <- tempdir()
-    if (chatty == TRUE) {
-      print(sprintf("Because you're running the example, any output files will go to a temporary directory, %s/dada2_out. To avoid cluttering your computer, this folder and its contents should all be deleted at the end of your R session.", outdir))
-    }
-  }
-
-
-  if (example == TRUE) {
-    fnFs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R1_001.fastq.gz", full.names = TRUE)
-    fnRs <- system.file("extdata/f", package = "micro4R", mustWork = TRUE) %>% list.files("*_R2_001.fastq.gz", full.names = TRUE)
-  }
-
-  if (example == FALSE) {
+  # Discover FASTQs
+  if (is_true(example)) {
+    fnFs <- list.files(
+      system.file("extdata/f", package = "micro4R", mustWork = TRUE),
+      pattern = "*_R1_001.fastq.gz",
+      full.names = TRUE
+    )
+    fnRs <- list.files(
+      system.file("extdata/f", package = "micro4R", mustWork = TRUE),
+      pattern = "*_R2_001.fastq.gz",
+      full.names = TRUE
+    )
+  } else {
     fnFs <- sort(list.files(where, pattern = patternF, full.names = TRUE))
     fnRs <- sort(list.files(where, pattern = patternR, full.names = TRUE))
+
     if (rlang::is_empty(fnFs)) {
-      stop(sprintf("No fastq files were found matching pattern '%s'! Check that 1) you're looking for the files the correct directory, and 2) you're looking for the right file name pattern.", patternF))
+      stop(sprintf(
+        "No fastq files were found matching pattern '%s'! Check directory and filename pattern.",
+        patternF
+      ))
     }
     if (rlang::is_empty(fnRs)) {
-      stop(sprintf("No fastq files were found matching pattern '%s'! Check that 1) you're looking for the files the correct directory, and 2) you're looking for the right file name pattern.", patternR))
+      stop(sprintf(
+        "No fastq files were found matching pattern '%s'! Check directory and filename pattern.",
+        patternR
+      ))
     }
   }
 
-  sample.names <- gsub(patternF, "", basename(fnFs)) # create simplified sample names by stripping out the forward read pattern specified by user. *should* match reverse reads, unless something really weird going on with file names.
+  sample.names <- gsub(patternF, "", basename(fnFs))
 
-  if (example == FALSE) {
-    filtFs <- file.path(outpath, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
-    filtRs <- file.path(outpath, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
+  # Filtered output paths
+  filtFs <- file.path(filt_dir, paste0(sample.names, "_F_filt.fastq.gz"))
+  filtRs <- file.path(filt_dir, paste0(sample.names, "_R_filt.fastq.gz"))
+
+  if (is_true(chatty)) {
+    message(sprintf("truncLen = c(%s)", paste(truncLenPass, collapse = ", ")))
   }
 
-  if (example == TRUE) {
-    filtFs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_F_filt.fastq.gz"))
-    filtRs <- file.path(outdir, "dada2_out/filtered", paste0(sample.names, "_R_filt.fastq.gz"))
-  }
+  out <- dada2::filterAndTrim(
+    fwd = fnFs, filt = filtFs,
+    rev = fnRs, filt.rev = filtRs,
+    compress = TRUE,
+    truncLen = truncLenPass,
+    maxN = 0, maxEE = c(2, 2), truncQ = 2,
+    rm.phix = TRUE,
+    multithread = multi,
+    matchIDs = TRUE,
+    verbose = chatty
+  )
 
-  print(truncLenPass)
-  out <- dada2::filterAndTrim(fwd = fnFs, filt = filtFs, rev = fnRs, filt.rev = filtRs, compress = TRUE, truncLen = truncLenPass, maxN = 0, maxEE = c(2, 2), truncQ = 2, rm.phix = TRUE, multithread = multi, matchIDs = TRUE, verbose = chatty)
-  #print(truncLenPass)
-
-  # why add the next three lines in? sometimes samples with few reads to start with may get entirely filtered out and cause a fatal error during the error rate learning step. so we need to make sure files still exist first.
+  # Handle samples that were fully filtered out
   exists <- file.exists(filtFs) & file.exists(filtRs)
-  filtFs <- filtFs[exists]
-  filtRs <- filtRs[exists]
+  filtFs2 <- filtFs[exists]
+  filtRs2 <- filtRs[exists]
+  samp2   <- sample.names[exists]
 
-  errF <- dada2::learnErrors(filtFs, multithread = multi, verbose = chatty)
-  errR <- dada2::learnErrors(filtRs, multithread = multi, verbose = chatty)
+  if (length(filtFs2) == 0L) {
+    stop("All samples were filtered out (no filtered FASTQs remain). Consider adjusting truncLen/maxEE.")
+  }
 
-  if (example == FALSE) { # create some dada2 figs
+  errF <- dada2::learnErrors(filtFs2, multithread = multi, verbose = chatty)
+  errR <- dada2::learnErrors(filtRs2, multithread = multi, verbose = chatty)
 
-    if (!dir.exists(sprintf("%s/dada2_out/figs", outpath))) {
-      # If it doesn't exist, create it
-      dir.create(sprintf("%s/dada2_out/figs", outpath), recursive = TRUE) # recursive = TRUE creates parent directories if needed
-    }
-
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileForwardReads_first10_samples.pdf", outpath))
-    print(dada2::plotQualityProfile(fnFs[1:10]))
-    grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileReverseReads_first10_samples.pdf", outpath))
-    print(dada2::plotQualityProfile(fnRs[1:10]))
+  # Plots only for non-example (preserving your current behavior)
+  if (!is_true(example)) {
+    grDevices::pdf(file.path(figs_dir, "plotQualityProfileForwardReads_first10_samples.pdf"))
+    print(dada2::plotQualityProfile(fnFs[1:min(10, length(fnFs))]))
     grDevices::dev.off()
 
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileForwardReads_aggregate_all.pdf", outpath))
+    grDevices::pdf(file.path(figs_dir, "plotQualityProfileReverseReads_first10_samples.pdf"))
+    print(dada2::plotQualityProfile(fnRs[1:min(10, length(fnRs))]))
+    grDevices::dev.off()
+
+    grDevices::pdf(file.path(figs_dir, "plotQualityProfileForwardReads_aggregate_all.pdf"))
     print(dada2::plotQualityProfile(fnFs, aggregate = TRUE))
     grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotQualityProfileReverseReads_aggregate_all.pdf", outpath))
+
+    grDevices::pdf(file.path(figs_dir, "plotQualityProfileReverseReads_aggregate_all.pdf"))
     print(dada2::plotQualityProfile(fnRs, aggregate = TRUE))
     grDevices::dev.off()
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotErrorsForward.pdf", outpath))
+
+    grDevices::pdf(file.path(figs_dir, "plotErrorsForward.pdf"))
     suppressWarnings(print(dada2::plotErrors(errF, nominalQ = TRUE)))
     grDevices::dev.off()
 
-    grDevices::pdf(sprintf("%s/dada2_out/figs/plotErrorsReverse.pdf", outpath))
+    grDevices::pdf(file.path(figs_dir, "plotErrorsReverse.pdf"))
     suppressWarnings(print(dada2::plotErrors(errR, nominalQ = TRUE)))
     grDevices::dev.off()
   }
 
-  derepFs <- dada2::derepFastq(filtFs, verbose = chatty)
-  derepRs <- dada2::derepFastq(filtRs, verbose = chatty)
-
-  if (example == FALSE) {
-    names(derepFs) <- sample.names[exists]
-    names(derepRs) <- sample.names[exists]
-  }
+  derepFs <- dada2::derepFastq(filtFs2, verbose = chatty)
+  derepRs <- dada2::derepFastq(filtRs2, verbose = chatty)
+  names(derepFs) <- samp2
+  names(derepRs) <- samp2
 
   dadaFs <- dada2::dada(derepFs, err = errF, multithread = multi, verbose = chatty)
   dadaRs <- dada2::dada(derepRs, err = errR, multithread = multi, verbose = chatty)
 
   mergers <- dada2::mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose = chatty)
+  seqtab  <- dada2::makeSequenceTable(mergers)
 
-  seqtab <- dada2::makeSequenceTable(mergers)
-
-  rownames(seqtab) <- gsub("_F_filt.fastq.gz", "", rownames(seqtab))
-
-  # V4 region is ~250 bp, so sequences over this length are probably something else; we will get rid of anything > 260 bp
-  sizedist <- data.frame(t(table(nchar(dada2::getSequences(seqtab)))))
-  filtseqs <- sum(sizedist[, 3]
-  [which(as.numeric(as.character(sizedist[, 2])) > 260)])
-  filtseqs / sum(sizedist[, 3])
+  # Keep your V4 length filtering approach
   seqtab2 <- seqtab[, nchar(colnames(seqtab)) %in% seq(240, 260)]
-  # table(nchar(getSequences(seqtab2)))
-  seqtab.nochim <- dada2::removeBimeraDenovo(seqtab2, method = "consensus", multithread = multi, verbose = chatty)
-  # dim(seqtab.nochim)
-  sum(seqtab.nochim) / sum(seqtab)
+  seqtab.nochim <- dada2::removeBimeraDenovo(
+    seqtab2,
+    method = "consensus",
+    multithread = multi,
+    verbose = chatty
+  )
+
   getN <- function(x) sum(dada2::getUniques(x))
-  track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
+
+  track <- cbind(
+    out[exists, , drop = FALSE],
+    sapply(dadaFs, getN),
+    sapply(dadaRs, getN),
+    sapply(mergers, getN),
+    rowSums(seqtab.nochim)
+  )
   colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
-  rownames(track) <- sample.names
-  if (chatty == TRUE) {
-    head(track)
+  rownames(track) <- samp2
+
+  if (is_true(chatty)) {
+    print(utils::head(track))
   }
 
-  seqtab.nochim.tibble <- as_tibble(seqtab, rownames = "SampleID")
-  track.tibble <- as_tibble(track, rownames = "SampleID")
+  # Write outputs
+  track.tibble <- tibble::as_tibble(track, rownames = "SampleID")
+  asv.tibble   <- tibble::as_tibble(seqtab.nochim, rownames = "SampleID") # FIX: nochim
 
-  if (example == FALSE) {
-    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outpath), row.names = FALSE)
-    write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/asvtable.csv", outpath), row.names = FALSE)
+  utils::write.csv(track.tibble, file = file.path(out_dir, "track_seqcounts.csv"), row.names = FALSE)
+  utils::write.csv(asv.tibble,   file = file.path(out_dir, "asvtable.csv"),       row.names = FALSE)
+
+  # Safe cleanup for example: delete only the created folder
+  if (is_true(example)) {
+    on.exit(unlink(out_dir, recursive = TRUE, force = TRUE), add = TRUE)
   }
 
-  if (example == TRUE) {
-    write.csv(track.tibble, file = sprintf("%s/dada2_out/track_seqcounts.csv", outdir), row.names = FALSE)
-    write.csv(seqtab.nochim.tibble, file = sprintf("%s/dada2_out/asvtable.csv", outdir), row.names = FALSE)
-    on.exit(unlink(outdir), add = TRUE)
+  # Return as tibble via your converter()
+  seqtab.nochim_tbl <- converter(seqtab.nochim, out = "tibble")
+
+  if (is_true(logfile)) {
+    message(sprintf("Run ended at %s", Sys.time()))
   }
 
-  # converter(seqtab.nochim, out = "tibble")
-
-  seqtab.nochim <- converter(seqtab.nochim, out = "tibble")
-
-  if (chatty == TRUE) {
-    return(seqtab.nochim)
-  }
-
-  if (chatty == FALSE) {
-    return(invisible(seqtab.nochim))
-  }
-
-  if (logfile) {
-    print(sprintf("Run with function %s ended at %s", functionname, Sys.time()))
-    on.exit(sink(), add = TRUE)
-    on.exit(close(log_file_conn), add = TRUE)
-  }
+  if (is_true(chatty)) return(seqtab.nochim_tbl)
+  invisible(seqtab.nochim_tbl)
 }
