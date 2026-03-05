@@ -199,7 +199,7 @@ dada2_asvtable <- function(where = NULL, example = FALSE, patternF = "_R1_001.fa
   seqtab.nochim <- dada2::removeBimeraDenovo(seqtab2, method = "consensus", multithread = multi, verbose = chatty)
   # dim(seqtab.nochim)
   sum(seqtab.nochim) / sum(seqtab)
-  getN <- function(x) sum(getUniques(x))
+  getN <- function(x) sum(dada2::getUniques(x))
   track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
   colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
   rownames(track) <- sample.names
